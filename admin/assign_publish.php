@@ -9,7 +9,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
+    <style>
+        input[type="file"] {
+    display: none;
+}
+    </style>
     <title>SSM - Solution for many</title>
 
     <!-- Custom fonts for this template-->
@@ -202,10 +206,25 @@
 
                     <!-- Page Heading -->
                     <h1 class="h3 mb-4 text-gray-800">Assignment Publish</h1>
-                    <div class="card">
-                        <div class="card-body shadow">
-                            <h2 class="text-danger"><i>WEBPAGE UNDER MAINTANANCE <i class="fa-regular fa-face-frown"></i></h2>
+                    <div class="card shadow mb-4">
+                        <form action="assign.php" method="post" enctype="multipart/form-data">
+                        <div class="card-body">
+                            
+                                <label for="chaeck" class="form-inline">Title</label>
+                                <input type="text" class="form-control" name="title" id="check" required><br>
+                                <br>
+                                <label for="para" class="form-inline">Comments</label>
+                                <textarea name="content" id="para" class="comment"></textarea><br>
+                                <label for="upload" class="btn btn-circle btn-info"> 
+                                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                               </label>
+                                <input required type="file" name="pdf_file" id="upload" accept="application/pdf"> 
+                                
                         </div>
+                        <div class="card-footer">
+                            <input type="submit" value="Submit" class="btn btn-block btn-success">
+                        </div>
+                    </form>
                     </div>
 
                 </div>

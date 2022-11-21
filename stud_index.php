@@ -1,3 +1,21 @@
+<?php
+require("conn.php");
+session_start();
+if(!isset($_SESSION['id'])){
+    header("location:index.php");
+   
+}
+
+
+
+$sql="Select * from notice";
+$res=mysqli_query($con,$sql) or die(mysqli_error($con));
+$id=$_SESSION['id'];
+$info="select * from student where id='$id'";
+$info_res=mysqli_query($con,$info) or die(mysqli_error($con));
+$row=mysqli_fetch_array($info_res);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -45,7 +63,7 @@
      
             <hr class="sidebar-divider my-0">
             <li class="nav-item active">
-                <a class="nav-link " href="index.html">
+                <a class="nav-link " href="stud_index.php">
                     <i class="fa-solid fa-bullhorn"></i>
                     <span>Notice</span></a>
             </li>
@@ -87,7 +105,7 @@
                     <span>Change Password</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="logout.php">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <span>Logout</span></a>
             </li>
@@ -141,9 +159,9 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Anirban Dash</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $row['name']; ?></span>
                                 <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                    src="img/<?php echo $row['photo']; ?>">
                             </a>
                             
                         </li>
@@ -157,60 +175,30 @@
 
                     <!-- Page Heading -->
                     <h1 class="h3 mb-4 text-gray-800">Notice Board</h1>
+                    <?php while($notice=mysqli_fetch_array($res)){
+                        $t_id=$notice['sender'];
+                        $n_sql="Select name from teacher where id='$t_id'";
+                        $t_res=mysqli_query($con,$n_sql) or die(mysqli_error($con));
+                        $t_name=mysqli_fetch_array($t_res);
+                        ?>
                     <div class="card shadow mb-4">
                         <div class="card-header py-3 text-center">
-                            <h6 class="m-0 font-weight-bold text-primary">Holiday</h6>
+                            <h6 class="m-0 font-weight-bold text-primary"><?php echo $notice['title']; ?></h6>
                         </div>
                         <div class="card-body">
-                            The styling for this basic card example is created by using default Bootstrap
-                            utility classes. By using utility classes, the style of the card component can be
-                            easily modified with no need for any custom CSS!
+                        <?php echo $notice['body']; ?>
                             <br><br><br><br>
                             <div class="bottomright">
                                 <strong>
                                     From<br>
-                                    Anirban Dash<br>
-                                    03/02/2023
+                                    <?php echo $t_name['name']; ?><br>
+                                    <?php echo $notice['date']; ?>
                                 </strong>
                             </div>
                         </div>
                     </div>
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3 text-center">
-                            <h6 class="m-0 font-weight-bold text-primary">Holiday</h6>
-                        </div>
-                        <div class="card-body">
-                            The styling for this basic card example is created by using default Bootstrap
-                            utility classes. By using utility classes, the style of the card component can be
-                            easily modified with no need for any custom CSS!
-                            <br><br><br><br>
-                            <div class="bottomright">
-                                <strong>
-                                    From<br>
-                                    Anirban Dash<br>
-                                    03/02/2023
-                                </strong>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3 text-center">
-                            <h6 class="m-0 font-weight-bold text-primary">Holiday</h6>
-                        </div>
-                        <div class="card-body">
-                            The styling for this basic card example is created by using default Bootstrap
-                            utility classes. By using utility classes, the style of the card component can be
-                            easily modified with no need for any custom CSS!
-                            <br><br><br><br>
-                            <div class="bottomright">
-                                <strong>
-                                    From<br>
-                                    Anirban Dash<br>
-                                    03/02/2023
-                                </strong>
-                            </div>
-                        </div>
-                    </div>
+                    <?php } ?>
+                    
                     
 
                 </div>

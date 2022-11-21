@@ -1,0 +1,11 @@
+<?php
+session_start();
+if(isset($_SESSION['id'])){
+  if($_SESSION['status']=='student'){
+    header("location:stud_index.php");
+  }
+  else{
+    header("location:./admin/index.html");
+  }
+}
+?>
