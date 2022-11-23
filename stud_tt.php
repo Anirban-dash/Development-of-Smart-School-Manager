@@ -44,39 +44,39 @@
      
             <hr class="sidebar-divider my-0">
             <li class="nav-item ">
-                <a class="nav-link " href="index.html">
+                <a class="nav-link " href="index.php">
                     <i class="fa-solid fa-bullhorn"></i>
                     <span>Notice</span></a>
             </li>
 
     
             <li class="nav-item ">
-                <a class="nav-link" href="stud_assignment.html">
+                <a class="nav-link" href="stud_assignment.php">
                     <i class="fa-solid fa-bars-progress"></i>
                     <span>Assignment</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="stud_test.html">
+                <a class="nav-link" href="stud_test.php">
                     <i class="fa-solid fa-square-pen"></i>
                     <span>Test</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="stud_profile.html">
+                <a class="nav-link" href="stud_profile.php">
                     <i class="fa-solid fa-circle-user"></i>
                     <span>Profile</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="stud_online_class.html">
+                <a class="nav-link" href="stud_online_class.php">
                     <i class="fa-solid fa-signal"></i>
                     <span>Online Classes</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="stud_rfc.html">
+                <a class="nav-link" href="stud_rfc.php">
                     <i class="fa-regular fa-pen-to-square"></i>
                     <span>Request For Changes</span></a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="stud_tt.html">
+                <a class="nav-link" href="stud_tt.php">
                     <i class="fa-solid fa-table-list"></i>
                     <span>Timetable</span></a>
             </li>

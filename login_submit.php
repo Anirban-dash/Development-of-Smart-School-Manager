@@ -23,9 +23,9 @@ if(is_numeric($email)){
     }else{
         session_start();
         $row=mysqli_fetch_array($res);
-        $_SESSION['id']=$row['User_ID'];
+        $_SESSION['id']=$row['id'];
         $_SESSION['status']='teacher';
-        header("location:./admin/index.html");
+        header("location:./admin/index.php");
     }
 }
 ?>

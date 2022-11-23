@@ -1,3 +1,18 @@
+<?php
+require("./../conn.php");
+session_start();
+if(!isset($_SESSION['id'])){
+    header("location:./../index.php");
+}
+$n_id=$_SESSION['id'];
+$n_res=mysqli_query($con,"SELECT * from teacher where id='$n_id'") or die(mysqli_error($con));
+$n_row=mysqli_fetch_array($n_res);
+
+$a_id=$_GET['a_id'];
+$res=mysqli_query($con,"SELECT * from assignstudent where ass_id='$a_id'") or die(mysqli_error($con));
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,8 +27,7 @@
 
     <title>SSM - Solution for many</title>
 
-    <!-- Custom fonts for this template-->
-    <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
@@ -43,18 +57,18 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+            <li class="nav-item ">
+                <a class="nav-link" href="index.php">
                     <i class="fa-solid fa-landmark"></i>
                     <span>Classes</span></a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="notice.html">
+                <a class="nav-link" href="notice.php">
                     <i class="fa-solid fa-envelope"></i>
                     <span>Notice</span></a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item ">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fa-solid fa-microscope"></i>
@@ -62,23 +76,23 @@
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="test_publish.html">Publish</a>
-                        <a class="collapse-item" href="test_rsponse.html">Response</a>
-                        <a class="collapse-item" href="test_report.html">Report</a>
+                        <a class="collapse-item" href="test_publish.php">Publish</a>
+                        <a class="collapse-item" href="test_rsponse.php">Response</a>
+                        <a class="collapse-item" href="test_report.php">Report</a>
                     </div>
                 </div>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="attendance.html">
+            <li class="nav-item ">
+                <a class="nav-link" href="attendance.php">
                     <i class="fa-solid fa-clipboard-user"></i>
                     <span>Take Attendance</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="profilr.html">
+                <a class="nav-link" href="profilr.php">
                     <i class="fa-solid fa-user-tie"></i>
                     <span>Profile</span></a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwoo"
                     aria-expanded="true" aria-controls="collapseTwoo">
                     <i class="fa-solid fa-clipboard-question"></i>
@@ -86,28 +100,28 @@
                 </a>
                 <div id="collapseTwoo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="assign_publish.html">Publish</a>
-                        <a class="collapse-item" href="assign_res.html">Response</a>
+                        <a class="collapse-item" href="assign_publish.php">Publish</a>
+                        <a class="collapse-item" href="assign_res.php">Response</a>
                     </div>
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="rfc.html">
+                <a class="nav-link" href="rfc.php">
                     <i class="fa-regular fa-pen-to-square"></i>
                     <span>RFC</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="timetable.html">
+                <a class="nav-link" href="timetable.php">
                     <i class="fa-solid fa-table-list"></i>
                     <span>Timetable</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="course.html">
+                <a class="nav-link" href="course.php">
                     <i class="fa-solid fa-book-open-reader"></i>
                     <span>Course</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="./../logout.php">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <span>Logout</span></a>
             </li>
@@ -185,9 +199,9 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Anirban Dash</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $n_row['name'] ?></span>
                                 <img class="img-profile rounded-circle"
-                                    src="../img/undraw_profile.svg">
+                                    src="../img/<?php echo $n_row['photo'] ?>">
                             </a>
                            
                         </li>
@@ -201,33 +215,26 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Classes</h1>
-                    <div class="col-lg-10 mb-4 shadow">
-                        <div class="card bg-info text-white shadow">
-                            <div class="card-body">
-                                Science
-                                <div class="text-white-50 small">Class-1</div>
-                            </div>
+                    <h1 class="h3 mb-4 text-gray-800">Assignment Response</h1>
+                    <?php  
+                    $i=1;
+                    while($row=mysqli_fetch_array($res)){
+                        $s_id=$row['student_id'];
+                        $s_res=mysqli_query($con,"Select name from student where id='$s_id'") or die(mysqli_error($con));
+                        $s_row=mysqli_fetch_array($s_res);
+                    ?>
+                    <div class="card shadow mb-4 border-left-info">
+                        <div class="card-header py-3 d-flex justify-content-between">
+                            <h6 class="m-0 font-weight-bold text-primary"><?php echo $i.". ".$s_row['name']; ?>  </h6>
+                            <a href="assview.php?id=<?php echo $row['id']; ?>&name=<?php echo $s_row['name']; ?>"><i class="fa-solid fa-eye"></i></a>
                         </div>
                     </div>
-                    <div class="col-lg-10 mb-4 shadow">
-                        <div class="card bg-info text-white shadow">
-                            <div class="card-body">
-                                Biology
-                                <div class="text-white-50 small">Class-2</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-10 mb-4 shadow">
-                        <div class="card bg-info text-white shadow">
-                            <div class="card-body">
-                                English
-                                <div class="text-white-50 small">Class-1</div>
-                            </div>
-                        </div>
-                    </div>
+                    <?php 
+                $i++;
+                } ?>
 
                 </div>
+               
                 <!-- /.container-fluid -->
 
             </div>
@@ -254,25 +261,8 @@
         <i class="fas fa-angle-up"></i>
     </a>
 
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
+ 
+
 
     <!-- Bootstrap core JavaScript-->
     <script src="../vendor/jquery/jquery.min.js"></script>

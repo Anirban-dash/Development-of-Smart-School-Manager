@@ -1,3 +1,14 @@
+<?php
+require("./../conn.php");
+session_start();
+if(!isset($_SESSION['id']) and $_SESSION['status']!="teacher"){
+    header("location:./../index.php");
+}
+$n_id=$_SESSION['id'];
+$n_res=mysqli_query($con,"SELECT * from teacher where id='$n_id'") or die(mysqli_error($con));
+$n_row=mysqli_fetch_array($n_res);
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,7 +21,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SSM - Solution for many</title>
+    <title>SB Admin 2 - Blank</title>
 
     <!-- Custom fonts for this template-->
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -21,7 +32,14 @@
 
     <!-- Custom styles for this template-->
     <link href="../css/sb-admin-2.min.css" rel="stylesheet">
-
+   
+    <style>
+        .comment {
+        resize: none;
+        height: 200px;
+        width: 500px;
+      }
+    </style>
 </head>
 
 <body id="page-top">
@@ -44,17 +62,17 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item ">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="index.php">
                     <i class="fa-solid fa-landmark"></i>
                     <span>Classes</span></a>
             </li>
 
-            <li class="nav-item">
-                <a class="nav-link" href="notice.html">
+            <li class="nav-item active">
+                <a class="nav-link" href="notice.php">
                     <i class="fa-solid fa-envelope"></i>
                     <span>Notice</span></a>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fa-solid fa-microscope"></i>
@@ -62,19 +80,19 @@
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="test_publish.html">Publish</a>
-                        <a class="collapse-item" href="test_rsponse.html">Response</a>
-                        <a class="collapse-item" href="test_report.html">Report</a>
+                        <a class="collapse-item" href="">Publish</a>
+                        <a class="collapse-item" href="">Response</a>
+                        <a class="collapse-item" href="">Report</a>
                     </div>
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="attendance.html">
+                <a class="nav-link" href="#">
                     <i class="fa-solid fa-clipboard-user"></i>
                     <span>Take Attendance</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="profilr.html">
+                <a class="nav-link" href="#">
                     <i class="fa-solid fa-user-tie"></i>
                     <span>Profile</span></a>
             </li>
@@ -86,28 +104,28 @@
                 </a>
                 <div id="collapseTwoo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="assign_publish.html">Publish</a>
-                        <a class="collapse-item" href="assign_res.html">Response</a>
+                        <a class="collapse-item" href="">Publish</a>
+                        <a class="collapse-item" href="">Response</a>
                     </div>
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="rfc.html">
+                <a class="nav-link" href="#">
                     <i class="fa-regular fa-pen-to-square"></i>
                     <span>RFC</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="timetable.html">
+                <a class="nav-link" href="#">
                     <i class="fa-solid fa-table-list"></i>
                     <span>Timetable</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="course.html">
+                <a class="nav-link" href="#">
                     <i class="fa-solid fa-book-open-reader"></i>
                     <span>Course</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="./../logout.php">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <span>Logout</span></a>
             </li>
@@ -183,11 +201,11 @@
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Anirban Dash</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $n_row['name'] ?></span>
                                 <img class="img-profile rounded-circle"
-                                    src="../img/undraw_profile.svg">
+                                    src="../img/<?php echo $n_row['photo'] ?>">
                             </a>
                            
                         </li>
@@ -201,11 +219,22 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Test Publish</h1>
-                    <div class="card">
-                        <div class="card-body shadow">
-                            <h2 class="text-danger"><i>WEBPAGE UNDER MAINTANANCE <i class="fa-regular fa-face-frown"></i></h2>
+                    <h1 class="h3 mb-4 text-gray-800">Notice Board</h1>
+                    <div class="card shadow mb-4">
+                        <form action="notice_submit.php" method="post">
+                        <div class="card-body">
+                            
+                                <label for="chaeck" class="form-inline">Title</label>
+                                <input type="text" class="form-control" name="title" id="check" required><br>
+                                <br>
+                                <label for="para" class="form-inline">Content</label>
+                                <textarea name="content" id="para" class="comment" required></textarea>
+                                
                         </div>
+                        <div class="card-footer">
+                            <input type="submit" value="Submit" class="btn btn-block btn-success">
+                        </div>
+                    </form>
                     </div>
 
                 </div>
@@ -235,10 +264,8 @@
         <i class="fas fa-angle-up"></i>
     </a>
 
- 
 
 
-    <!-- Bootstrap core JavaScript-->
     <script src="../vendor/jquery/jquery.min.js"></script>
     <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 

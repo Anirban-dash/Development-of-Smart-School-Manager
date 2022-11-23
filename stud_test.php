@@ -4,14 +4,15 @@
 <head>
 
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
     <style>
-        input[type="file"] {
-    display: none;
+        .bottomright {
+            position: absolute;
+  right: 10px; bottom: 10px;
 }
     </style>
     <title>SSM</title>
@@ -44,39 +45,39 @@
      
             <hr class="sidebar-divider my-0">
             <li class="nav-item ">
-                <a class="nav-link " href="index.html">
+                <a class="nav-link " href="index.php">
                     <i class="fa-solid fa-bullhorn"></i>
                     <span>Notice</span></a>
             </li>
 
     
             <li class="nav-item ">
-                <a class="nav-link" href="stud_assignment.html">
+                <a class="nav-link" href="stud_assignment.php">
                     <i class="fa-solid fa-bars-progress"></i>
                     <span>Assignment</span></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="stud_test.html">
+            <li class="nav-item active">
+                <a class="nav-link" href="stud_test.php">
                     <i class="fa-solid fa-square-pen"></i>
                     <span>Test</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="stud_profile.html">
+                <a class="nav-link" href="stud_profile.php">
                     <i class="fa-solid fa-circle-user"></i>
                     <span>Profile</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="stud_online_class.html">
+                <a class="nav-link" href="stud_online_class.php">
                     <i class="fa-solid fa-signal"></i>
                     <span>Online Classes</span></a>
             </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="stud_rfc.html">
+            <li class="nav-item">
+                <a class="nav-link" href="stud_rfc.php">
                     <i class="fa-regular fa-pen-to-square"></i>
                     <span>Request For Changes</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="stud_tt.html">
+                <a class="nav-link" href="stud_tt.php">
                     <i class="fa-solid fa-table-list"></i>
                     <span>Timetable</span></a>
             </li>
@@ -155,34 +156,35 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Request For Changes</h1>
+                    <h1 class="h3 mb-4 text-gray-800">Test</h1>
                     
-                    <div class="card shadow mb-4">
-                        <form action="rfc_submit.html" method="post">
-                        <div class="card-body">
+                    <div class="card shadow mb-4 border-left-warning">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-warning">Ongoing</h6>
+                        </div>
+                        <div class="card-body d-flex justify-content-between">
+                            <h4>Test-1</h4>
+                            <a href="exam.php" class="btn btn-outline-warning">
+                                Give Exam
+                            </a>
                             
-                                <label for="chaeck" class="form-inline">What do yoy want to update</label>
-                                <select id="chaeck" class="form-control">
-                                    <option>Name</option>
-                                    <option>Mobile Number</option>
-                                    <option>Father's Name</option>
-                                    <option>Aadhar Number</option>
-                                </select>
-                                <br>
-                                <input type="text" class="form-control" placeholder="Enter Updated Value"><br>
-                                <p class="text-danger">*You have to attached supportive documents in pdf format only</p>
-                                <label for="upload" class="btn btn-circle btn-info"> 
-                                    <i class="fa-solid fa-cloud-arrow-up"></i>
-                               </label>
-                                <input type="file" name="uploaddoc" id="upload" accept="application/pdf">  
                         </div>
-                        <div class="card-footer">
-                            <input type="submit" value="Submit" class="btn btn-block btn-success">
-                        </div>
-                    </form>
+
                     </div>
 
-                   
+                    <div class="card shadow mb-4 border-left-success">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-success">Finished</h6>
+                        </div>
+                        <div class="card-body d-flex justify-content-between">
+                            <h4>Test-2</h4>
+                            <a href="#" class="btn btn-outline-success">
+                                View Results
+                            </a>
+                            
+                        </div>
+
+                    </div>
 
                 </div>
                 <!-- /.container-fluid -->

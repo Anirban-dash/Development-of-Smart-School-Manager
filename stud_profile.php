@@ -7,14 +7,12 @@ if(!isset($_SESSION['id'])){
 }
 
 
-
-$sql="Select * from notice";
-$res=mysqli_query($con,$sql) or die(mysqli_error($con));
 $id=$_SESSION['id'];
 $info="select * from student where id='$id'";
 $info_res=mysqli_query($con,$info) or die(mysqli_error($con));
 $row=mysqli_fetch_array($info_res);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -22,8 +20,9 @@ $row=mysqli_fetch_array($info_res);
 <head>
 
     <meta charset="utf-8">
-    <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -62,50 +61,50 @@ $row=mysqli_fetch_array($info_res);
 
      
             <hr class="sidebar-divider my-0">
-            <li class="nav-item active">
-                <a class="nav-link " href="stud_index.php">
-                    <i class="fa-solid fa-bullhorn"></i>
-                    <span>Notice</span></a>
-            </li>
-
-    
             <li class="nav-item ">
-                <a class="nav-link" href="stud_assignment.php">
-                    <i class="fa-solid fa-bars-progress"></i>
-                    <span>Assignment</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="stud_test.php">
-                    <i class="fa-solid fa-square-pen"></i>
-                    <span>Test</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="stud_profile.php">
-                    <i class="fa-solid fa-circle-user"></i>
-                    <span>Profile</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="stud_online_class.php">
-                    <i class="fa-solid fa-signal"></i>
-                    <span>Online Classes</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="stud_rfc.php">
-                    <i class="fa-regular fa-pen-to-square"></i>
-                    <span>Request For Changes</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="stud_tt.php">
-                    <i class="fa-solid fa-table-list"></i>
-                    <span>Timetable</span></a>
-            </li>
+              <a class="nav-link " href="index.php">
+                  <i class="fa-solid fa-bullhorn"></i>
+                  <span>Notice</span></a>
+          </li>
+
+  
+          <li class="nav-item ">
+              <a class="nav-link" href="stud_assignment.php">
+                  <i class="fa-solid fa-bars-progress"></i>
+                  <span>Assignment</span></a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="stud_test.php">
+                  <i class="fa-solid fa-square-pen"></i>
+                  <span>Test</span></a>
+          </li>
+          <li class="nav-item active">
+              <a class="nav-link" href="stud_profile.php">
+                  <i class="fa-solid fa-circle-user"></i>
+                  <span>Profile</span></a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="stud_online_class.php">
+                  <i class="fa-solid fa-signal"></i>
+                  <span>Online Classes</span></a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="stud_rfc.php">
+                  <i class="fa-regular fa-pen-to-square"></i>
+                  <span>Request For Changes</span></a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="stud_tt.php">
+                  <i class="fa-solid fa-table-list"></i>
+                  <span>Timetable</span></a>
+          </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">
                     <i class="fa-solid fa-lock"></i>
                     <span>Change Password</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="logout.php">
+                <a class="nav-link" href="#">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <span>Logout</span></a>
             </li>
@@ -157,13 +156,12 @@ $row=mysqli_fetch_array($info_res);
                         </li>
                         <div class="topbar-divider d-none d-sm-block"></div>
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $row['name']; ?></span>
                                 <img class="img-profile rounded-circle"
                                     src="img/<?php echo $row['photo']; ?>">
                             </a>
-                            
                         </li>
 
                     </ul>
@@ -174,31 +172,96 @@ $row=mysqli_fetch_array($info_res);
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Notice Board</h1>
-                    <?php while($notice=mysqli_fetch_array($res)){
-                        $t_id=$notice['sender'];
-                        $n_sql="Select name from teacher where id='$t_id'";
-                        $t_res=mysqli_query($con,$n_sql) or die(mysqli_error($con));
-                        $t_name=mysqli_fetch_array($t_res);
-                        ?>
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3 text-center">
-                            <h6 class="m-0 font-weight-bold text-primary"><?php echo $notice['title']; ?></h6>
-                        </div>
-                        <div class="card-body">
-                        <?php echo $notice['body']; ?>
-                            <br><br><br><br>
-                            <div class="bottomright">
-                                <strong>
-                                    From<br>
-                                    <?php echo $t_name['name']; ?><br>
-                                    <?php echo $notice['date']; ?>
-                                </strong>
-                            </div>
-                        </div>
-                    </div>
-                    <?php } ?>
+                    <h1 class="h3 mb-4 text-gray-800">Profile</h1>
                     
+
+                    <section>
+                        <div class="container py-3">
+                      
+                          <div class="row">
+                            <div class="col-lg-4">
+                              <div class="card mb-4">
+                                <div class="card-body text-center">
+                                  <img src="img/<?php echo $row['photo']; ?>" alt="avatar"
+                                    class="rounded-circle img-fluid" style="width: 150px;">
+                                  <h5 class="my-3"><?php echo $row['name']; ?></h5>
+                                  <p class="text-muted mb-1"><i class="fa-solid fa-graduation-cap"></i> Student</p>
+                                  <p class="text-muted mb-4"><i class="fa-solid fa-location-dot"></i> Berhampur,Odisha</p>
+                                </div>
+                              </div>
+                              
+                            </div>
+                            <div class="col-lg-8">
+                              <div class="card mb-4">
+                                <div class="card-body">
+                                  <div class="row">
+                                    <div class="col-sm-3">
+                                      <p class="mb-0">Full Name</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                      <p class="text-muted mb-0"><?php echo $row['name']; ?></p>
+                                    </div>
+                                  </div>
+                                  <hr>
+                                  <div class="row">
+                                    <div class="col-sm-3">
+                                      <p class="mb-0">Roll</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                      <p class="text-muted mb-0"><?php echo $row['id']; ?></p>
+                                    </div>
+                                  </div>
+                                  <hr>
+                                  <div class="row">
+                                    <div class="col-sm-3">
+                                      <p class="mb-0">Class</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                      <p class="text-muted mb-0"><?php echo $row['class']; ?></p>
+                                    </div>
+                                  </div>
+                                  <hr>
+                                  <div class="row">
+                                    <div class="col-sm-3">
+                                      <p class="mb-0">Email</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                      <p class="text-muted mb-0"><?php echo $row['email']; ?></p>
+                                    </div>
+                                  </div>
+                                  <hr>
+                                  <div class="row">
+                                    <div class="col-sm-3">
+                                      <p class="mb-0">Mobile</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                      <p class="text-muted mb-0"><?php echo $row['mobile']; ?></p>
+                                    </div>
+                                  </div>
+                                  <hr>
+                                  <div class="row">
+                                    <div class="col-sm-3">
+                                      <p class="mb-0">Father's Name</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                      <p class="text-muted mb-0"><?php echo $row['father']; ?></p>
+                                    </div>
+                                  </div>
+                                  <hr>
+                                  <div class="row">
+                                    <div class="col-sm-3">
+                                      <p class="mb-0">Aadhar Number</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                      <p class="text-muted mb-0"><?php echo $row['aadhar']; ?></p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </section>
                     
 
                 </div>

@@ -5,22 +5,23 @@
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
-    <title>SSM - Solution for many</title>
+    <style>
+        input[type="file"] {
+    display: none;
+}
+    </style>
+    <title>SSM</title>
 
     <!-- Custom fonts for this template-->
-    <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
-
-    <!-- Custom styles for this template-->
-    <link href="../css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
 </head>
 
@@ -30,81 +31,59 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-success sidebar sidebar-dark accordion" id="accordionSidebar">
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
                 <div class="sidebar-brand-icon rotate-n-15">
-                    <img src="../logo.png" height="40%" width="40%">
+                    <img src="logo.png" height="40%" width="40%">
                 </div>
                 <div class="sidebar-brand-text mx-3">SSM</div>
             </a>
-            <!-- Divider -->
+
+     
             <hr class="sidebar-divider my-0">
-
-            <!-- Nav Item - Dashboard -->
             <li class="nav-item ">
-                <a class="nav-link" href="index.html">
-                    <i class="fa-solid fa-landmark"></i>
-                    <span>Classes</span></a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="notice.html">
-                    <i class="fa-solid fa-envelope"></i>
+                <a class="nav-link " href="index.php">
+                    <i class="fa-solid fa-bullhorn"></i>
                     <span>Notice</span></a>
             </li>
+
+    
             <li class="nav-item ">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fa-solid fa-microscope"></i>
-                    <span>Test</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="test_publish.html">Publish</a>
-                        <a class="collapse-item" href="test_rsponse.html">Response</a>
-                        <a class="collapse-item" href="test_report.html">Report</a>
-                    </div>
-                </div>
-            </li>
-            <li class="nav-item ">
-                <a class="nav-link" href="attendance.html">
-                    <i class="fa-solid fa-clipboard-user"></i>
-                    <span>Take Attendance</span></a>
+                <a class="nav-link" href="stud_assignment.php">
+                    <i class="fa-solid fa-bars-progress"></i>
+                    <span>Assignment</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="profilr.html">
-                    <i class="fa-solid fa-user-tie"></i>
+                <a class="nav-link" href="stud_test.php">
+                    <i class="fa-solid fa-square-pen"></i>
+                    <span>Test</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="stud_profile.php">
+                    <i class="fa-solid fa-circle-user"></i>
                     <span>Profile</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwoo"
-                    aria-expanded="true" aria-controls="collapseTwoo">
-                    <i class="fa-solid fa-clipboard-question"></i>
-                    <span>Assignment</span>
-                </a>
-                <div id="collapseTwoo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="assign_publish.html">Publish</a>
-                        <a class="collapse-item" href="assign_res.html">Response</a>
-                    </div>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="rfc.html">
-                    <i class="fa-regular fa-pen-to-square"></i>
-                    <span>RFC</span></a>
+                <a class="nav-link" href="stud_online_class.php">
+                    <i class="fa-solid fa-signal"></i>
+                    <span>Online Classes</span></a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="timetable.html">
+                <a class="nav-link" href="stud_rfc.php">
+                    <i class="fa-regular fa-pen-to-square"></i>
+                    <span>Request For Changes</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="stud_tt.php">
                     <i class="fa-solid fa-table-list"></i>
                     <span>Timetable</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="course.html">
-                    <i class="fa-solid fa-book-open-reader"></i>
-                    <span>Course</span></a>
+                <a class="nav-link" href="#">
+                    <i class="fa-solid fa-lock"></i>
+                    <span>Change Password</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">
@@ -116,26 +95,13 @@
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
 
-        
-
         </ul>
-
-
-        <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
-
-            <!-- Main Content -->
             <div id="content">
-
-                <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
-                    <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
                     </button>
-
-                    <!-- Topbar Search -->
                     <form
                         class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                         <div class="input-group">
@@ -148,17 +114,12 @@
                             </div>
                         </div>
                     </form>
-
-                    <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
-
-                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
                         <li class="nav-item dropdown no-arrow d-sm-none">
                             <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-search fa-fw"></i>
                             </a>
-                            <!-- Dropdown - Messages -->
                             <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
                                 aria-labelledby="searchDropdown">
                                 <form class="form-inline mr-auto w-100 navbar-search">
@@ -175,46 +136,58 @@
                                 </form>
                             </div>
                         </li>
-
-                        
-
-
                         <div class="topbar-divider d-none d-sm-block"></div>
-
-                        <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Anirban Dash</span>
                                 <img class="img-profile rounded-circle"
-                                    src="../img/undraw_profile.svg">
+                                    src="img/undraw_profile.svg">
                             </a>
-                           
+                            
                         </li>
 
                     </ul>
 
                 </nav>
-                <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Timetable</h1>
-                    <div class="card">
-                        <div class="card-body shadow">
-                            <h2 class="text-danger"><i>WEBPAGE UNDER MAINTANANCE <i class="fa-regular fa-face-frown"></i></h2>
+                    <h1 class="h3 mb-4 text-gray-800">Request For Changes</h1>
+                    
+                    <div class="card shadow mb-4">
+                        <form action="rfc_submit.php" method="post">
+                        <div class="card-body">
+                            
+                                <label for="chaeck" class="form-inline">What do yoy want to update</label>
+                                <select id="chaeck" class="form-control">
+                                    <option>Name</option>
+                                    <option>Mobile Number</option>
+                                    <option>Father's Name</option>
+                                    <option>Aadhar Number</option>
+                                </select>
+                                <br>
+                                <input type="text" class="form-control" placeholder="Enter Updated Value"><br>
+                                <p class="text-danger">*You have to attached supportive documents in pdf format only</p>
+                                <label for="upload" class="btn btn-circle btn-info"> 
+                                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                               </label>
+                                <input type="file" name="uploaddoc" id="upload" accept="application/pdf">  
                         </div>
+                        <div class="card-footer">
+                            <input type="submit" value="Submit" class="btn btn-block btn-success">
+                        </div>
+                    </form>
                     </div>
+
+                   
 
                 </div>
                 <!-- /.container-fluid -->
 
             </div>
-            <!-- End of Main Content -->
-
-            <!-- Footer -->
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
@@ -222,31 +195,18 @@
                     </div>
                 </div>
             </footer>
-            <!-- End of Footer -->
 
         </div>
-        <!-- End of Content Wrapper -->
 
     </div>
-    <!-- End of Page Wrapper -->
-
-    <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
 
- 
-
-
-    <!-- Bootstrap core JavaScript-->
-    <script src="../vendor/jquery/jquery.min.js"></script>
-    <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="../js/sb-admin-2.min.js"></script>
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="js/sb-admin-2.min.js"></script>
 
 </body>
 

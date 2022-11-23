@@ -3,27 +3,23 @@ require("conn.php");
 session_start();
 if(!isset($_SESSION['id'])){
     header("location:index.php");
-   
 }
-
-
-
-$sql="Select * from notice";
-$res=mysqli_query($con,$sql) or die(mysqli_error($con));
 $id=$_SESSION['id'];
 $info="select * from student where id='$id'";
 $info_res=mysqli_query($con,$info) or die(mysqli_error($con));
 $row=mysqli_fetch_array($info_res);
-?>
 
+$ass_res=mysqli_query($con,"SELECT * from assignment") or die(mysqli_error($con));
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
 
     <meta charset="utf-8">
-    <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -31,6 +27,15 @@ $row=mysqli_fetch_array($info_res);
         .bottomright {
             position: absolute;
   right: 10px; bottom: 10px;
+}
+input[type="file"] {
+    display: none;
+}
+.custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
 }
     </style>
     <title>SSM</title>
@@ -62,14 +67,14 @@ $row=mysqli_fetch_array($info_res);
 
      
             <hr class="sidebar-divider my-0">
-            <li class="nav-item active">
-                <a class="nav-link " href="stud_index.php">
+            <li class="nav-item ">
+                <a class="nav-link " href="index.php">
                     <i class="fa-solid fa-bullhorn"></i>
                     <span>Notice</span></a>
             </li>
 
     
-            <li class="nav-item ">
+            <li class="nav-item active">
                 <a class="nav-link" href="stud_assignment.php">
                     <i class="fa-solid fa-bars-progress"></i>
                     <span>Assignment</span></a>
@@ -105,7 +110,7 @@ $row=mysqli_fetch_array($info_res);
                     <span>Change Password</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="logout.php">
+                <a class="nav-link" href="#">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <span>Logout</span></a>
             </li>
@@ -157,7 +162,7 @@ $row=mysqli_fetch_array($info_res);
                         </li>
                         <div class="topbar-divider d-none d-sm-block"></div>
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $row['name']; ?></span>
                                 <img class="img-profile rounded-circle"
@@ -174,30 +179,87 @@ $row=mysqli_fetch_array($info_res);
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Notice Board</h1>
-                    <?php while($notice=mysqli_fetch_array($res)){
-                        $t_id=$notice['sender'];
-                        $n_sql="Select name from teacher where id='$t_id'";
-                        $t_res=mysqli_query($con,$n_sql) or die(mysqli_error($con));
-                        $t_name=mysqli_fetch_array($t_res);
-                        ?>
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3 text-center">
-                            <h6 class="m-0 font-weight-bold text-primary"><?php echo $notice['title']; ?></h6>
+                    <h1 class="h3 mb-4 text-gray-800">Assignment</h1>
+                    <?php 
+                    while($ass=mysqli_fetch_array($ass_res)){
+                        $a_id=$ass['id'];
+                        $x=mysqli_query($con,"SELECT * from assignstudent where ass_id='$a_id' and student_id='$id'") or die(mysqli_error($con));
+                        if(mysqli_num_rows($x)>0 and $ass['status']=="published"){
+                    ?>
+                    <div class="card shadow mb-4 border-left-success">
+                        <div class="card-header py-3 d-flex justify-content-between">
+                            <h6 class="m-0 font-weight-bold text-primary"><?php echo $ass['title'] ?>  </h6>
+                            <h6 class="text-success">Submitted</h6>
                         </div>
                         <div class="card-body">
-                        <?php echo $notice['body']; ?>
-                            <br><br><br><br>
-                            <div class="bottomright">
-                                <strong>
-                                    From<br>
-                                    <?php echo $t_name['name']; ?><br>
-                                    <?php echo $notice['date']; ?>
-                                </strong>
+                        <?php echo $ass['body'] ?> 
+                            
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-flex justify-content-between">
+                                <a href="./admin/assignment/<?php echo $ass['file'] ?>" download class="btn btn-success btn-circle">
+                                    <i class="fa-solid fa-download"></i>
+                                </a>
+
                             </div>
                         </div>
+
                     </div>
-                    <?php } ?>
+                    <?php }else{
+                    if($ass['status']=="published"){ 
+                    ?>
+                    <div class="card shadow mb-4 border-left-warning">
+                        <div class="card-header py-3 d-flex justify-content-between">
+                            <h6 class="m-0 font-weight-bold text-primary"><?php echo $ass['title'] ?> </h6>
+                            <h6 class="text-warning">Pending</h6>
+                        </div>
+                        <div class="card-body">
+                        <?php echo $ass['body']; ?>
+                            
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-flex justify-content-between">
+                                <a href="./admin/assignment/<?php echo $ass['file'] ?>" download class="btn btn-success btn-circle">
+                                    <i class="fa-solid fa-download"></i>
+                                </a>
+                               
+                                <form action="assignsubmit.php" method="post" enctype="multipart/form-data">
+                                    <input type="number" value="<?php echo $ass['id'] ?>" name="a_id" hidden />
+                                <label for="upload" class="btn btn-circle btn-info"> 
+                                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                               </label>
+                                <input required type="file" name="pdf_file" id="upload" onchange="form.submit()" accept="application/pdf"> 
+                                
+                    </form>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <?php }else{ ?>
+                        <div class="card shadow mb-4 border-left-danger">
+                        <div class="card-header py-3 d-flex justify-content-between">
+                            <h6 class="m-0 font-weight-bold text-primary"><?php echo $ass['title'] ?> </h6>
+                            <h6 class="text-danger">Removed</h6>
+                        </div>
+                        <div class="card-body">
+                        <?php echo $ass['body']; ?>
+                            
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-flex justify-content-between">
+                                <a href="./admin/assignment/<?php echo $ass['file'] ?>" download class="btn btn-success btn-circle">
+                                    <i class="fa-solid fa-download"></i>
+                                </a>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                <?php } } } ?>
+
+                    
                     
                     
 

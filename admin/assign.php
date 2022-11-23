@@ -1,6 +1,11 @@
 
 <?php
 require("./../conn.php");
+session_start();
+if(!isset($_SESSION['id'])){
+    header("location:./../index.php");
+}
+$t_id=$_SESSION['id'];
 $allowedExts = array("pdf");
 $body=mysqli_real_escape_string($con,$_POST['content']);
 $title=mysqli_real_escape_string($con,$_POST['title']);
@@ -8,7 +13,7 @@ $temp = explode(".", $_FILES["pdf_file"]["name"]);
 $extension = end($temp);
 $upload_pdf=$_FILES["pdf_file"]["name"];
 move_uploaded_file($_FILES["pdf_file"]["tmp_name"],"assignment/" . $_FILES["pdf_file"]["name"]);
-$sql=mysqli_query($con,"INSERT INTO `assignment` (`body`, `title`, `file`) VALUES ('$body', '$title', '$upload_pdf')");
+$sql=mysqli_query($con,"INSERT INTO `assignment` (`body`, `title`, `file`,`status`,`teacher`) VALUES ('$body', '$title', '$upload_pdf','published','$t_id')");
 
 ?> 
 <!DOCTYPE html>

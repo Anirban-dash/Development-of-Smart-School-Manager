@@ -5,24 +5,22 @@
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <style>
-        .bottomright {
-            position: absolute;
-  right: 10px; bottom: 10px;
-}
-    </style>
-    <title>SSM</title>
+
+    <title>SSM - Solution for many</title>
 
     <!-- Custom fonts for this template-->
+    <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
-    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="../css/sb-admin-2.min.css" rel="stylesheet">
 
 </head>
 
@@ -32,62 +30,84 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <ul class="navbar-nav bg-gradient-success sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
                 <div class="sidebar-brand-icon rotate-n-15">
-                    <img src="logo.png" height="40%" width="40%">
+                    <img src="../logo.png" height="40%" width="40%">
                 </div>
                 <div class="sidebar-brand-text mx-3">SSM</div>
             </a>
-
-     
+            <!-- Divider -->
             <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
             <li class="nav-item ">
-                <a class="nav-link " href="student_indx.html">
-                    <i class="fa-solid fa-bullhorn"></i>
+                <a class="nav-link" href="index.php">
+                    <i class="fa-solid fa-landmark"></i>
+                    <span>Classes</span></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="notice.php">
+                    <i class="fa-solid fa-envelope"></i>
                     <span>Notice</span></a>
             </li>
-
-    
-            <li class="nav-item ">
-                <a class="nav-link" href="stud_assignment.html">
-                    <i class="fa-solid fa-bars-progress"></i>
-                    <span>Assignment</span></a>
-            </li>
             <li class="nav-item active">
-                <a class="nav-link" href="stud_test.html">
-                    <i class="fa-solid fa-square-pen"></i>
-                    <span>Test</span></a>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                    aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fa-solid fa-microscope"></i>
+                    <span>Test</span>
+                </a>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="test_publish.php">Publish</a>
+                        <a class="collapse-item" href="test_rsponse.php">Response</a>
+                        <a class="collapse-item" href="test_report.php">Report</a>
+                    </div>
+                </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="stud_profile.html">
-                    <i class="fa-solid fa-circle-user"></i>
+                <a class="nav-link" href="attendance.php">
+                    <i class="fa-solid fa-clipboard-user"></i>
+                    <span>Take Attendance</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="profilr.php">
+                    <i class="fa-solid fa-user-tie"></i>
                     <span>Profile</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="stud_online_class.html">
-                    <i class="fa-solid fa-signal"></i>
-                    <span>Online Classes</span></a>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwoo"
+                    aria-expanded="true" aria-controls="collapseTwoo">
+                    <i class="fa-solid fa-clipboard-question"></i>
+                    <span>Assignment</span>
+                </a>
+                <div id="collapseTwoo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="assign_publish.php">Publish</a>
+                        <a class="collapse-item" href="assign_res.php">Response</a>
+                    </div>
+                </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="stud_rfc.html">
+                <a class="nav-link" href="rfc.php">
                     <i class="fa-regular fa-pen-to-square"></i>
-                    <span>Request For Changes</span></a>
+                    <span>RFC</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="stud_tt.html">
+                <a class="nav-link" href="timetable.php">
                     <i class="fa-solid fa-table-list"></i>
                     <span>Timetable</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fa-solid fa-lock"></i>
-                    <span>Change Password</span></a>
+                <a class="nav-link" href="course.php">
+                    <i class="fa-solid fa-book-open-reader"></i>
+                    <span>Course</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="./../logout.php">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <span>Logout</span></a>
             </li>
@@ -96,13 +116,26 @@
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
 
+        
+
         </ul>
+
+
+        <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
             <div id="content">
+
+                <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
                     </button>
+
+                    <!-- Topbar Search -->
                     <form
                         class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                         <div class="input-group">
@@ -115,12 +148,17 @@
                             </div>
                         </div>
                     </form>
+
+                    <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
+
+                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
                         <li class="nav-item dropdown no-arrow d-sm-none">
                             <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-search fa-fw"></i>
                             </a>
+                            <!-- Dropdown - Messages -->
                             <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
                                 aria-labelledby="searchDropdown">
                                 <form class="form-inline mr-auto w-100 navbar-search">
@@ -137,94 +175,46 @@
                                 </form>
                             </div>
                         </li>
+
+                        
+
+
                         <div class="topbar-divider d-none d-sm-block"></div>
+
+                        <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Anirban Dash</span>
                                 <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                    src="../img/undraw_profile.svg">
                             </a>
-                            
+                           
                         </li>
 
                     </ul>
 
                 </nav>
+                <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Test-1</h1>
-                    
-                    <form action="" method="post">
-                    <div class="card border-left-warning">
-                        <div class="card-header">
-                            <h4 class="card-title text-dark">What is HTML?</h4>
-                        </div>
-                        <div class="card-body">
-                            <div class="basic-list-group">
-                                <ul class="list-group">
-                                    <li class="list-group-item">
-                                        <input type="radio" name="question[0]"
-                                            value="1" onclick="change(this);"/> Hyper text markup Language
-                                    </li>
-                                    <li class="list-group-item">
-                                        <input type="radio" name="question[0]"
-                                            value="2" onclick="change(this);"/> Hyper text makeup Language
-                                    </li>
-                                    <li class="list-group-item">
-                                        <input type="radio" name="question[0]"
-                                            value="3" onclick="change(this);"/> Hyper tiyle markup Language
-                                    </li>
-                                    <li class="list-group-item">
-                                        <input type="radio" name="question[0]"
-                                            value="4" onclick="change(this);"/> High text markup Language
-                                    </li>
-                                </ul>
-                            </div>
+                    <h1 class="h3 mb-4 text-gray-800">Test Report</h1>
+                    <div class="card">
+                        <div class="card-body shadow">
+                            <h2 class="text-danger"><i>WEBPAGE UNDER MAINTANANCE <i class="fa-regular fa-face-frown"></i></h2>
                         </div>
                     </div>
-                    <br>
-                    <div class="card border-left-warning">
-                        <div class="card-header">
-                            <h4 class="card-title text-dark">What is CSS?</h4>
-                        </div>
-                        <div class="card-body">
-                            <div class="basic-list-group">
-                                <ul class="list-group">
-                                    <li class="list-group-item">
-                                        <input type="radio" name="question[1]"
-                                            value="1" onclick="change(this);"/> Hyper text markup Language
-                                    </li>
-                                    <li class="list-group-item">
-                                        <input type="radio" name="question[1]"
-                                            value="2" onclick="change(this);"/> Hyper text makeup Language
-                                    </li>
-                                    <li class="list-group-item">
-                                        <input type="radio" name="question[1]"
-                                            value="3" onclick="change(this);"/> Hyper tiyle markup Language
-                                    </li>
-                                    <li class="list-group-item">
-                                        <input type="radio" name="question[1]"
-                                            value="4" onclick="change(this);"/> High text markup Language
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div><br>
-                    <div class="">
-                    <input type="submit"  class="btn btn-success btn-block">
-                    
-                </div>
-                </form>
-
 
                 </div>
                 <!-- /.container-fluid -->
 
             </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
@@ -232,24 +222,31 @@
                     </div>
                 </div>
             </footer>
+            <!-- End of Footer -->
 
         </div>
+        <!-- End of Content Wrapper -->
 
     </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-    <script>
-        function change(obj){
-            var ele=obj.parentNode.parentNode.parentNode.parentNode.parentNode;
-            ele.classList.remove("border-left-warning");
-            ele.classList.add("border-left-success");
-        }
-        </script>
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-    <script src="js/sb-admin-2.min.js"></script>
+
+ 
+
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="../vendor/jquery/jquery.min.js"></script>
+    <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="../js/sb-admin-2.min.js"></script>
 
 </body>
 

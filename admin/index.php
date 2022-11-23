@@ -1,3 +1,14 @@
+<?php
+require("./../conn.php");
+session_start();
+if(!isset($_SESSION['id']) and $_SESSION['status']!="teacher"){
+    header("location:./../index.php");
+}
+$n_id=$_SESSION['id'];
+$n_res=mysqli_query($con,"SELECT * from teacher where id='$n_id'") or die(mysqli_error($con));
+$n_row=mysqli_fetch_array($n_res);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -43,18 +54,18 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item ">
-                <a class="nav-link" href="index.html">
+            <li class="nav-item active">
+                <a class="nav-link" href="index.php">
                     <i class="fa-solid fa-landmark"></i>
                     <span>Classes</span></a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="notice.html">
+                <a class="nav-link" href="notice.php">
                     <i class="fa-solid fa-envelope"></i>
                     <span>Notice</span></a>
             </li>
-            <li class="nav-item ">
+            <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fa-solid fa-microscope"></i>
@@ -62,19 +73,19 @@
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="test_publish.html">Publish</a>
-                        <a class="collapse-item" href="test_rsponse.html">Response</a>
-                        <a class="collapse-item" href="test_report.html">Report</a>
+                        <a class="collapse-item" href="test_publish.php">Publish</a>
+                        <a class="collapse-item" href="test_rsponse.php">Response</a>
+                        <a class="collapse-item" href="test_report.php">Report</a>
                     </div>
                 </div>
             </li>
-            <li class="nav-item ">
-                <a class="nav-link" href="attendance.html">
+            <li class="nav-item">
+                <a class="nav-link" href="attendance.php">
                     <i class="fa-solid fa-clipboard-user"></i>
                     <span>Take Attendance</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="profilr.html">
+                <a class="nav-link" href="profilr.php">
                     <i class="fa-solid fa-user-tie"></i>
                     <span>Profile</span></a>
             </li>
@@ -86,28 +97,28 @@
                 </a>
                 <div id="collapseTwoo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="assign_publish.html">Publish</a>
-                        <a class="collapse-item" href="assign_res.html">Response</a>
+                        <a class="collapse-item" href="assign_publish.php">Publish</a>
+                        <a class="collapse-item" href="assign_res.php">Response</a>
                     </div>
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="rfc.html">
+                <a class="nav-link" href="rfc.php">
                     <i class="fa-regular fa-pen-to-square"></i>
                     <span>RFC</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="timetable.html">
+                <a class="nav-link" href="timetable.php">
                     <i class="fa-solid fa-table-list"></i>
                     <span>Timetable</span></a>
             </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="course.html">
+            <li class="nav-item">
+                <a class="nav-link" href="course.php">
                     <i class="fa-solid fa-book-open-reader"></i>
                     <span>Course</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="./../logout.php">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <span>Logout</span></a>
             </li>
@@ -185,9 +196,9 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Anirban Dash</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $n_row['name'] ?></span>
                                 <img class="img-profile rounded-circle"
-                                    src="../img/undraw_profile.svg">
+                                    src="../img/<?php echo $n_row['photo'] ?>">
                             </a>
                            
                         </li>
@@ -201,10 +212,29 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Course</h1>
-                    <div class="card">
-                        <div class="card-body shadow">
-                            <h2 class="text-danger"><i>WEBPAGE UNDER MAINTANANCE <i class="fa-regular fa-face-frown"></i></h2>
+                    <h1 class="h3 mb-4 text-gray-800">Classes</h1>
+                    <div class="col-lg-10 mb-4 shadow">
+                        <div class="card bg-info text-white shadow">
+                            <div class="card-body">
+                                Science
+                                <div class="text-white-50 small">Class-1</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-10 mb-4 shadow">
+                        <div class="card bg-info text-white shadow">
+                            <div class="card-body">
+                                Biology
+                                <div class="text-white-50 small">Class-2</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-10 mb-4 shadow">
+                        <div class="card bg-info text-white shadow">
+                            <div class="card-body">
+                                English
+                                <div class="text-white-50 small">Class-1</div>
+                            </div>
                         </div>
                     </div>
 
@@ -235,8 +265,25 @@
         <i class="fas fa-angle-up"></i>
     </a>
 
- 
-
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="logout.php">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Bootstrap core JavaScript-->
     <script src="../vendor/jquery/jquery.min.js"></script>

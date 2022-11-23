@@ -1,3 +1,18 @@
+<?php
+require("./../conn.php");
+session_start();
+if(!isset($_SESSION['id'])){
+    header("location:./../index.php");
+}
+
+$t_id=$_SESSION['id'];
+$res=mysqli_query($con,"SELECT * from assignment where teacher='$t_id'") or die(mysqli_error($con));
+$n_id=$_SESSION['id'];
+$n_res=mysqli_query($con,"SELECT * from teacher where id='$n_id'") or die(mysqli_error($con));
+$n_row=mysqli_fetch_array($n_res);
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,8 +27,7 @@
 
     <title>SSM - Solution for many</title>
 
-    <!-- Custom fonts for this template-->
-    <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
@@ -44,13 +58,13 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item ">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="index.php">
                     <i class="fa-solid fa-landmark"></i>
                     <span>Classes</span></a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="notice.html">
+                <a class="nav-link" href="notice.php">
                     <i class="fa-solid fa-envelope"></i>
                     <span>Notice</span></a>
             </li>
@@ -62,19 +76,19 @@
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="test_publish.html">Publish</a>
-                        <a class="collapse-item" href="test_rsponse.html">Response</a>
-                        <a class="collapse-item" href="test_report.html">Report</a>
+                        <a class="collapse-item" href="test_publish.php">Publish</a>
+                        <a class="collapse-item" href="test_rsponse.php">Response</a>
+                        <a class="collapse-item" href="test_report.php">Report</a>
                     </div>
                 </div>
             </li>
             <li class="nav-item ">
-                <a class="nav-link" href="attendance.html">
+                <a class="nav-link" href="attendance.php">
                     <i class="fa-solid fa-clipboard-user"></i>
                     <span>Take Attendance</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="profilr.html">
+                <a class="nav-link" href="profilr.php">
                     <i class="fa-solid fa-user-tie"></i>
                     <span>Profile</span></a>
             </li>
@@ -86,28 +100,28 @@
                 </a>
                 <div id="collapseTwoo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="assign_publish.html">Publish</a>
-                        <a class="collapse-item" href="assign_res.html">Response</a>
+                        <a class="collapse-item" href="assign_publish.php">Publish</a>
+                        <a class="collapse-item" href="assign_res.php">Response</a>
                     </div>
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="rfc.html">
+                <a class="nav-link" href="rfc.php">
                     <i class="fa-regular fa-pen-to-square"></i>
                     <span>RFC</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="timetable.html">
+                <a class="nav-link" href="timetable.php">
                     <i class="fa-solid fa-table-list"></i>
                     <span>Timetable</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="course.html">
+                <a class="nav-link" href="course.php">
                     <i class="fa-solid fa-book-open-reader"></i>
                     <span>Course</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="./../logout.php">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <span>Logout</span></a>
             </li>
@@ -185,9 +199,9 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Anirban Dash</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $n_row['name'] ?></span>
                                 <img class="img-profile rounded-circle"
-                                    src="../img/undraw_profile.svg">
+                                    src="../img/<?php echo $n_row['photo'] ?>">
                             </a>
                            
                         </li>
@@ -201,12 +215,40 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Assignment Response</h1>
-                    <div class="card">
-                        <div class="card-body shadow">
-                            <h2 class="text-danger"><i>WEBPAGE UNDER MAINTANANCE <i class="fa-regular fa-face-frown"></i></h2>
+                    <h1 class="h3 mb-4 text-gray-800">Assignment List</h1>
+                    <?php  
+                    while($row=mysqli_fetch_array($res)){
+                        if($row['status']=="published"){
+                            $str="success";
+                        }else{
+                            $str="danger";
+                        }
+                    ?>
+                    <div class="card shadow mb-4 border-left-<?php echo $str; ?>">
+                        <div class="card-header py-3 d-flex justify-content-between">
+                            <h6 class="m-0 font-weight-bold text-primary"><?php echo $row['title']; ?>  </h6>
+                            <h6 class="text-<?php echo $str; ?>"><?php echo ucfirst($row['status']); ?></h6>
                         </div>
+                        <div class="card-body">
+                        <?php echo $row['body']; ?>
+                            
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-flex justify-content-between">
+                                <?php if($str=="success"){ ?>
+                                <a href="assfin.php?a_id=<?php echo $row['id']; ?>" class="btn btn-danger btn-circle">
+                                <i class="fa-regular fa-calendar-xmark"></i>
+                                </a>
+                                <?php }?>
+                                <a href="assres.php?a_id=<?php echo $row['id']; ?>" class="btn btn-info btn-circle">
+                                <i class="fa-solid fa-eye"></i>
+                                </a>
+
+                            </div>
+                        </div>
+
                     </div>
+                    <?php } ?>
 
                 </div>
                 <!-- /.container-fluid -->

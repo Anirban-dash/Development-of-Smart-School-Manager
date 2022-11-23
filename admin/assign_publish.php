@@ -1,3 +1,14 @@
+<?php
+require("./../conn.php");
+session_start();
+if(!isset($_SESSION['id']) and $_SESSION['status']!="teacher"){
+    header("location:./../index.php");
+}
+$n_id=$_SESSION['id'];
+$n_res=mysqli_query($con,"SELECT * from teacher where id='$n_id'") or die(mysqli_error($con));
+$n_row=mysqli_fetch_array($n_res);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -48,13 +59,13 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item ">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="index.php">
                     <i class="fa-solid fa-landmark"></i>
                     <span>Classes</span></a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="notice.html">
+                <a class="nav-link" href="notice.php">
                     <i class="fa-solid fa-envelope"></i>
                     <span>Notice</span></a>
             </li>
@@ -66,19 +77,19 @@
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="test_publish.html">Publish</a>
-                        <a class="collapse-item" href="test_rsponse.html">Response</a>
-                        <a class="collapse-item" href="test_report.html">Report</a>
+                        <a class="collapse-item" href="test_publish.php">Publish</a>
+                        <a class="collapse-item" href="test_rsponse.php">Response</a>
+                        <a class="collapse-item" href="test_report.php">Report</a>
                     </div>
                 </div>
             </li>
             <li class="nav-item ">
-                <a class="nav-link" href="attendance.html">
+                <a class="nav-link" href="attendance.php">
                     <i class="fa-solid fa-clipboard-user"></i>
                     <span>Take Attendance</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="profilr.html">
+                <a class="nav-link" href="profilr.php">
                     <i class="fa-solid fa-user-tie"></i>
                     <span>Profile</span></a>
             </li>
@@ -90,31 +101,32 @@
                 </a>
                 <div id="collapseTwoo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="assign_publish.html">Publish</a>
-                        <a class="collapse-item" href="assign_res.html">Response</a>
+                        <a class="collapse-item" href="assign_publish.php">Publish</a>
+                        <a class="collapse-item" href="assign_res.php">Response</a>
                     </div>
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="rfc.html">
+                <a class="nav-link" href="rfc.php">
                     <i class="fa-regular fa-pen-to-square"></i>
                     <span>RFC</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="timetable.html">
+                <a class="nav-link" href="timetable.php">
                     <i class="fa-solid fa-table-list"></i>
                     <span>Timetable</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="course.html">
+                <a class="nav-link" href="course.php">
                     <i class="fa-solid fa-book-open-reader"></i>
                     <span>Course</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="./../logout.php">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <span>Logout</span></a>
             </li>
+            
             <hr class="sidebar-divider d-none d-md-block">
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
@@ -189,9 +201,9 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Anirban Dash</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $n_row['name'] ?></span>
                                 <img class="img-profile rounded-circle"
-                                    src="../img/undraw_profile.svg">
+                                    src="../img/<?php echo $n_row['photo'] ?>">
                             </a>
                            
                         </li>
@@ -219,6 +231,7 @@
                                     <i class="fa-solid fa-cloud-arrow-up"></i>
                                </label>
                                 <input required type="file" name="pdf_file" id="upload" accept="application/pdf"> 
+                                <p id="file-name" class="text-black"></p>
                                 
                         </div>
                         <div class="card-footer">
@@ -258,6 +271,11 @@
 
 
     <!-- Bootstrap core JavaScript-->
+    <script>
+        document.querySelector("#upload").onchange = function(){
+  document.querySelector("#file-name").innerHTML = '<i class="fa-solid fa-file"></i> '+this.files[0].name;
+}
+    </script>
     <script src="../vendor/jquery/jquery.min.js"></script>
     <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 

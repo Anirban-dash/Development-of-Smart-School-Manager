@@ -6,7 +6,6 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -46,42 +45,42 @@
      
             <hr class="sidebar-divider my-0">
             <li class="nav-item ">
-              <a class="nav-link " href="index.html">
-                  <i class="fa-solid fa-bullhorn"></i>
-                  <span>Notice</span></a>
-          </li>
+                <a class="nav-link " href="index.php">
+                    <i class="fa-solid fa-bullhorn"></i>
+                    <span>Notice</span></a>
+            </li>
 
-  
-          <li class="nav-item ">
-              <a class="nav-link" href="stud_assignment.html">
-                  <i class="fa-solid fa-bars-progress"></i>
-                  <span>Assignment</span></a>
-          </li>
-          <li class="nav-item">
-              <a class="nav-link" href="stud_test.html">
-                  <i class="fa-solid fa-square-pen"></i>
-                  <span>Test</span></a>
-          </li>
-          <li class="nav-item active">
-              <a class="nav-link" href="stud_profile.html">
-                  <i class="fa-solid fa-circle-user"></i>
-                  <span>Profile</span></a>
-          </li>
-          <li class="nav-item">
-              <a class="nav-link" href="stud_online_class.html">
-                  <i class="fa-solid fa-signal"></i>
-                  <span>Online Classes</span></a>
-          </li>
-          <li class="nav-item">
-              <a class="nav-link" href="stud_rfc.html">
-                  <i class="fa-regular fa-pen-to-square"></i>
-                  <span>Request For Changes</span></a>
-          </li>
-          <li class="nav-item">
-              <a class="nav-link" href="stud_tt.html">
-                  <i class="fa-solid fa-table-list"></i>
-                  <span>Timetable</span></a>
-          </li>
+    
+            <li class="nav-item ">
+                <a class="nav-link" href="stud_assignment.php">
+                    <i class="fa-solid fa-bars-progress"></i>
+                    <span>Assignment</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="stud_test.php">
+                    <i class="fa-solid fa-square-pen"></i>
+                    <span>Test</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="stud_profile.php">
+                    <i class="fa-solid fa-circle-user"></i>
+                    <span>Profile</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="stud_online_class.php">
+                    <i class="fa-solid fa-signal"></i>
+                    <span>Online Classes</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="stud_rfc.php">
+                    <i class="fa-regular fa-pen-to-square"></i>
+                    <span>Request For Changes</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="stud_tt.php">
+                    <i class="fa-solid fa-table-list"></i>
+                    <span>Timetable</span></a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">
                     <i class="fa-solid fa-lock"></i>
@@ -157,97 +156,24 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Profile</h1>
+                    <h1 class="h3 mb-4 text-gray-800">Online Classes</h1>
+                    
+                    <div class="card shadow mb-4 border-left-info">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">English Class</h6>
+                        </div>
+                        <div class="card-body">
+                            Join this class via google meet
+                        </div>
+                        <div class="card-footer">
+                            <a href="https://meet.google.com/whn-pzbj-uej" target="_blank" class="btn btn-primary">
+                              Join  <i class="fa-solid fa-square-plus"></i>
+                            </a>
+                        </div>
+                    </div>
                     
 
-                    <section>
-                        <div class="container py-3">
-                      
-                          <div class="row">
-                            <div class="col-lg-4">
-                              <div class="card mb-4">
-                                <div class="card-body text-center">
-                                  <img src="img/undraw_profile.svg" alt="avatar"
-                                    class="rounded-circle img-fluid" style="width: 150px;">
-                                  <h5 class="my-3">Anirban Dash</h5>
-                                  <p class="text-muted mb-1"><i class="fa-solid fa-graduation-cap"></i> Student</p>
-                                  <p class="text-muted mb-4"><i class="fa-solid fa-location-dot"></i> Berhampur,Odisha</p>
-                                </div>
-                              </div>
-                              
-                            </div>
-                            <div class="col-lg-8">
-                              <div class="card mb-4">
-                                <div class="card-body">
-                                  <div class="row">
-                                    <div class="col-sm-3">
-                                      <p class="mb-0">Full Name</p>
-                                    </div>
-                                    <div class="col-sm-9">
-                                      <p class="text-muted mb-0">Anirban Dash</p>
-                                    </div>
-                                  </div>
-                                  <hr>
-                                  <div class="row">
-                                    <div class="col-sm-3">
-                                      <p class="mb-0">Roll</p>
-                                    </div>
-                                    <div class="col-sm-9">
-                                      <p class="text-muted mb-0">201910014</p>
-                                    </div>
-                                  </div>
-                                  <hr>
-                                  <div class="row">
-                                    <div class="col-sm-3">
-                                      <p class="mb-0">Class</p>
-                                    </div>
-                                    <div class="col-sm-9">
-                                      <p class="text-muted mb-0">4</p>
-                                    </div>
-                                  </div>
-                                  <hr>
-                                  <div class="row">
-                                    <div class="col-sm-3">
-                                      <p class="mb-0">Email</p>
-                                    </div>
-                                    <div class="col-sm-9">
-                                      <p class="text-muted mb-0">anirbandash@mail.com</p>
-                                    </div>
-                                  </div>
-                                  <hr>
-                                  <div class="row">
-                                    <div class="col-sm-3">
-                                      <p class="mb-0">Mobile</p>
-                                    </div>
-                                    <div class="col-sm-9">
-                                      <p class="text-muted mb-0">1295634581</p>
-                                    </div>
-                                  </div>
-                                  <hr>
-                                  <div class="row">
-                                    <div class="col-sm-3">
-                                      <p class="mb-0">Father's Name</p>
-                                    </div>
-                                    <div class="col-sm-9">
-                                      <p class="text-muted mb-0">Someone Dash</p>
-                                    </div>
-                                  </div>
-                                  <hr>
-                                  <div class="row">
-                                    <div class="col-sm-3">
-                                      <p class="mb-0">Aadhar Number</p>
-                                    </div>
-                                    <div class="col-sm-9">
-                                      <p class="text-muted mb-0">250321455252</p>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </section>
-                    
+                   
 
                 </div>
                 <!-- /.container-fluid -->

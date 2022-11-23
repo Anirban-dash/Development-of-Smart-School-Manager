@@ -5,7 +5,7 @@ if(isset($_SESSION['id'])){
     header("location:stud_index.php");
   }
   else{
-    header("location:./admin/index.html");
+    header("location:./admin/index.php");
   }
 }
 ?>
