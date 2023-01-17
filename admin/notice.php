@@ -87,6 +87,11 @@ $res=mysqli_query($con,"Select * from notice") or die(mysqli_error($con));
                     <span>Take Attendance</span></a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="online_class.php">
+                    <i class="fa-solid fa-signal"></i>
+                    <span>Online Classes</span></a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="profilr.php">
                     <i class="fa-solid fa-user-tie"></i>
                     <span>Profile</span></a>

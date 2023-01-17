@@ -1,3 +1,21 @@
+<?php
+require("conn.php");
+session_start();
+if(!isset($_SESSION['id'])){
+    header("location:index.php");
+   
+}
+
+$id=$_SESSION['id'];
+$info="select * from student where id='$id'";
+$info_res=mysqli_query($con,$info) or die(mysqli_error($con));
+$row=mysqli_fetch_array($info_res);
+$cls=$row['class'];
+$res=mysqli_query($con,"SELECT * From exam where status='published' or status='finished' and class='$cls'") or die(mysqli_error($con));
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -139,11 +157,11 @@
                         </li>
                         <div class="topbar-divider d-none d-sm-block"></div>
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Anirban Dash</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $row['name']; ?></span>
                                 <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                    src="img/<?php echo $row['photo']; ?>">
                             </a>
                             
                         </li>
@@ -157,34 +175,40 @@
 
                     <!-- Page Heading -->
                     <h1 class="h3 mb-4 text-gray-800">Test</h1>
-                    
-                    <div class="card shadow mb-4 border-left-warning">
+                    <?php
+                    while($test=mysqli_fetch_array($res)){
+                        if($test['status']=='published'){
+                            $str="success";
+                            $s="Ongoing";
+                            $btn="Give Test";
+                            $link="exam.php?id=".$test['id'];
+                            $tt=$test['id'];
+                            $xxx=mysqli_query($con,"SELECT * from student_submit where e_id='$tt' and st_id='$id'") or die(mysqli_error($con));
+                            if(mysqli_num_rows($xxx)>0){
+                                $str="success disabled";
+                                $btn="Already Given";
+                            }
+                        }else{
+                            $str="warning";
+                            $s="Finished";
+                            $btn="View Score";
+                            $link="viewres.php?id=".$test['id'];
+                        }
+                        ?>
+                    <div class="card shadow mb-4 border-left-<?php echo $str; ?>">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-warning">Ongoing</h6>
+                            <h6 class="m-0 font-weight-bold text-<?php echo $str; ?>"><?php echo $s; ?></h6>
                         </div>
                         <div class="card-body d-flex justify-content-between">
-                            <h4>Test-1</h4>
-                            <a href="exam.php" class="btn btn-outline-warning">
-                                Give Exam
+                            <h4><?php echo $test['name']; ?></h4>
+                            <a href="<?php echo $link; ?>" class="btn btn-outline-<?php echo $str; ?>">
+                            <?php echo $btn; ?>
                             </a>
                             
                         </div>
 
                     </div>
-
-                    <div class="card shadow mb-4 border-left-success">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-success">Finished</h6>
-                        </div>
-                        <div class="card-body d-flex justify-content-between">
-                            <h4>Test-2</h4>
-                            <a href="#" class="btn btn-outline-success">
-                                View Results
-                            </a>
-                            
-                        </div>
-
-                    </div>
+                    <?php } ?>
 
                 </div>
                 <!-- /.container-fluid -->

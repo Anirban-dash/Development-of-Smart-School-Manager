@@ -1,14 +1,3 @@
-<?php
-require("./../conn.php");
-session_start();
-if(!isset($_SESSION['id']) and $_SESSION['status']!="teacher"){
-    header("location:./../index.php");
-}
-$n_id=$_SESSION['id'];
-$n_res=mysqli_query($con,"SELECT * from teacher where id='$n_id'") or die(mysqli_error($con));
-$n_row=mysqli_fetch_array($n_res);
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,9 +8,9 @@ $n_row=mysqli_fetch_array($n_res);
     <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="author" content=""> 
 
-    <title>SB Admin 2 - Blank</title>
+    <title>SSM - Solution for many</title>
 
     <!-- Custom fonts for this template-->
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -32,14 +21,8 @@ $n_row=mysqli_fetch_array($n_res);
 
     <!-- Custom styles for this template-->
     <link href="../css/sb-admin-2.min.css" rel="stylesheet">
-   
-    <style>
-        .comment {
-        resize: none;
-        height: 200px;
-        width: 500px;
-      }
-    </style>
+ 
+
 </head>
 
 <body id="page-top">
@@ -67,12 +50,12 @@ $n_row=mysqli_fetch_array($n_res);
                     <span>Classes</span></a>
             </li>
 
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="notice.php">
                     <i class="fa-solid fa-envelope"></i>
                     <span>Notice</span></a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fa-solid fa-microscope"></i>
@@ -80,14 +63,14 @@ $n_row=mysqli_fetch_array($n_res);
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="">Publish</a>
-                        <a class="collapse-item" href="">Response</a>
-                        <a class="collapse-item" href="">Report</a>
+                        <a class="collapse-item" href="test_publish.php">Publish</a>
+                        <a class="collapse-item" href="test_rsponse.php">Response</a>
+                        <a class="collapse-item" href="test_report.php">Report</a>
                     </div>
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="attendance.php">
                     <i class="fa-solid fa-clipboard-user"></i>
                     <span>Take Attendance</span></a>
             </li>
@@ -97,7 +80,7 @@ $n_row=mysqli_fetch_array($n_res);
                     <span>Online Classes</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="profilr.php">
                     <i class="fa-solid fa-user-tie"></i>
                     <span>Profile</span></a>
             </li>
@@ -109,23 +92,23 @@ $n_row=mysqli_fetch_array($n_res);
                 </a>
                 <div id="collapseTwoo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="">Publish</a>
-                        <a class="collapse-item" href="">Response</a>
+                        <a class="collapse-item" href="assign_publish.php">Publish</a>
+                        <a class="collapse-item" href="assign_res.php">Response</a>
                     </div>
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="rfc.php">
                     <i class="fa-regular fa-pen-to-square"></i>
                     <span>RFC</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="timetable.php">
                     <i class="fa-solid fa-table-list"></i>
                     <span>Timetable</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="course.php">
                     <i class="fa-solid fa-book-open-reader"></i>
                     <span>Course</span></a>
             </li>
@@ -206,11 +189,11 @@ $n_row=mysqli_fetch_array($n_res);
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
-                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $n_row['name'] ?></span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Anirban Dash</span>
                                 <img class="img-profile rounded-circle"
-                                    src="../img/<?php echo $n_row['photo'] ?>">
+                                    src="../img/undraw_profile.svg">
                             </a>
                            
                         </li>
@@ -224,16 +207,28 @@ $n_row=mysqli_fetch_array($n_res);
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Notice Board</h1>
+                    <h1 class="h3 mb-4 text-gray-800">Online Class Information</h1>
                     <div class="card shadow mb-4">
-                        <form action="notice_submit.php" method="post">
+                        <form action="class_submit.php" method="post" onsubmit="return checkform(this);">
                         <div class="card-body">
                             
-                                <label for="chaeck" class="form-inline">Title</label>
+                                <label for="chaeck" class="form-inline">Class Title</label>
                                 <input type="text" class="form-control" name="title" id="check" required><br>
+                                <label for="cmt" class="form-inline">Class Comment</label>
+                                <input type="text" class="form-control" name="cmt" id="cmt" required><br>
+                              
+                                <label for="cls" class="form-inline ">Class</label>
+                                <select id="cls" class="form-control" name="class" onchange="react(this);"> 
+                                    <option value="0">--Please Select--</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                </select>
                                 <br>
-                                <label for="para" class="form-inline">Content</label>
-                                <textarea name="content" id="para" class="comment" required></textarea>
+                                <label for="link" class="form-inline">Class Link (Google Meet)</label>
+                                <input type="text" class="form-control" name="link" id="link" required><br>
+                                <br>
                                 
                         </div>
                         <div class="card-footer">
@@ -241,6 +236,7 @@ $n_row=mysqli_fetch_array($n_res);
                         </div>
                     </form>
                     </div>
+                   
 
                 </div>
                 <!-- /.container-fluid -->
@@ -269,8 +265,21 @@ $n_row=mysqli_fetch_array($n_res);
         <i class="fas fa-angle-up"></i>
     </a>
 
+ 
 
 
+    <!-- Bootstrap core JavaScript-->
+    <script>
+        function checkform(val){
+            if(val.class.value==0){
+                document.getElementById("cls").classList.add("border-danger");
+                return false;
+            }
+
+            return true;
+        }
+        
+    </script>
     <script src="../vendor/jquery/jquery.min.js"></script>
     <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 

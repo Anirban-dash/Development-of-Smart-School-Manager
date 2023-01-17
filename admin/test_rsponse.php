@@ -1,3 +1,16 @@
+<?php
+require("./../conn.php");
+session_start();
+if(!isset($_SESSION['id']) and $_SESSION['status']!="teacher"){
+    header("location:./../index.php");
+}
+$n_id=$_SESSION['id'];
+$n_res=mysqli_query($con,"SELECT * from teacher where id='$n_id'") or die(mysqli_error($con));
+$n_row=mysqli_fetch_array($n_res);
+
+$ex=mysqli_query($con,"SELECT * from exam where status='finished' or status='published'") or die(mysqli_error($con));
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,7 +35,7 @@
     <!-- Custom styles for this template-->
     <link href="../css/sb-admin-2.min.css" rel="stylesheet">
 
-</head>
+</head> 
 
 <body id="page-top">
 
@@ -72,6 +85,11 @@
                 <a class="nav-link" href="attendance.php">
                     <i class="fa-solid fa-clipboard-user"></i>
                     <span>Take Attendance</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="online_class.php">
+                    <i class="fa-solid fa-signal"></i>
+                    <span>Online Classes</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="profilr.php">
@@ -183,11 +201,11 @@
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Anirban Dash</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $n_row['name'] ?></span>
                                 <img class="img-profile rounded-circle"
-                                    src="../img/undraw_profile.svg">
+                                    src="../img/<?php echo $n_row['photo'] ?>">
                             </a>
                            
                         </li>
@@ -202,11 +220,40 @@
 
                     <!-- Page Heading -->
                     <h1 class="h3 mb-4 text-gray-800">Test Response</h1>
-                    <div class="card">
-                        <div class="card-body shadow">
-                            <h2 class="text-danger"><i>WEBPAGE UNDER MAINTANANCE <i class="fa-regular fa-face-frown"></i></h2>
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Test List</h6>
                         </div>
-                    </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>SL. No</th>
+                                            <th>Test Name</th>
+                                            <th>Status</th>
+                                            <th>Class</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        
+                                        $i=1;
+                                        while($row=mysqli_fetch_array($ex)){
+                                            echo '<tr>';
+                                            echo '<td>'.$i.'</td><td>'.$row['name'].'</td><td>'.ucfirst($row['status']).'</td><td>'.$row['class'].'</td>.
+                                            </td><td><a href="vierres.php?id='.$row['id'].'" class="btn btn-success">View Response</a></td>';
+                                            
+                                            $i++;
+                                            echo '</tr>';
+                                        }
+                                    ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
 
                 </div>
                 <!-- /.container-fluid -->

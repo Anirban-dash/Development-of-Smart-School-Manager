@@ -88,6 +88,11 @@ $res=mysqli_query($con,"SELECT * from assignstudent where ass_id='$a_id'") or di
                     <span>Take Attendance</span></a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="online_class.php">
+                    <i class="fa-solid fa-signal"></i>
+                    <span>Online Classes</span></a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="profilr.php">
                     <i class="fa-solid fa-user-tie"></i>
                     <span>Profile</span></a>

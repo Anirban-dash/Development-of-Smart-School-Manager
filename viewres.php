@@ -5,20 +5,23 @@ if(!isset($_SESSION['id'])){
     header("location:index.php");
    
 }
-
 $id=$_SESSION['id'];
+$e_id=$_GET['id'];
+$zzz=mysqli_query($con,"SELECT * from student_submit where e_id='$e_id' and st_id='$id'") or die(mysqli_error($con));
+while($ttt=mysqli_fetch_array($zzz)){
+    $user_ans[$ttt['q_id']]=$ttt['select'];
+}
 $info="select * from student where id='$id'";
 $info_res=mysqli_query($con,$info) or die(mysqli_error($con));
 $row=mysqli_fetch_array($info_res);
-$t_id=$_GET['id'];
-$e_res=mysqli_query($con,"SELECT * from exam where id='$t_id'") or die(mysqli_error($con));
+
+// $user_ans=$_POST['question'];
+$te_res=mysqli_query($con,"SELECT * from question where e_id='$e_id' order by q_no");
+$e_res=mysqli_query($con,"SELECT * from exam where id='$e_id'") or die(mysqli_error($con));
 $t_row=mysqli_fetch_array($e_res);
 $s_id=$t_row['sub_id'];
-$te_id=$t_row['teacher_id'];
 $s_res=mysqli_query($con,"SELECT * from subject where id='$s_id'") or die(mysqli_error($con));
 $sub=mysqli_fetch_array($s_res);
-$te_res=mysqli_query($con,"SELECT * from teacher where id='$te_id'") or die(mysqli_error($con));
-$teacher=mysqli_fetch_array($te_res);
 ?>
 
 <!DOCTYPE html>
@@ -184,64 +187,76 @@ $teacher=mysqli_fetch_array($te_res);
                         <div class="card-header py-3">
                             <h2 class="m-0 font-weight-bold text-info text-center"><?php echo $t_row['name']; ?></h2>
                         </div>
+                       
+
+                    </div>
+                    <?php
+                    $count=0;
+                    while($ans=mysqli_fetch_array($te_res)){
+                        if($ans['corr']=='opo'){
+                            $str='<li class="list-group-item text-black-50 border-success"> '.$ans['opo'].'<i class="fa-solid fa-check text-success" style="float: right;"></i></li>'.
+                            '<li class="list-group-item text-black-50"> '.$ans['ops'].'</li>'.
+                            '<li class="list-group-item text-black-50"> '.$ans['opt'].'</li>'.
+                            '<li class="list-group-item text-black-50"> '.$ans['opf'].'</li>';
+                        }else if($ans['corr']=='ops'){
+                            $str='<li class="list-group-item text-black-50"> '.$ans['opo'].'</li>'.
+                            '<li class="list-group-item text-black-50 border-success"> '.$ans['ops'].'<i class="fa-solid fa-check text-success" style="float: right;"></i></li>'.
+                            '<li class="list-group-item text-black-50"> '.$ans['opt'].'</li>'.
+                            '<li class="list-group-item text-black-50"> '.$ans['opf'].'</li>';
+                        }else if($ans['corr']=='opt'){
+                            $str='<li class="list-group-item text-black-50"> '.$ans['opo'].'</li>'.
+                            '<li class="list-group-item text-black-50"> '.$ans['ops'].'</li>'.
+                            '<li class="list-group-item text-black-50 border-success"> '.$ans['opt'].'<i class="fa-solid fa-check text-success" style="float: right;"></i></li>'.
+                            '<li class="list-group-item text-black-50"> '.$ans['opf'].'</li>';
+                        }else{
+                            $str='<li class="list-group-item text-black-50"> '.$ans['opo'].'</li>'.
+                            '<li class="list-group-item text-black-50"> '.$ans['ops'].'</li>'.
+                            '<li class="list-group-item text-black-50"> '.$ans['opt'].'</li>'.
+                            '<li class="list-group-item text-black-50 border-success"> '.$ans['opf'].'<i class="fa-solid fa-check text-success" style="float: right;"></i></li>';
+                        }
+                    if($ans['corr']==$user_ans[$ans['q_id']]){
+                        $count++; 
+                        $text="Correct";
+                        $cls="success";
+                        $mark=$t_row['mark'];
+                    }else{
+                        $text="Wrong";
+                        $cls="danger";
+                        $mark=0;
+                    }
+                    ?>
+                    <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title"><?php echo $ans['question'] ?></h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="basic-list-group">
+                                        <ul class="list-group">
+                                            <?php echo $str ?>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="card-footer shadow-sm d-flex justify-content-between">
+                                <?php echo '<p class="text-'.$cls.'">'.$text.'</p>' ?>
+                                <?php echo '<p class="text-'.$cls.'">Mark:'.$mark.'</p>' ?>
+                                </div>
+                        </div>
+                        <?php } ?>
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-danger text-center">Report</h6>
+                        </div>
                         <div class="card-body d-flex justify-content-between">
                                 <div>
                                     <p class="text-dark font-weight-bold">Name: <?php echo $row['name']; ?></p>
                                     <p class="text-dark font-weight-bold">Subject: <?php echo $sub['name']; ?></p>
                                 </div>
                                 <div>
-                                    <p class="text-dark font-weight-bold">Teacher:  <?php echo $teacher['name']; ?></p>
-                                    <p class="text-dark font-weight-bold">Full Marks: <?php echo intval($t_row['mark'])*intval($t_row['mcq']); ?></p>
-                                </div>
+                                    <p class="text-dark font-weight-bold">Mark Obtain: <?php echo intval($t_row['mark'])*$count;?></p>
+                                    <p class="text-dark font-weight-bold">Full Mark: <?php echo intval($t_row['mark'])*intval($t_row['mcq']);?></p>
+                                <div>
                         </div>
-
-                    </div>
-                    <form action="examsubmit.php" method="post">
-                        <input type="text" value="<?php echo $t_row['id']; ?>" name="e_id" hidden/>
-                    <?php 
-                    $ex_id=$t_row['id'];
-                    $ex_res=mysqli_query($con,"SELECT * from question where e_id='$ex_id' order by q_no") or die(mysqli_error($con));
-                    while($ques=mysqli_fetch_array($ex_res)){
-                    ?>
-
-                    <div class="card border-left-warning">
-                        <div class="card-header d-flex justify-content-between">
-                            <h4 class="card-title text-dark"><?php echo $ques['q_no']; ?>.<?php echo $ques['question']; ?></h4>
-                            <p class="text-danger"><?php echo $t_row['mark']; ?> Marks</p>
-                        </div>
-                        <div class="card-body">
-                            <div class="basic-list-group">
-                                <ul class="list-group">
-                                    <li class="list-group-item">
-                                        <input type="radio" name="question[<?php echo $ques['q_id']; ?>]"
-                                            value="opo" onclick="change(this);"/> <?php echo $ques['opo']; ?>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <input type="radio" name="question[<?php echo $ques['q_id']; ?>]"
-                                            value="ops" onclick="change(this);"/> <?php echo $ques['ops']; ?>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <input type="radio" name="question[<?php echo $ques['q_id']; ?>]"
-                                            value="opt" onclick="change(this);"/> <?php echo $ques['opt']; ?>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <input type="radio" name="question[<?php echo $ques['q_id']; ?>]"
-                                            value="opf" onclick="change(this);"/> <?php echo $ques['opf']; ?>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <br>
-                <?php } ?>
-                    <div class="">
-                    <input type="submit"  class="btn btn-success btn-block">
-                    
                 </div>
-                </form>
-
-
-                </div>
+                
                 <!-- /.container-fluid -->
 
             </div>

@@ -7,8 +7,14 @@ if(!isset($_SESSION['id']) and $_SESSION['status']!="teacher"){
 $n_id=$_SESSION['id'];
 $n_res=mysqli_query($con,"SELECT * from teacher where id='$n_id'") or die(mysqli_error($con));
 $n_row=mysqli_fetch_array($n_res);
-
+$id=mysqli_escape_string($con,$_GET['id']);
+$ex=mysqli_query($con,"SELECT * from exam where id='$id'") or die(mysqli_error($con));
+$row=mysqli_fetch_array($ex);
+$mcq=$row['mcq'];
 ?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,9 +25,9 @@ $n_row=mysqli_fetch_array($n_res);
     <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="author" content=""> 
 
-    <title>SB Admin 2 - Blank</title>
+    <title>SSM - Solution for many</title>
 
     <!-- Custom fonts for this template-->
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -32,14 +38,7 @@ $n_row=mysqli_fetch_array($n_res);
 
     <!-- Custom styles for this template-->
     <link href="../css/sb-admin-2.min.css" rel="stylesheet">
-   
-    <style>
-        .comment {
-        resize: none;
-        height: 200px;
-        width: 500px;
-      }
-    </style>
+
 </head>
 
 <body id="page-top">
@@ -67,12 +66,12 @@ $n_row=mysqli_fetch_array($n_res);
                     <span>Classes</span></a>
             </li>
 
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="notice.php">
                     <i class="fa-solid fa-envelope"></i>
                     <span>Notice</span></a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fa-solid fa-microscope"></i>
@@ -80,14 +79,14 @@ $n_row=mysqli_fetch_array($n_res);
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="">Publish</a>
-                        <a class="collapse-item" href="">Response</a>
-                        <a class="collapse-item" href="">Report</a>
+                        <a class="collapse-item" href="test_publish.php">Publish</a>
+                        <a class="collapse-item" href="test_rsponse.php">Response</a>
+                        <a class="collapse-item" href="test_report.php">Report</a>
                     </div>
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="attendance.php">
                     <i class="fa-solid fa-clipboard-user"></i>
                     <span>Take Attendance</span></a>
             </li>
@@ -97,7 +96,7 @@ $n_row=mysqli_fetch_array($n_res);
                     <span>Online Classes</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="profilr.php">
                     <i class="fa-solid fa-user-tie"></i>
                     <span>Profile</span></a>
             </li>
@@ -109,23 +108,23 @@ $n_row=mysqli_fetch_array($n_res);
                 </a>
                 <div id="collapseTwoo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="">Publish</a>
-                        <a class="collapse-item" href="">Response</a>
+                        <a class="collapse-item" href="assign_publish.php">Publish</a>
+                        <a class="collapse-item" href="assign_res.php">Response</a>
                     </div>
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="rfc.php">
                     <i class="fa-regular fa-pen-to-square"></i>
                     <span>RFC</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="timetable.php">
                     <i class="fa-solid fa-table-list"></i>
                     <span>Timetable</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="course.php">
                     <i class="fa-solid fa-book-open-reader"></i>
                     <span>Course</span></a>
             </li>
@@ -224,25 +223,60 @@ $n_row=mysqli_fetch_array($n_res);
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Notice Board</h1>
+                    <h1 class="h3 mb-4 text-gray-800">Set Quesion</h1>
+
                     <div class="card shadow mb-4">
-                        <form action="notice_submit.php" method="post">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Add MCQ's</h6>
+                        </div>
                         <div class="card-body">
                             
-                                <label for="chaeck" class="form-inline">Title</label>
-                                <input type="text" class="form-control" name="title" id="check" required><br>
-                                <br>
-                                <label for="para" class="form-inline">Content</label>
-                                <textarea name="content" id="para" class="comment" required></textarea>
-                                
-                        </div>
-                        <div class="card-footer">
+        <form action="add_ques_submit.php" method="post" class="mt-2" enctype="multipart/form-data">
+      <input type="number" name="mcq" value="<?php echo $mcq ?>" hidden/>
+      <input type="number" name="e_id" value="<?php echo $id ?>" hidden/>
+      <?php
+      $i=1;
+      while($i<=$mcq){
+
+      ?>
+      <div class="form-row jumbotron">
+  <div class="form-group col-sm-12">
+    <label for="formGroupExampleInput"><?php echo 'Mcq Question '.$i; ?></label>
+    <input type="text" name="<?php echo 'mquestion'.$i; ?>" class="form-control" id="formGroupExampleInput" placeholder="Example input" required>
+  </div>
+  <div class="form-group col-md-6">
+    <label for="formGroupExampleInput2">Option 1</label>
+    <input type="text" name="<?php echo 'mquestion'.$i.'opo'; ?>" class="form-control" id="formGroupExampleInput2" placeholder="Enter option 1" required>
+  </div>
+  <div class="form-group col-md-6">
+    <label for="formGroupExampleInput3">Option 2</label>
+    <input type="text" name="<?php echo 'mquestion'.$i.'ops'; ?>" class="form-control" id="formGroupExampleInput3" placeholder="Enter option 2" required>
+  </div>
+  <div class="form-group col-md-6">
+    <label for="formGroupExampleInput4">Option 3</label>
+    <input type="text" name="<?php echo 'mquestion'.$i.'opt'; ?>" class="form-control" id="formGroupExampleInput4" placeholder="Enter option 3" required>
+  </div>
+  <div class="form-group col-md-6">
+    <label for="formGroupExampleInput5">Option 4</label>
+    <input type="text" name="<?php echo 'mquestion'.$i.'opf'; ?>" class="form-control" id="formGroupExampleInput5" placeholder="Enter option 4" required>
+  </div>
+  <div class="form-group col-md-6">
+    <label for="formGroupExampleInput5">Correct Option</label>
+    <select id="formGroupExampleInput5" class="form-control" name="<?php echo 'mquestion'.$i.'corr'; ?>"> 
+    <option value="opo">1</option>
+    <option value="ops">2</option>
+    <option value="opt">3</option>
+    <option value="opf">4</option>
+    </select>
+  </div>
+  </div>
+  <?php $i++;}?>
+    </div>
+
+<div class="card-footer">
                             <input type="submit" value="Submit" class="btn btn-block btn-success">
                         </div>
-                    </form>
-                    </div>
-
-                </div>
+ </div>
                 <!-- /.container-fluid -->
 
             </div>
@@ -269,8 +303,10 @@ $n_row=mysqli_fetch_array($n_res);
         <i class="fas fa-angle-up"></i>
     </a>
 
+ 
 
 
+    <!-- Bootstrap core JavaScript-->
     <script src="../vendor/jquery/jquery.min.js"></script>
     <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 

@@ -7,6 +7,8 @@ if(!isset($_SESSION['id']) and $_SESSION['status']!="teacher"){
 $n_id=$_SESSION['id'];
 $n_res=mysqli_query($con,"SELECT * from teacher where id='$n_id'") or die(mysqli_error($con));
 $n_row=mysqli_fetch_array($n_res);
+$e_id=$_GET['id'];
+$ex=mysqli_query($con,"SELECT * from student_test where e_id='$e_id'") or die(mysqli_error($con));
 
 ?>
 <!DOCTYPE html>
@@ -21,7 +23,7 @@ $n_row=mysqli_fetch_array($n_res);
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Blank</title>
+    <title>SSM - Solution for many</title>
 
     <!-- Custom fonts for this template-->
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -32,15 +34,8 @@ $n_row=mysqli_fetch_array($n_res);
 
     <!-- Custom styles for this template-->
     <link href="../css/sb-admin-2.min.css" rel="stylesheet">
-   
-    <style>
-        .comment {
-        resize: none;
-        height: 200px;
-        width: 500px;
-      }
-    </style>
-</head>
+
+</head> 
 
 <body id="page-top">
 
@@ -67,12 +62,12 @@ $n_row=mysqli_fetch_array($n_res);
                     <span>Classes</span></a>
             </li>
 
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="notice.php">
                     <i class="fa-solid fa-envelope"></i>
                     <span>Notice</span></a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fa-solid fa-microscope"></i>
@@ -80,14 +75,14 @@ $n_row=mysqli_fetch_array($n_res);
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="">Publish</a>
-                        <a class="collapse-item" href="">Response</a>
-                        <a class="collapse-item" href="">Report</a>
+                        <a class="collapse-item" href="test_publish.php">Publish</a>
+                        <a class="collapse-item" href="test_rsponse.php">Response</a>
+                        <a class="collapse-item" href="test_report.php">Report</a>
                     </div>
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="attendance.php">
                     <i class="fa-solid fa-clipboard-user"></i>
                     <span>Take Attendance</span></a>
             </li>
@@ -97,7 +92,7 @@ $n_row=mysqli_fetch_array($n_res);
                     <span>Online Classes</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="profilr.php">
                     <i class="fa-solid fa-user-tie"></i>
                     <span>Profile</span></a>
             </li>
@@ -109,23 +104,23 @@ $n_row=mysqli_fetch_array($n_res);
                 </a>
                 <div id="collapseTwoo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="">Publish</a>
-                        <a class="collapse-item" href="">Response</a>
+                        <a class="collapse-item" href="assign_publish.php">Publish</a>
+                        <a class="collapse-item" href="assign_res.php">Response</a>
                     </div>
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="rfc.php">
                     <i class="fa-regular fa-pen-to-square"></i>
                     <span>RFC</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="timetable.php">
                     <i class="fa-solid fa-table-list"></i>
                     <span>Timetable</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="course.php">
                     <i class="fa-solid fa-book-open-reader"></i>
                     <span>Course</span></a>
             </li>
@@ -224,28 +219,45 @@ $n_row=mysqli_fetch_array($n_res);
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Notice Board</h1>
+                    <h1 class="h3 mb-4 text-gray-800">Test Response</h1>
                     <div class="card shadow mb-4">
-                        <form action="notice_submit.php" method="post">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Test List</h6>
+                        </div>
                         <div class="card-body">
-                            
-                                <label for="chaeck" class="form-inline">Title</label>
-                                <input type="text" class="form-control" name="title" id="check" required><br>
-                                <br>
-                                <label for="para" class="form-inline">Content</label>
-                                <textarea name="content" id="para" class="comment" required></textarea>
-                                
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>SL. No</th>
+                                            <th>Student Name</th> 
+                                            <th>View</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $i=1;
+                                        while($row=mysqli_fetch_array($ex)){
+                                            echo '<tr><td>'.$i.'</td>';
+                                            $s_id=$row['st_id'];
+                                            $s_res=mysqli_query($con,"SELECT * from student where id='$s_id'") or die(mysqli_error($con));
+                                            $student=mysqli_fetch_array($s_res);
+                                            echo '<td>'.$student['name'].'</td>';
+                                            echo '<td><a href="resstudent.php?e_id='.$row['e_id'].'&st_id='.$row['st_id'].'"><i class="fa-solid fa-eye"></i></a>';
+                                            $i++;
+                                        }
+                                    ?>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                        <div class="card-footer">
-                            <input type="submit" value="Submit" class="btn btn-block btn-success">
-                        </div>
-                    </form>
-                    </div>
+
 
                 </div>
                 <!-- /.container-fluid -->
 
             </div>
+                                    </div>
             <!-- End of Main Content -->
 
             <!-- Footer -->
@@ -269,8 +281,10 @@ $n_row=mysqli_fetch_array($n_res);
         <i class="fas fa-angle-up"></i>
     </a>
 
+ 
 
 
+    <!-- Bootstrap core JavaScript-->
     <script src="../vendor/jquery/jquery.min.js"></script>
     <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 

@@ -73,6 +73,11 @@
                     <i class="fa-solid fa-clipboard-user"></i>
                     <span>Take Attendance</span></a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="online_class.php">
+                    <i class="fa-solid fa-signal"></i>
+                    <span>Online Classes</span></a>
+            </li>
             <li class="nav-item active">
                 <a class="nav-link" href="profilr.php">
                     <i class="fa-solid fa-user-tie"></i>

@@ -1,3 +1,18 @@
+<?php
+require("./../conn.php");
+session_start();
+if(!isset($_SESSION['id']) and $_SESSION['status']!="teacher"){
+    header("location:./../index.php");
+}
+$n_id=$_SESSION['id'];
+$n_res=mysqli_query($con,"SELECT * from teacher where id='$n_id'") or die(mysqli_error($con));
+$n_row=mysqli_fetch_array($n_res);
+
+$ex=mysqli_query($con,"SELECT * from exam") or die(mysqli_error($con));
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,7 +23,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="author" content=""> 
 
     <title>SSM - Solution for many</title>
 
@@ -72,6 +87,11 @@
                 <a class="nav-link" href="attendance.php">
                     <i class="fa-solid fa-clipboard-user"></i>
                     <span>Take Attendance</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="online_class.php">
+                    <i class="fa-solid fa-signal"></i>
+                    <span>Online Classes</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="profilr.php">
@@ -183,11 +203,11 @@
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Anirban Dash</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $n_row['name'] ?></span>
                                 <img class="img-profile rounded-circle"
-                                    src="../img/undraw_profile.svg">
+                                    src="../img/<?php echo $n_row['photo'] ?>">
                             </a>
                            
                         </li>
@@ -201,10 +221,73 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Test Publish</h1>
-                    <div class="card">
-                        <div class="card-body shadow">
-                            <h2 class="text-danger"><i>WEBPAGE UNDER MAINTANANCE <i class="fa-regular fa-face-frown"></i></h2>
+                    <h1 class="h3 mb-4 text-gray-800">Test</h1>
+
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Test List</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>SL. No</th>
+                                            <th>Test Name</th>
+                                            <th>Status</th>
+                                            <th>Class</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        echo '<tr>';
+                                        $i=1;
+                                        while($row=mysqli_fetch_array($ex)){
+                                            echo '<td>'.$i.'</td><td>'.$row['name'].'</td><td>'.ucfirst($row['status']).'</td><td>'.$row['class'].'</td>';
+                                            if($n_id==$row['teacher_id']){
+                                                if($row['status']=='active'){
+                                                    echo '<td><a href="setques.php?id='.$row['id'].'" class="btn btn-warning">Set Questions</a></td>';
+                                                }else if($row['status']=='ready'){
+                                                    echo '<td><button onclick="publish(this,'.$row['id'].');" class="btn btn-success">Publish</button></td>';
+                                                }else if($row['status']=='published'){
+                                                    echo '<td><button onclick="finish(this,'.$row['id'].');" class="btn btn-danger">Finish</button></td>';
+                                                }else{
+                                                    echo '<td><a href="#" class="btn btn-info disable">Over</a></td>';
+                                                }
+                                            }else{
+                                                echo '<td><a href="#" class="btn btn-secondary disabled">Not Authorized</a></td>';
+                                            }
+                                            $i++;
+                                            echo '</tr>';
+                                        }
+                                    ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+
+
+
+
+                    <div class="col-xl-12 col-md-6 mb-4">
+                        <div class="card border-left-success shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                            Publish a test</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <a href="add_exam.php"  class="btn">
+                                            <i class="fa-solid fa-circle-plus fa-2x text-info"></i>
+                                        </a>
+                                        
+                                    
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -212,6 +295,7 @@
                 <!-- /.container-fluid -->
 
             </div>
+        </div>
             <!-- End of Main Content -->
 
             <!-- Footer -->
@@ -239,6 +323,36 @@
 
 
     <!-- Bootstrap core JavaScript-->
+    <script>
+        function publish(ele,id){
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange=function(){
+                if(xhr.readyState==4 && xhr.status==200){
+                    ele.classList.remove("btn-success");
+                    ele.classList.add("btn-danger");
+                    ele.innerHTML="Finish";
+                    ele.parentElement.parentElement.childNodes[2].innerHTML="Published"
+                }
+            }
+            xhr.open("POST","pubtest.php",true);
+            xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+            xhr.send("id="+id);
+        }
+        function finish(ele,id){
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange=function(){
+                if(xhr.readyState==4 && xhr.status==200){
+                    ele.classList.remove("btn-danger");
+                    ele.classList.add("btn-info");
+                    ele.innerHTML="Over";
+                    ele.parentElement.parentElement.childNodes[2].innerHTML="Finished"
+                }
+            }
+            xhr.open("POST","finish.php",true);
+            xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+            xhr.send("id="+id);
+        }
+    </script>
     <script src="../vendor/jquery/jquery.min.js"></script>
     <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
