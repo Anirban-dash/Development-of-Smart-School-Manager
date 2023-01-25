@@ -55,7 +55,7 @@
                     <i class="fa-solid fa-envelope"></i>
                     <span>Notice</span></a>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item ">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fa-solid fa-microscope"></i>
@@ -74,7 +74,7 @@
                     <i class="fa-solid fa-clipboard-user"></i>
                     <span>Take Attendance</span></a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="online_class.php">
                     <i class="fa-solid fa-signal"></i>
                     <span>Online Classes</span></a>
@@ -218,7 +218,7 @@
                                 <input type="text" class="form-control" name="cmt" id="cmt" required><br>
                               
                                 <label for="cls" class="form-inline ">Class</label>
-                                <select id="cls" class="form-control" name="class" onchange="react(this);"> 
+                                <select id="cls" class="form-control" name="class"> 
                                     <option value="0">--Please Select--</option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
@@ -273,6 +273,13 @@
         function checkform(val){
             if(val.class.value==0){
                 document.getElementById("cls").classList.add("border-danger");
+                return false;
+            }
+            if(val.link.value.slice(0,24)=="https://meet.google.com/" || val.link.value.slice(0,16)=="meet.google.com/"){
+                
+                return true;
+            }else{
+                val.link.classList.add("border-danger");
                 return false;
             }
 

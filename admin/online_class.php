@@ -37,6 +37,7 @@ $ex=mysqli_query($con,"SELECT * from onlineclass") or die(mysqli_error($con));
     <!-- Custom styles for this template-->
     <link href="../css/sb-admin-2.min.css" rel="stylesheet">
 
+
 </head>
 
 <body id="page-top">
@@ -245,12 +246,15 @@ $ex=mysqli_query($con,"SELECT * from onlineclass") or die(mysqli_error($con));
                                         echo '<tr>';
                                         $i=1;
                                         while($row=mysqli_fetch_array($ex)){
-                                            echo '<td>'.$i.'</td><td>'.$row['title'].'</td><td>'.ucfirst($row['status']).'</td><td>'.$row['class'].'</td><td><a href="'.$row['link'].'"><i class="fa-solid fa-video"></i></a></td>';
-                                            if($n_id==$row['teacher_id']){
-                                                if($row['status']=='ongoing'){
-                                                    echo '<td><button onclick="finish(this,'.$row['id'].');" class="btn btn-info">End Class</a></td>';
+                                            echo '<td>'.$i.'</td><td>'.$row['title'].'</td><td>'.ucfirst($row['status']).'</td><td>'.$row['class'].'</td><td><a target="_blank" href="'.$row['link'].'"><i class="fa-solid fa-video"></i></a></td>';
+                                            if($n_id==$row['t_id']){
+                                                if($row['status']=='active'){
+                                                    echo '<td><button onclick="finishtest(this,'.$row['id'].');" class="btn btn-info">End Class</button></td>';
                                                 }else{
-                                                    echo '<td><button onclick="delete(this,'.$row['id'].');" class="btn btn-danger">Delete</button></td>';
+                                                    echo '<td>
+                                                    <button onclick="deleteclass(this,'.$row['id'].');" class="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
+                                                    <button onclick="activeclass(this,'.$row['id'].');" class="btn btn-success">Active Again</button>
+                                                    </td>';
                                                 }
                                             }else{
                                                 echo '<td><a href="#" class="btn btn-secondary disabled">Not Authorized</a></td>';
@@ -321,35 +325,51 @@ $ex=mysqli_query($con,"SELECT * from onlineclass") or die(mysqli_error($con));
 
     <!-- Bootstrap core JavaScript-->
     <script>
-        function delete(ele,id){
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange=function(){
-                if(xhr.readyState==4 && xhr.status==200){
-                    ele.classList.remove("btn-success");
-                    ele.classList.add("btn-danger");
-                    ele.innerHTML="Finish";
-                    ele.parentElement.parentElement.childNodes[2].innerHTML="Published"
-                }
-            }
-            xhr.open("POST","pubtest.php",true);
-            xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-            xhr.send("id="+id);
+        function finishtest(ele,id){
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange=function(){
+        if(xhr.readyState==4 && xhr.status==200){
+            ele.classList.remove("btn-info");
+            ele.classList.add("btn-danger");
+            
+            ele.innerHTML='Delete <i class="fa-solid fa-trash"></i>';
+            ele.parentElement.parentElement.childNodes[2].innerHTML="Inactive"
         }
-        function finish(ele,id){
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange=function(){
-                if(xhr.readyState==4 && xhr.status==200){
-                    ele.classList.remove("btn-danger");
-                    ele.classList.add("btn-info");
-                    ele.innerHTML="Over";
-                    ele.parentElement.parentElement.childNodes[2].innerHTML="Finished"
-                }
-            }
-            xhr.open("POST","finish.php",true);
-            xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-            xhr.send("id="+id);
+    }
+    xhr.open("POST","finishclass.php",true);
+    xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+    xhr.send("id="+id);
+}
+function deleteclass(ele,id){
+    console.log("del");
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange=function(){
+        if(xhr.readyState==4 && xhr.status==200){
+            ele.parentElement.parentElement.remove();
         }
+    }
+    xhr.open("POST","delclass.php",true);
+    xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+    xhr.send("id="+id);
+}
+function activeclass(ele,id){
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange=function(){
+        if(xhr.readyState==4 && xhr.status==200){
+            ele.classList.remove("btn-danger");
+            ele.classList.add("btn-info");
+            
+            ele.innerHTML='End Class';
+            ele.parentElement.parentElement.childNodes[2].innerHTML="Active"
+        }
+    }
+    xhr.open("POST","reactive.php",true);
+    xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+    xhr.send("id="+id);
+}
+
     </script>
+    
     <script src="../vendor/jquery/jquery.min.js"></script>
     <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
