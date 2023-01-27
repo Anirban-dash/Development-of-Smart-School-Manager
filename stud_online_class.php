@@ -1,3 +1,20 @@
+<?php
+require("conn.php");
+session_start();
+if(!isset($_SESSION['id'])){
+    header("location:index.php");
+   
+}
+
+
+
+$id=$_SESSION['id'];
+$info="select * from student where id='$id'";
+$info_res=mysqli_query($con,$info) or die(mysqli_error($con));
+$row=mysqli_fetch_array($info_res);
+$cls=$row['class'];
+$clas=mysqli_query($con,"SELECT * from onlineclass where class='$cls' and status='active'") or die(mysqli_error($con));
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -71,6 +88,11 @@
                     <i class="fa-solid fa-signal"></i>
                     <span>Online Classes</span></a>
             </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="stud_at.php">
+                    <i class="fa-solid fa-clipboard-user"></i>
+                    <span>View Attendance</span></a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link" href="stud_rfc.php">
                     <i class="fa-regular fa-pen-to-square"></i>
@@ -139,11 +161,11 @@
                         </li>
                         <div class="topbar-divider d-none d-sm-block"></div>
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Anirban Dash</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $row['name']; ?></span>
                                 <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                    src="img/<?php echo $row['photo']; ?>">
                             </a>
                             
                         </li>
@@ -157,20 +179,27 @@
 
                     <!-- Page Heading -->
                     <h1 class="h3 mb-4 text-gray-800">Online Classes</h1>
-                    
+                    <?php 
+                        while($class=mysqli_fetch_array($clas)){
+                            $t_id=$class['t_id'];
+                            $tech=mysqli_query($con,"SELECT name from teacher where id='$t_id'") or die(mysqli_error($con));
+                            $teacher=mysqli_fetch_array($tech);
+                    ?>
                     <div class="card shadow mb-4 border-left-info">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">English Class</h6>
+                            <h6 class="m-0 font-weight-bold text-primary"><?php echo $class['title']; ?></h6>
                         </div>
                         <div class="card-body">
-                            Join this class via google meet
+                        <?php echo $class['comment']; ?>
                         </div>
-                        <div class="card-footer">
-                            <a href="https://meet.google.com/whn-pzbj-uej" target="_blank" class="btn btn-primary">
+                        <div class="card-footer d-flex justify-content-between">
+                            <a href="<?php echo $class['link']; ?>" target="_blank" class="btn btn-primary">
                               Join  <i class="fa-solid fa-square-plus"></i>
                             </a>
+                            <p class="font-weight-bold text-success">Teacher : <?php echo $teacher['name']; ?></p>
                         </div>
                     </div>
+                    <?php } ?>
                     
 
                    

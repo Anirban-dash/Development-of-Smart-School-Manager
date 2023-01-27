@@ -6,22 +6,10 @@ if(!isset($_SESSION['id'])){
    
 }
 $id=$_SESSION['id'];
-$e_id=$_GET['id'];
-$zzz=mysqli_query($con,"SELECT * from student_submit where e_id='$e_id' and st_id='$id'") or die(mysqli_error($con));
-while($ttt=mysqli_fetch_array($zzz)){
-    $user_ans[$ttt['q_id']]=$ttt['select'];
-}
 $info="select * from student where id='$id'";
 $info_res=mysqli_query($con,$info) or die(mysqli_error($con));
 $row=mysqli_fetch_array($info_res);
-
-// $user_ans=$_POST['question'];
-$te_res=mysqli_query($con,"SELECT * from question where e_id='$e_id' order by q_no");
-$e_res=mysqli_query($con,"SELECT * from exam where id='$e_id'") or die(mysqli_error($con));
-$t_row=mysqli_fetch_array($e_res);
-$s_id=$t_row['sub_id'];
-$s_res=mysqli_query($con,"SELECT * from subject where id='$s_id'") or die(mysqli_error($con));
-$sub=mysqli_fetch_array($s_res);
+$ex=mysqli_query($con,"SELECT * from studentat where st_id='$id'") or die(mysqli_error($con));
 ?>
 
 <!DOCTYPE html>
@@ -30,8 +18,8 @@ $sub=mysqli_fetch_array($s_res);
 <head>
 
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -71,7 +59,7 @@ $sub=mysqli_fetch_array($s_res);
      
             <hr class="sidebar-divider my-0">
             <li class="nav-item ">
-                <a class="nav-link " href="student_indx.php">
+                <a class="nav-link " href="stud_index.php">
                     <i class="fa-solid fa-bullhorn"></i>
                     <span>Notice</span></a>
             </li>
@@ -82,7 +70,7 @@ $sub=mysqli_fetch_array($s_res);
                     <i class="fa-solid fa-bars-progress"></i>
                     <span>Assignment</span></a>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="stud_test.php">
                     <i class="fa-solid fa-square-pen"></i>
                     <span>Test</span></a>
@@ -97,8 +85,8 @@ $sub=mysqli_fetch_array($s_res);
                     <i class="fa-solid fa-signal"></i>
                     <span>Online Classes</span></a>
             </li>
-            <li class="nav-item ">
-                <a class="nav-link" href="stud_at.php">
+            <li class="nav-item active ">
+                <a class="nav-link " href="stud_at.php">
                     <i class="fa-solid fa-clipboard-user"></i>
                     <span>View Attendance</span></a>
             </li>
@@ -118,7 +106,7 @@ $sub=mysqli_fetch_array($s_res);
                     <span>Change Password</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="logout.php">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <span>Logout</span></a>
             </li>
@@ -170,7 +158,7 @@ $sub=mysqli_fetch_array($s_res);
                         </li>
                         <div class="topbar-divider d-none d-sm-block"></div>
                         <li class="nav-item dropdown no-arrow">
-                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $row['name']; ?></span>
                                 <img class="img-profile rounded-circle"
@@ -187,81 +175,49 @@ $sub=mysqli_fetch_array($s_res);
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                   
+                    <h1 class="h3 mb-4 text-gray-800">Attendance</h1>
+
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h2 class="m-0 font-weight-bold text-info text-center"><?php echo $t_row['name']; ?></h2>
+                            <h6 class="m-0 font-weight-bold text-primary">View Attendance</h6>
                         </div>
-                       
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>SL. No</th>
+                                            <th>Date</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                       
+                                        $i=1;
+                                        while($row=mysqli_fetch_array($ex)){
+                                            if($row['present']==1){
+                                            echo '<tr class="text-success"><td>'.$i.'</td><td>'.$row['date'].'</td><td>Present</td>';
+                                            }else{
+                                                echo '<tr class="text-danger"><td>'.$i.'</td><td>'.$row['date'].'</td><td>Absent</td>';
+                                            }
+                                            $i++;
+                                            echo '</tr>';
+                                        }
+                                    ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="card-footer text-center">
+                            <button onclick="printat();" class="btn btn-lg btn-outline-success">Print <i class="fa-solid fa-print"></i></button>
+                        </div>
 
-                    </div>
-                    <?php
-                    $count=0;
-                    while($ans=mysqli_fetch_array($te_res)){
-                        if($ans['corr']=='opo'){
-                            $str='<li class="list-group-item text-black-50 border-success"> '.$ans['opo'].'<i class="fa-solid fa-check text-success" style="float: right;"></i></li>'.
-                            '<li class="list-group-item text-black-50"> '.$ans['ops'].'</li>'.
-                            '<li class="list-group-item text-black-50"> '.$ans['opt'].'</li>'.
-                            '<li class="list-group-item text-black-50"> '.$ans['opf'].'</li>';
-                        }else if($ans['corr']=='ops'){
-                            $str='<li class="list-group-item text-black-50"> '.$ans['opo'].'</li>'.
-                            '<li class="list-group-item text-black-50 border-success"> '.$ans['ops'].'<i class="fa-solid fa-check text-success" style="float: right;"></i></li>'.
-                            '<li class="list-group-item text-black-50"> '.$ans['opt'].'</li>'.
-                            '<li class="list-group-item text-black-50"> '.$ans['opf'].'</li>';
-                        }else if($ans['corr']=='opt'){
-                            $str='<li class="list-group-item text-black-50"> '.$ans['opo'].'</li>'.
-                            '<li class="list-group-item text-black-50"> '.$ans['ops'].'</li>'.
-                            '<li class="list-group-item text-black-50 border-success"> '.$ans['opt'].'<i class="fa-solid fa-check text-success" style="float: right;"></i></li>'.
-                            '<li class="list-group-item text-black-50"> '.$ans['opf'].'</li>';
-                        }else{
-                            $str='<li class="list-group-item text-black-50"> '.$ans['opo'].'</li>'.
-                            '<li class="list-group-item text-black-50"> '.$ans['ops'].'</li>'.
-                            '<li class="list-group-item text-black-50"> '.$ans['opt'].'</li>'.
-                            '<li class="list-group-item text-black-50 border-success"> '.$ans['opf'].'<i class="fa-solid fa-check text-success" style="float: right;"></i></li>';
-                        }
-                    if($ans['corr']==$user_ans[$ans['q_id']]){
-                        $count++; 
-                        $text="Correct";
-                        $cls="success";
-                        $mark=$t_row['mark'];
-                    }else{
-                        $text="Wrong";
-                        $cls="danger";
-                        $mark=0;
-                    }
-                    ?>
-                    <div class="card">
-                                <div class="card-header">
-                                    <h4 class="card-title"><?php echo $ans['question'] ?></h4>
-                                </div>
-                                <div class="card-body">
-                                    <div class="basic-list-group">
-                                        <ul class="list-group">
-                                            <?php echo $str ?>
-                                        </ul>
+
+                    
+                    
                                     </div>
-                                </div>
-                                <div class="card-footer shadow-sm d-flex justify-content-between">
-                                <?php echo '<p class="text-'.$cls.'">'.$text.'</p>' ?>
-                                <?php echo '<p class="text-'.$cls.'">Mark:'.$mark.'</p>' ?>
-                                </div>
-                        </div>
-                        <?php } ?>
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-danger text-center">Report</h6>
-                        </div>
-                        <div class="card-body d-flex justify-content-between">
-                                <div>
-                                    <p class="text-dark font-weight-bold">Name: <?php echo $row['name']; ?></p>
-                                    <p class="text-dark font-weight-bold">Subject: <?php echo $sub['name']; ?></p>
-                                </div>
-                                <div>
-                                    <p class="text-dark font-weight-bold">Mark Obtain: <?php echo intval($t_row['mark'])*$count;?></p>
-                                    <p class="text-dark font-weight-bold">Full Mark: <?php echo intval($t_row['mark'])*intval($t_row['mcq']);?></p>
-                                <div>
-                        </div>
                 </div>
-                
                 <!-- /.container-fluid -->
 
             </div>
@@ -279,17 +235,27 @@ $sub=mysqli_fetch_array($s_res);
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-    <script>
-        function change(obj){
-            var ele=obj.parentNode.parentNode.parentNode.parentNode.parentNode;
-            ele.classList.remove("border-left-warning");
-            ele.classList.add("border-left-success");
-        }
-        </script>
+
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="js/sb-admin-2.min.js"></script>
+    <script>
+        function printat(){
+            var divToPrint=document.getElementById("dataTable");
+   newWin= window.open("");
+   newWin.document.write('<link href="css/sb-admin-2.min.css" rel="stylesheet">');
+   newWin.document.write(divToPrint.outerHTML);
+   newWin.print();
+   newWin.close();
+        }
+
+        if (window.matchMedia("(max-width: 767px)").matches){
+        $( document ).ready(function() {
+   $( "#sidebarToggleTop" ).trigger( "click" );
+});
+        }
+    </script>
 
 </body>
 

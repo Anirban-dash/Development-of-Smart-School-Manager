@@ -89,6 +89,11 @@ $row=mysqli_fetch_array($info_res);
                     <i class="fa-solid fa-signal"></i>
                     <span>Online Classes</span></a>
             </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="stud_at.php">
+                    <i class="fa-solid fa-clipboard-user"></i>
+                    <span>View Attendance</span></a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link" href="stud_rfc.php">
                     <i class="fa-regular fa-pen-to-square"></i>
@@ -225,9 +230,11 @@ $row=mysqli_fetch_array($info_res);
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="js/sb-admin-2.min.js"></script>
     <script>
+        if (window.matchMedia("(max-width: 767px)").matches){
         $( document ).ready(function() {
    $( "#sidebarToggleTop" ).trigger( "click" );
 });
+        }
     </script>
 
 </body>

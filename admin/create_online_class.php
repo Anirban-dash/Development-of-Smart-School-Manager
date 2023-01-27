@@ -229,6 +229,7 @@
                                 <label for="link" class="form-inline">Class Link (Google Meet)</label>
                                 <input type="text" class="form-control" name="link" id="link" required><br>
                                 <br>
+                                <a href="https://meet.new" target="_blank" class="text-info">Get a Link <i class="fa-solid fa-link"></i></a>
                                 
                         </div>
                         <div class="card-footer">

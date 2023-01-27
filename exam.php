@@ -94,6 +94,11 @@ $teacher=mysqli_fetch_array($te_res);
                     <i class="fa-solid fa-signal"></i>
                     <span>Online Classes</span></a>
             </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="stud_at.php">
+                    <i class="fa-solid fa-clipboard-user"></i>
+                    <span>View Attendance</span></a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link" href="stud_rfc.php">
                     <i class="fa-regular fa-pen-to-square"></i>
