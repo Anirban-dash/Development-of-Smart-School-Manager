@@ -1,8 +1,8 @@
 <?php
 require("./../conn.php");
 session_start();
-if(!isset($_SESSION['id']) and $_SESSION['status']!="teacher"){
-    header("location:./../index.php");
+if(!isset($_SESSION['id']) or $_SESSION['status']!="teacher"){
+    header("location:/ssm");
 }
 $n_id=$_SESSION['id'];
 $n_res=mysqli_query($con,"SELECT * from teacher where id='$n_id'") or die(mysqli_error($con));
@@ -125,6 +125,11 @@ $res=mysqli_query($con,"Select * from notice") or die(mysqli_error($con));
                     <span>Course</span></a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="changepass.php">
+                <i class="fa-solid fa-unlock-keyhole"></i>
+                    <span>Change Password</span></a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="./../logout.php">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <span>Logout</span></a>
@@ -224,6 +229,9 @@ $res=mysqli_query($con,"Select * from notice") or die(mysqli_error($con));
                         $t_id=$notice['sender'];
                         $n_sql="Select name from teacher where id='$t_id'";
                         $t_res=mysqli_query($con,$n_sql) or die(mysqli_error($con));
+                        if(mysqli_num_rows($t_res)==0){
+                            $t_res=mysqli_query($con,"SELECT name from hoi where id='$t_id'") or die(mysqli_error($con));
+                        }
                         $t_name=mysqli_fetch_array($t_res);
                         if($notice['sender']!=$n_id){
                         ?>
@@ -263,7 +271,7 @@ $res=mysqli_query($con,"Select * from notice") or die(mysqli_error($con));
                         <div class="card-footer">
                             <div class="d-flex justify-content-between">
                                 <a href="delnotice.php?id=<?php echo $notice['id']; ?>"  class="btn"><i class="fa-solid fa-2x fa-trash text-danger"></i></a>
-                                <a href="editnotic.php?id=<?php echo $notice['id']; ?>" target="_blank" class="btn"> <i class="fa-solid fa-2x fa-pen-to-square text-success"></i></a>
+                                <button onclick="getNotice(this,<?php echo $notice['id']; ?>)" class="btn"> <i class="fa-solid fa-2x fa-pen-to-square text-success"></i></button>
                            
                             </div>
                             
@@ -339,6 +347,34 @@ $res=mysqli_query($con,"Select * from notice") or die(mysqli_error($con));
     </div>
 
     <!-- Bootstrap core JavaScript-->
+    <script>
+        function getNotice(e,id){
+            let parentEle=e.parentElement.parentElement.parentElement.children;
+            let title=parentEle[0].children[0].innerHTML;
+            let body=parentEle[1].innerText.split("\n")[0];
+            let hinp='<input type="text" id="hinp" class="form-control" value="'+title+'"/>';
+            parentEle[0].innerHTML=hinp;
+            let binp='<input type="text" id="binp" class="form-control" value="'+body+'"/>';
+            parentEle[1].innerHTML=binp;
+            e.innerHTML='<i class="fa-regular fa-floppy-disk fa-2x text-success" title="Save"></i>';
+            e.setAttribute('onclick','saveNotice(this,'+id+')')
+            document.getElementById("hinp").select();
+            console.log(body,title);
+        }
+        function saveNotice(e,id){
+            let title=document.getElementById("hinp").value;
+            let body=document.getElementById("binp").value;
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange=function(){
+                if(xhr.readyState==4 && xhr.status==200){
+                    location.reload();
+                }
+            }
+            xhr.open("POST","editnotic.php",true);
+            xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+            xhr.send("id="+id+"&title="+title+"&body="+body);
+        }
+    </script>
     <script src="../vendor/jquery/jquery.min.js"></script>
     <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 

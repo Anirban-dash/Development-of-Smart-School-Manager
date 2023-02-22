@@ -1,16 +1,14 @@
 <?php
 require("./../conn.php");
 session_start();
-if(!isset($_SESSION['id']) and $_SESSION['status']!="teacher"){
+if(!isset($_SESSION['id']) and $_SESSION['status']!="hoi"){
     header("location:./../index.php");
 }
 $n_id=$_SESSION['id'];
-$n_res=mysqli_query($con,"SELECT * from teacher where id='$n_id'") or die(mysqli_error($con));
+$n_res=mysqli_query($con,"SELECT * from hoi where id='$n_id'") or die(mysqli_error($con));
 $n_row=mysqli_fetch_array($n_res);
-
-$ex=mysqli_query($con,"SELECT * from exam where status='finished' or status='published'") or die(mysqli_error($con));
-
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -34,8 +32,40 @@ $ex=mysqli_query($con,"SELECT * from exam where status='finished' or status='pub
 
     <!-- Custom styles for this template-->
     <link href="../css/sb-admin-2.min.css" rel="stylesheet">
+    <style>
+        .image-preview-container {
+    width: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 3rem;
+    border-radius: 20px;
+}
 
-</head> 
+.image-preview-container img {
+    display: none;
+    text-align: center;
+}
+.image-preview-container input {
+    display: none;
+}
+
+.image-preview-container label {
+    display: block;
+    width: 45%;
+    height: 45px;
+    text-align: center;
+    background: #8338ec;
+    color: #fff;
+    font-size: 15px;
+    text-transform: Uppercase;
+    font-weight: 400;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+    </style>
+</head>
 
 <body id="page-top">
 
@@ -43,7 +73,7 @@ $ex=mysqli_query($con,"SELECT * from exam where status='finished' or status='pub
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-success sidebar sidebar-dark accordion" id="accordionSidebar">
+        <ul class="navbar-nav bg-gradient-danger sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
@@ -56,10 +86,10 @@ $ex=mysqli_query($con,"SELECT * from exam where status='finished' or status='pub
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item ">
+            <li class="nav-item">
                 <a class="nav-link" href="index.php">
                     <i class="fa-solid fa-landmark"></i>
-                    <span>Classes</span></a>
+                    <span>Dashboard</span></a>
             </li>
 
             <li class="nav-item">
@@ -68,47 +98,38 @@ $ex=mysqli_query($con,"SELECT * from exam where status='finished' or status='pub
                     <span>Notice</span></a>
             </li>
             <li class="nav-item active">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTw"
+                    aria-expanded="true" aria-controls="collapseTw">
+                    <i class="fa-solid fa-microscope"></i>
+                    <span>Student</span>
+                </a>
+                <div id="collapseTw" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="student_view.php">View/Edit</a>
+                        <a class="collapse-item" href="student_add.php">Add Student</a>
+                    </div>
+                </div>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fa-solid fa-microscope"></i>
-                    <span>Test</span>
+                    <span>Teacher</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="test_publish.php">Publish</a>
-                        <a class="collapse-item" href="test_rsponse.php">Response</a>
-                        <a class="collapse-item" href="test_report.php">Report</a>
+                        <a class="collapse-item" href="test_publish.php">View/Edit</a>
+                        <a class="collapse-item" href="test_rsponse.php">Add Teacher</a>
                     </div>
                 </div>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="attendance.php">
                     <i class="fa-solid fa-clipboard-user"></i>
-                    <span>Take Attendance</span></a>
+                    <span>Exam Analytics</span></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="online_class.php">
-                    <i class="fa-solid fa-signal"></i>
-                    <span>Online Classes</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="profilr.php">
-                    <i class="fa-solid fa-user-tie"></i>
-                    <span>Profile</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwoo"
-                    aria-expanded="true" aria-controls="collapseTwoo">
-                    <i class="fa-solid fa-clipboard-question"></i>
-                    <span>Assignment</span>
-                </a>
-                <div id="collapseTwoo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="assign_publish.php">Publish</a>
-                        <a class="collapse-item" href="assign_res.php">Response</a>
-                    </div>
-                </div>
-            </li>
+           
+            
             <li class="nav-item">
                 <a class="nav-link" href="rfc.php">
                     <i class="fa-regular fa-pen-to-square"></i>
@@ -117,17 +138,7 @@ $ex=mysqli_query($con,"SELECT * from exam where status='finished' or status='pub
             <li class="nav-item">
                 <a class="nav-link" href="timetable.php">
                     <i class="fa-solid fa-table-list"></i>
-                    <span>Timetable</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="course.php">
-                    <i class="fa-solid fa-book-open-reader"></i>
-                    <span>Course</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="changepass.php">
-                <i class="fa-solid fa-unlock-keyhole"></i>
-                    <span>Change Password</span></a>
+                    <span> SetTimetable</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="./../logout.php">
@@ -206,11 +217,11 @@ $ex=mysqli_query($con,"SELECT * from exam where status='finished' or status='pub
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
-                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $n_row['name'] ?></span>
                                 <img class="img-profile rounded-circle"
-                                    src="../img/<?php echo $n_row['photo'] ?>">
+                                    src="../img/profile.jpg">
                             </a>
                            
                         </li>
@@ -223,43 +234,77 @@ $ex=mysqli_query($con,"SELECT * from exam where status='finished' or status='pub
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-                    <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Test Response</h1>
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Test List</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>SL. No</th>
-                                            <th>Test Name</th>
-                                            <th>Status</th>
-                                            <th>Class</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php
-                                        
-                                        $i=1;
-                                        while($row=mysqli_fetch_array($ex)){
-                                            echo '<tr>';
-                                            echo '<td>'.$i.'</td><td>'.$row['name'].'</td><td>'.ucfirst($row['status']).'</td><td>'.$row['class'].'</td>.
-                                            </td><td><a href="vierres.php?id='.$row['id'].'" class="btn btn-success">View Response</a></td>';
-                                            
-                                            $i++;
-                                            echo '</tr>';
-                                        }
-                                    ?>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                    <h3>Add Student with Details</h3>
+                    <form action="add_student.php" method="post" enctype="multipart/form-data">
+    <!-- 2 column grid layout with text inputs for the first and last names -->
+    <div class="row mb-4">
+        <div class="col">
+            <div class="form-outline">
+                <input type="text" name="name" id="form6Example2" class="form-control" required/>
+                <label class="form-label" for="form6Example2">1.Name <i class="fa-solid fa-file-signature"></i></label>
+            </div>
+        </div>
+    </div>
 
+    <!-- Text input -->
+    <div class="form-outline mb-4">
+        <input type="number" name="class" id="form6Example3" class="form-control" required/>
+        <label class="form-label" for="form6Example3">2.Class <i class="fa-solid fa-landmark"></i></label>
+    </div>
 
+    <div class="form-outline mb-4">
+        <input type="number" name="roll" id="form6Example9" class="form-control" required/>
+        <label class="form-label" for="form6Example9">3.Roll <i class="fa-regular fa-id-badge"></i></label>
+    </div>
+
+    <!-- Text input -->
+    <div class="form-outline mb-4">
+        <input type="text" name="addr" id="form6Example4" class="form-control" required/>
+        <label class="form-label" for="form6Example4">4.Address <i class="fa-solid fa-house"></i></label>
+    </div>
+
+    <!-- Email input -->
+    <div class="form-outline mb-4">
+        <input type="email" name="mail" id="form6Example5" class="form-control" required/>
+        <label class="form-label" for="form6Example5">5.Email <i class="fa-solid fa-square-envelope"></i></label>
+    </div>
+
+    <!-- Number input -->
+    <div class="form-outline mb-4">
+        <input type="number" name="mobile" id="form6Example6" class="form-control" required/>
+        <label class="form-label" for="form6Example6">6.Mobile <i class="fa-solid fa-phone-volume"></i></label>
+    </div>
+    <div class="form-outline mb-4">
+        <select name="gender" id="form6Example10" class="form-control">
+        <option value="Male">Male <i class="fa-solid fa-mars"></i></option>
+        <option value="Female">Female <i class="fa-solid fa-venus"></i></option>
+        <option value="Others">Others <i class="fa-regular fa-circle-question"></i></option>
+        </select>
+        <label class="form-label" for="form6Example10">7.Gender <i class="fa-solid fa-venus-mars"></i></label>
+    </div>
+    <div class="form-outline mb-4">
+        <input type="text" name="father" id="form6Example7" class="form-control" required/>
+        <label class="form-label" for="form6Example7">8.Father's Name <i class="fa-regular fa-user"></i></label>
+    </div>
+    <div class="form-outline mb-4">
+        <input type="text" name="aadhar" id="form6Example8" class="form-control" required/>
+        <label class="form-label" for="form6Example8">9.Aadhar <i class="fa-solid fa-id-card"></i></label>
+    </div>
+    <label class="form-label" for="file-upload">10.Photo <i class="fa-regular fa-image"></i></label>
+     <p class="text-danger font-weight-bold">*Maximum 5MB</p>
+    <div class="image-preview-container">
+        <div class="form-outline mb-4">
+            <input type="file" required name="image" id="file-upload" accept="image/*" onchange="previewImage(event);" class="form-control" />
+            <label class="form-label" for="file-upload">Browse&nbsp;<i class="fa-regular fa-folder-open"></i></label>
+        </div>
+        <div class="preview">
+            <img id="preview-selected-image"  height="200" width="200"/>
+        </div>
+    </div>
+    <!-- Submit button -->
+    <button type="submit" class="btn btn-success btn-block mb-4">Add Student <i class="fa-solid fa-user-plus"></i></button>
+</form>
+                    
                 </div>
                 <!-- /.container-fluid -->
 
@@ -287,8 +332,25 @@ $ex=mysqli_query($con,"SELECT * from exam where status='finished' or status='pub
         <i class="fas fa-angle-up"></i>
     </a>
 
- 
-
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="logout.php">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Bootstrap core JavaScript-->
     <script src="../vendor/jquery/jquery.min.js"></script>
@@ -299,6 +361,20 @@ $ex=mysqli_query($con,"SELECT * from exam where status='finished' or status='pub
 
     <!-- Custom scripts for all pages-->
     <script src="../js/sb-admin-2.min.js"></script>
+    <script>
+        const previewImage = (event) => {
+    const imageFiles = event.target.files;
+    const imageFilesLength = imageFiles.length;
+    if (imageFilesLength > 0) {
+        const imageSrc = URL.createObjectURL(imageFiles[0]);
+        const imagePreviewElement = document.querySelector("#preview-selected-image");
+        imagePreviewElement.src = imageSrc;
+        document.getElementById("preview-selected-image").style.display="block";
+    }
+};
+    
+
+    </script>
 
 </body>
 

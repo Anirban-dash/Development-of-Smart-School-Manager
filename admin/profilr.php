@@ -1,3 +1,13 @@
+<?php
+require("./../conn.php");
+session_start();
+if(!isset($_SESSION['id']) and $_SESSION['status']!="teacher"){
+    header("location:./../index.php");
+}
+$n_id=$_SESSION['id'];
+$n_res=mysqli_query($con,"SELECT * from teacher where id='$n_id'") or die(mysqli_error($con));
+$row=mysqli_fetch_array($n_res);
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -112,6 +122,11 @@
                     <span>Course</span></a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="changepass.php">
+                <i class="fa-solid fa-unlock-keyhole"></i>
+                    <span>Change Password</span></a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="./../logout.php">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <span>Logout</span></a>
@@ -188,11 +203,11 @@
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Anirban Dash</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $row['name'] ?></span>
                                 <img class="img-profile rounded-circle"
-                                    src="../img/undraw_profile.svg">
+                                    src="../img/<?php echo $row['photo'] ?>">
                             </a>
                            
                         </li>
@@ -207,12 +222,78 @@
 
                     <!-- Page Heading -->
                     <h1 class="h3 mb-4 text-gray-800">Profile</h1>
-                    <div class="card">
-                        <div class="card-body shadow">
-                            <h2 class="text-danger"><i>WEBPAGE UNDER MAINTANANCE <i class="fa-regular fa-face-frown"></i></h2>
-                        </div>
-                    </div>
+                    
 
+                    <section>
+                        <div class="container py-3">
+                      
+                          <div class="row">
+                            <div class="col-lg-4">
+                              <div class="card mb-4">
+                                <div class="card-body text-center">
+                                  <img src="../img/<?php echo $row['photo']; ?>" alt="avatar"
+                                    class="rounded-circle img-fluid" style="width: 150px;">
+                                  <h5 class="my-3"><?php echo $row['name']; ?></h5>
+                                  <p class="text-muted mb-1"><i class="fa-solid fa-person-chalkboard"></i> Teacher</p>
+                                  <p class="text-muted mb-4"><i class="fa-solid fa-location-dot"></i> <?php echo $row['address']; ?></p>
+                                </div>
+                              </div>
+                              
+                            </div>
+                            <div class="col-lg-8">
+                              <div class="card mb-4">
+                                <div class="card-body">
+                                  <div class="row">
+                                    <div class="col-sm-3">
+                                      <p class="mb-0">Full Name</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                      <p class="text-muted mb-0"><?php echo $row['name']; ?></p>
+                                    </div>
+                                  </div>
+                                  <hr>
+                                  <div class="row">
+                                    <div class="col-sm-3">
+                                      <p class="mb-0">Teacher ID</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                      <p class="text-muted mb-0"><?php echo $row['id']; ?></p>
+                                    </div>
+                                  </div>
+                                 
+                                  <hr>
+                                  <div class="row">
+                                    <div class="col-sm-3">
+                                      <p class="mb-0">Email</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                      <p class="text-muted mb-0"><?php echo $row['email']; ?></p>
+                                    </div>
+                                  </div>
+                                  <hr>
+                                  <div class="row">
+                                    <div class="col-sm-3">
+                                      <p class="mb-0">Mobile</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                      <p class="text-muted mb-0"><?php echo $row['mobile']; ?></p>
+                                    </div>
+                                  </div>
+                                  <hr>
+                                  <div class="row">
+                                    <div class="col-sm-3">
+                                      <p class="mb-0">Aadhar Number</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                      <p class="text-muted mb-0"><?php echo $row['aadhar']; ?></p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </section>
                 </div>
                 <!-- /.container-fluid -->
 

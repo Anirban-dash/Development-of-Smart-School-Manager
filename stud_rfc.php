@@ -1,3 +1,16 @@
+<?php
+require("conn.php");
+session_start();
+if(!isset($_SESSION['id'])){
+    header("location:index.php");
+   
+}
+$id=$_SESSION['id'];
+$info="select * from student where id='$id'";
+$info_res=mysqli_query($con,$info) or die(mysqli_error($con));
+$row=mysqli_fetch_array($info_res);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -143,11 +156,11 @@
                         </li>
                         <div class="topbar-divider d-none d-sm-block"></div>
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Anirban Dash</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $row['name']; ?></span>
                                 <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                    src="img/<?php echo $row['photo']; ?>">
                             </a>
                             
                         </li>
@@ -163,23 +176,24 @@
                     <h1 class="h3 mb-4 text-gray-800">Request For Changes</h1>
                     
                     <div class="card shadow mb-4">
-                        <form action="rfc_submit.php" method="post">
+                        <form action="stud_rfc_submit.php" method="post" enctype="multipart/form-data">
                         <div class="card-body">
                             
                                 <label for="chaeck" class="form-inline">What do yoy want to update</label>
-                                <select id="chaeck" class="form-control">
-                                    <option>Name</option>
-                                    <option>Mobile Number</option>
-                                    <option>Father's Name</option>
-                                    <option>Aadhar Number</option>
+                                <select id="chaeck" name="update" class="form-control">
+                                    <option value="name">Name</option>
+                                    <option value="mobile">Mobile Number</option>
+                                    <option value="father">Father's Name</option>
+                                    <option value="aadhar">Aadhar Number</option>
                                 </select>
                                 <br>
-                                <input type="text" class="form-control" placeholder="Enter Updated Value"><br>
+                                <input type="text" name="val" class="form-control" placeholder="Enter Updated Value" required><br>
                                 <p class="text-danger">*You have to attached supportive documents in pdf format only</p>
                                 <label for="upload" class="btn btn-circle btn-info"> 
                                     <i class="fa-solid fa-cloud-arrow-up"></i>
                                </label>
-                                <input type="file" name="uploaddoc" id="upload" accept="application/pdf">  
+                               <input type="file"  name="pdf_file" id="upload" accept="application/pdf" onchange="updateText(this);" required>  
+                                <p id="te"></p>
                         </div>
                         <div class="card-footer">
                             <input type="submit" value="Submit" class="btn btn-block btn-success">
@@ -212,7 +226,12 @@
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="js/sb-admin-2.min.js"></script>
-
+    <script>
+        function updateText(e){
+            document.getElementById("te").innerHTML='<i class="fa-solid fa-file-pdf"></i> '+e.files.item(0).name;
+            
+        }
+    </script>
 </body>
 
 </html>

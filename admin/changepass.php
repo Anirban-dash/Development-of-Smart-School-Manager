@@ -7,10 +7,8 @@ if(!isset($_SESSION['id']) and $_SESSION['status']!="teacher"){
 $n_id=$_SESSION['id'];
 $n_res=mysqli_query($con,"SELECT * from teacher where id='$n_id'") or die(mysqli_error($con));
 $n_row=mysqli_fetch_array($n_res);
-
-$ex=mysqli_query($con,"SELECT * from exam where status='finished' or status='published'") or die(mysqli_error($con));
-
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -34,8 +32,26 @@ $ex=mysqli_query($con,"SELECT * from exam where status='finished' or status='pub
 
     <!-- Custom styles for this template-->
     <link href="../css/sb-admin-2.min.css" rel="stylesheet">
+    <style>
+.button {
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  color: black;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px #999;
+}
 
-</head> 
+.button:hover {background-color: grey}
+
+.button:active {
+  background-color: grey;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+</style>
+</head>
 
 <body id="page-top">
 
@@ -56,7 +72,7 @@ $ex=mysqli_query($con,"SELECT * from exam where status='finished' or status='pub
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item ">
+            <li class="nav-item">
                 <a class="nav-link" href="index.php">
                     <i class="fa-solid fa-landmark"></i>
                     <span>Classes</span></a>
@@ -67,7 +83,7 @@ $ex=mysqli_query($con,"SELECT * from exam where status='finished' or status='pub
                     <i class="fa-solid fa-envelope"></i>
                     <span>Notice</span></a>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fa-solid fa-microscope"></i>
@@ -124,7 +140,7 @@ $ex=mysqli_query($con,"SELECT * from exam where status='finished' or status='pub
                     <i class="fa-solid fa-book-open-reader"></i>
                     <span>Course</span></a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="changepass.php">
                 <i class="fa-solid fa-unlock-keyhole"></i>
                     <span>Change Password</span></a>
@@ -206,7 +222,7 @@ $ex=mysqli_query($con,"SELECT * from exam where status='finished' or status='pub
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
-                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $n_row['name'] ?></span>
                                 <img class="img-profile rounded-circle"
@@ -224,43 +240,26 @@ $ex=mysqli_query($con,"SELECT * from exam where status='finished' or status='pub
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Test Response</h1>
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Test List</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>SL. No</th>
-                                            <th>Test Name</th>
-                                            <th>Status</th>
-                                            <th>Class</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php
-                                        
-                                        $i=1;
-                                        while($row=mysqli_fetch_array($ex)){
-                                            echo '<tr>';
-                                            echo '<td>'.$i.'</td><td>'.$row['name'].'</td><td>'.ucfirst($row['status']).'</td><td>'.$row['class'].'</td>.
-                                            </td><td><a href="vierres.php?id='.$row['id'].'" class="btn btn-success">View Response</a></td>';
-                                            
-                                            $i++;
-                                            echo '</tr>';
-                                        }
-                                    ?>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                    <h1 class="h3 mb-4 text-gray-800">Change Password</h1>
+                       <form method="post" onsubmit="return false;">
+                    <div class="input-group mb-3">
+                     
+							<div class="input-group-append">
+								<button class="input-group-text button" onclick="togle(this);"><i class="fa-solid fa-eye"></i></button>
+							</div>
+							<input type="password" id="currPass" class="form-control input_user "  placeholder="Current Password">
+						</div>
+						<div class="input-group mb-2">
+							<div class="input-group-append">
+								<button class="input-group-text button" onclick="togle(this);"><i class="fa-solid fa-eye"></i></button>
+							</div>
+							<input type="password" id="newPass" class="form-control input_pass "  placeholder="New Password">
+						</div>
+                        <br>
+                  <button onclick="changePass()" class="btn btn-outline-success">Save Changes <i class="fa-solid fa-gear"></i></button>
 
-
-                </div>
+                </div> 
+             </form>
                 <!-- /.container-fluid -->
 
             </div>
@@ -287,8 +286,25 @@ $ex=mysqli_query($con,"SELECT * from exam where status='finished' or status='pub
         <i class="fas fa-angle-up"></i>
     </a>
 
- 
-
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="logout.php">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Bootstrap core JavaScript-->
     <script src="../vendor/jquery/jquery.min.js"></script>
@@ -299,6 +315,64 @@ $ex=mysqli_query($con,"SELECT * from exam where status='finished' or status='pub
 
     <!-- Custom scripts for all pages-->
     <script src="../js/sb-admin-2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function togle(e){
+            duc=e.children[0];
+            inp=e.parentElement.parentElement.children[1];
+            if(inp.getAttribute("type")=="password"){
+                inp.setAttribute("type","text");
+                duc.classList.remove("fa-eye");
+                duc.classList.add("fa-eye-slash");
+            }else{
+                inp.setAttribute("type","password");
+                duc.classList.add("fa-eye");
+                duc.classList.remove("fa-eye-slash");
+            }
+        }
+        function changePass(){
+            var cp=document.getElementById("currPass").value;
+            var np=document.getElementById("newPass").value;
+            if(cp.length<4 || np.length<4){
+                document.getElementById("currPass").focus();
+                Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Enter Correct Details!'
+                })
+            }else{
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        if(xhttp.responseText=='0'){
+                            Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Your Password is incorrect!',
+                            showConfirmButton: false,
+                            timer: 1500
+                            })
+                            document.getElementById("currPass").focus();
+                        }else{
+                            Swal.fire({
+                            icon: 'success',
+                            title: 'Done!',
+                            text: 'Your Password is set successfuly!',
+                            showConfirmButton: false,
+                            timer: 1500
+                            })
+                            document.getElementById("currPass").value="";
+                            document.getElementById("newPass").value="";
+                            document.getElementById("currPass").focus();
+                        }
+                    }
+                };
+                xhttp.open("POST", "pass.php", true);
+                xhttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+                xhttp.send("curr="+cp+"&new="+np);
+            }
+        }
+    </script>
 
 </body>
 

@@ -125,6 +125,11 @@ $ex=mysqli_query($con,"SELECT * from student_test where e_id='$e_id'") or die(my
                     <span>Course</span></a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="changepass.php">
+                <i class="fa-solid fa-unlock-keyhole"></i>
+                    <span>Change Password</span></a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="./../logout.php">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <span>Logout</span></a>

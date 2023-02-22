@@ -191,7 +191,7 @@ $row=mysqli_fetch_array($info_res);
                                     class="rounded-circle img-fluid" style="width: 150px;">
                                   <h5 class="my-3"><?php echo $row['name']; ?></h5>
                                   <p class="text-muted mb-1"><i class="fa-solid fa-graduation-cap"></i> Student</p>
-                                  <p class="text-muted mb-4"><i class="fa-solid fa-location-dot"></i> Berhampur,Odisha</p>
+                                  <p class="text-muted mb-4"><i class="fa-solid fa-location-dot"></i> <?php echo $row['address']; ?></p>
                                 </div>
                               </div>
                               
@@ -210,10 +210,19 @@ $row=mysqli_fetch_array($info_res);
                                   <hr>
                                   <div class="row">
                                     <div class="col-sm-3">
-                                      <p class="mb-0">Roll</p>
+                                      <p class="mb-0">Student ID</p>
                                     </div>
                                     <div class="col-sm-9">
                                       <p class="text-muted mb-0"><?php echo $row['id']; ?></p>
+                                    </div>
+                                  </div>
+                                  <hr>
+                                  <div class="row">
+                                    <div class="col-sm-3">
+                                      <p class="mb-0">Roll</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                      <p class="text-muted mb-0"><?php echo $row['roll']; ?></p>
                                     </div>
                                   </div>
                                   <hr>

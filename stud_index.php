@@ -184,6 +184,9 @@ $row=mysqli_fetch_array($info_res);
                         $t_id=$notice['sender'];
                         $n_sql="Select name from teacher where id='$t_id'";
                         $t_res=mysqli_query($con,$n_sql) or die(mysqli_error($con));
+                        if(mysqli_num_rows($t_res)==0){
+                            $t_res=mysqli_query($con,"SELECT name from hoi where id='$t_id'") or die(mysqli_error($con));
+                        }
                         $t_name=mysqli_fetch_array($t_res);
                         ?>
                     <div class="card shadow mb-4">

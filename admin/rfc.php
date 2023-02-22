@@ -1,3 +1,13 @@
+<?php
+require("./../conn.php");
+session_start();
+if(!isset($_SESSION['id']) and $_SESSION['status']!="teacher"){
+    header("location:./../index.php");
+}
+$n_id=$_SESSION['id'];
+$n_res=mysqli_query($con,"SELECT * from teacher where id='$n_id'") or die(mysqli_error($con));
+$row=mysqli_fetch_array($n_res);
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,7 +31,11 @@
 
     <!-- Custom styles for this template-->
     <link href="../css/sb-admin-2.min.css" rel="stylesheet">
-
+    <style>
+        input[type="file"] {
+    display: none;
+}
+    </style>
 </head>
 
 <body id="page-top">
@@ -112,6 +126,11 @@
                     <span>Course</span></a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="changepass.php">
+                <i class="fa-solid fa-unlock-keyhole"></i>
+                    <span>Change Password</span></a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="./../logout.php">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <span>Logout</span></a>
@@ -188,11 +207,11 @@
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Anirban Dash</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $row['name'] ?></span>
                                 <img class="img-profile rounded-circle"
-                                    src="../img/undraw_profile.svg">
+                                    src="../img/<?php echo $row['photo'] ?>">
                             </a>
                            
                         </li>
@@ -207,10 +226,29 @@
 
                     <!-- Page Heading -->
                     <h1 class="h3 mb-4 text-gray-800">Request for Changes</h1>
-                    <div class="card">
-                        <div class="card-body shadow">
-                            <h2 class="text-danger"><i>WEBPAGE UNDER MAINTANANCE <i class="fa-regular fa-face-frown"></i></h2>
+                    <div class="card shadow mb-4">
+                        <form action="rfc_submit.php" method="post" enctype="multipart/form-data">
+                        <div class="card-body">
+                            
+                                <label for="chaeck" class="form-inline">What do yoy want to update</label>
+                                <select id="chaeck" name="update" class="form-control">
+                                    <option value="name">Name</option>
+                                    <option value="mobile">Mobile Number</option>
+                                    <option value="aadhar">Aadhar Number</option>
+                                </select>
+                                <br>
+                                <input type="text" name="val" class="form-control" placeholder="Enter Updated Value" required><br>
+                                <p class="text-danger">*You have to attached supportive documents in pdf format only</p>
+                                <label for="upload" class="btn btn-circle btn-info"> 
+                                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                               </label>
+                                <input type="file" name="pdf_file" id="upload" accept="application/pdf" onchange="updateText(this);" required>  
+                                <p id="te"></p>
                         </div>
+                        <div class="card-footer">
+                            <input type="submit" value="Submit" class="btn btn-block btn-success">
+                        </div>
+                    </form>
                     </div>
 
                 </div>
@@ -252,6 +290,12 @@
 
     <!-- Custom scripts for all pages-->
     <script src="../js/sb-admin-2.min.js"></script>
+    <script>
+        function updateText(e){
+            document.getElementById("te").innerHTML='<i class="fa-solid fa-file-pdf"></i> '+e.files.item(0).name;
+            
+        }
+    </script>
 
 </body>
 
