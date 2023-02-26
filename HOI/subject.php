@@ -1,13 +1,14 @@
 <?php
 require("./../conn.php");
 session_start();
-if(!isset($_SESSION['id']) and $_SESSION['status']!="teacher"){
+if(!isset($_SESSION['id']) and $_SESSION['status']!="hoi"){
     header("location:./../index.php");
 }
 $n_id=$_SESSION['id'];
-$n_res=mysqli_query($con,"SELECT * from teacher where id='$n_id'") or die(mysqli_error($con));
-$row=mysqli_fetch_array($n_res);
+$n_res=mysqli_query($con,"SELECT * from hoi where id='$n_id'") or die(mysqli_error($con));
+$n_row=mysqli_fetch_array($n_res);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -31,11 +32,7 @@ $row=mysqli_fetch_array($n_res);
 
     <!-- Custom styles for this template-->
     <link href="../css/sb-admin-2.min.css" rel="stylesheet">
-    <style>
-        input[type="file"] {
-    display: none;
-}
-    </style>
+
 </head>
 
 <body id="page-top">
@@ -44,7 +41,7 @@ $row=mysqli_fetch_array($n_res);
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-success sidebar sidebar-dark accordion" id="accordionSidebar">
+        <ul class="navbar-nav bg-gradient-danger sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
@@ -57,10 +54,10 @@ $row=mysqli_fetch_array($n_res);
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item ">
+            <li class="nav-item">
                 <a class="nav-link" href="index.php">
                     <i class="fa-solid fa-landmark"></i>
-                    <span>Classes</span></a>
+                    <span>Dashboard</span></a>
             </li>
 
             <li class="nav-item">
@@ -68,49 +65,40 @@ $row=mysqli_fetch_array($n_res);
                     <i class="fa-solid fa-envelope"></i>
                     <span>Notice</span></a>
             </li>
-            <li class="nav-item ">
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTw"
+                    aria-expanded="true" aria-controls="collapseTw">
+                    <i class="fa-solid fa-microscope"></i>
+                    <span>Student</span>
+                </a>
+                <div id="collapseTw" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="student_view.php">View/Edit</a>
+                        <a class="collapse-item" href="student_add.php">Add Student</a>
+                    </div>
+                </div>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fa-solid fa-microscope"></i>
-                    <span>Test</span>
+                    <span>Teacher</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="test_publish.php">Publish</a>
-                        <a class="collapse-item" href="test_rsponse.php">Response</a>
-                        <a class="collapse-item" href="test_report.php">Report</a>
+                        <a class="collapse-item" href="teacher.php">View/Edit</a>
+                        <a class="collapse-item" href="teacher_add.php">Add Teacher</a>
                     </div>
                 </div>
             </li>
-            <li class="nav-item ">
-                <a class="nav-link" href="attendance.php">
+            <li class="nav-item">
+                <a class="nav-link" href="analytics.php">
                     <i class="fa-solid fa-clipboard-user"></i>
-                    <span>Take Attendance</span></a>
+                    <span>Exam Analytics</span></a>
             </li>
+           
+            
             <li class="nav-item">
-                <a class="nav-link" href="online_class.php">
-                    <i class="fa-solid fa-signal"></i>
-                    <span>Online Classes</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="profilr.php">
-                    <i class="fa-solid fa-user-tie"></i>
-                    <span>Profile</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwoo"
-                    aria-expanded="true" aria-controls="collapseTwoo">
-                    <i class="fa-solid fa-clipboard-question"></i>
-                    <span>Assignment</span>
-                </a>
-                <div id="collapseTwoo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="assign_publish.php">Publish</a>
-                        <a class="collapse-item" href="assign_res.php">Response</a>
-                    </div>
-                </div>
-            </li>
-            <li class="nav-item active">
                 <a class="nav-link" href="rfc.php">
                     <i class="fa-regular fa-pen-to-square"></i>
                     <span>RFC</span></a>
@@ -118,17 +106,17 @@ $row=mysqli_fetch_array($n_res);
             <li class="nav-item">
                 <a class="nav-link" href="timetable.php">
                     <i class="fa-solid fa-table-list"></i>
-                    <span>Timetable</span></a>
+                    <span> SetTimetable</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="subject.php">
+                <i class="fa-solid fa-book-open"></i>
+                    <span> Subjects</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="course.php">
-                    <i class="fa-solid fa-book-open-reader"></i>
-                    <span>Course</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="changepass.php">
-                <i class="fa-solid fa-unlock-keyhole"></i>
-                    <span>Change Password</span></a>
+                <a class="nav-link" href="qrScanner.php">
+                <i class="fa-solid fa-qrcode"></i>
+                    <span> QR Scanner</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="./../logout.php">
@@ -207,11 +195,11 @@ $row=mysqli_fetch_array($n_res);
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
-                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $row['name'] ?></span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $n_row['name'] ?></span>
                                 <img class="img-profile rounded-circle"
-                                    src="../img/<?php echo $row['photo'] ?>">
+                                    src="../img/profile.jpg">
                             </a>
                            
                         </li>
@@ -224,63 +212,67 @@ $row=mysqli_fetch_array($n_res);
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-                    <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Request for Changes</h1>
-                    <div class="card shadow mb-4">
-                        <form action="rfc_submit.php" method="post" enctype="multipart/form-data">
-                        <div class="card-body">
-                            
-                                <label for="chaeck" class="form-inline">What do yoy want to update</label>
-                                <select id="chaeck" name="update" class="form-control">
-                                    <option value="name">Name</option>
-                                    <option value="mobile">Mobile Number</option>
-                                    <option value="aadhar">Aadhar Number</option>
-                                </select>
-                                <br>
-                                <input type="text" name="val" class="form-control" placeholder="Enter Updated Value" required><br>
-                                <p class="text-danger">*You have to attached supportive documents in pdf format only</p>
-                                <label for="upload" class="btn btn-circle btn-info"> 
-                                    <i class="fa-solid fa-cloud-arrow-up"></i>
-                               </label>
-                                <input type="file" name="pdf_file" id="upload" accept="application/pdf" onchange="updateText(this);" required>  
-                                <p id="te"></p>
-                        </div>
-                        <div class="card-footer">
-                            <input type="submit" value="Submit" class="btn btn-block btn-success">
-                        </div>
-                    </form>
-                    </div>
+                <h3>Subject List <i class="fa-solid fa-book"></i></h3>
                     <div class="table-responsive">
-<table class="table">
-    <h2>Request History <i class="fa-solid fa-arrows-rotate"></i></h2>
+                    <table class="table" id="myTable">
   <thead>
     <tr class="bg-primary text-white">
       <th scope="col">SL No</th>
-      <th scope="col">Update Type</th>
-      <th scope="col">Value</th>
-      <th scope="col">Document</th>
-      <th scope="col">Status</th>
+      <th scope="col">Subject Name</th>
+      <th scope="col">Class</th>
     </tr>
   </thead>
   <tbody>
-    <?php
-    $i=1;
-    $rfc_query=mysqli_query($con,"SELECT * from rfc where p_id='$n_id'") or die(mysqli_error($con));
-    while($rfc=mysqli_fetch_array($rfc_query)){
-        if($rfc['status']=='pending'){
-            $str="table-warning";
-        }else if($rfc['status']=='reject'){
-            $str="table-danger";
-        }else{
-            $str="table-success";
-        }
-        echo '<tr class="'.$str.'">';
-        echo '<td>'.$i.'</td><td>'.$rfc['attr'].'</td><td>'.$rfc['value'].'</td><td><a target="_blank" class="text-info" href="./../HOI/rfc/'.$rfc['file'].'"><i class="fa-solid fa-file-pdf"></i></a></td><th>'.$rfc['status'].'</th></tr>';
-    }
-    ?>
-  </tbody>
+<?php
+$i=1;
+$qu=mysqli_query($con,"SELECT * from subject order by class") or die(mysqli_error($con));
+while($rfc=mysqli_fetch_array($qu)){
+    echo '<tr class="table-primary">';
+    echo '<td>'.$i.'</td><td>'.$rfc['name'].'</td><td>'.$rfc['class'].'</td></tr>';
+    $i++;
+}
+?>
+</tbody>
 </table>
 </div>
+<div id="accordion">
+  <div class="card">
+    <div class="card-header" id="headingOne">
+      <h5 class="mb-0 s">
+        <button class="btn text-succes" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+         Add Subject &nbsp;<i class="fa-regular fa-square-plus"></i>
+        </button>
+        
+      </h5>
+    </div>
+
+    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+      <div class="card-body">
+      <form onsubmit="return false">
+  <div class="row">
+    <div class="col">
+    <label for="name">Name</label>
+      <input type="text" id="name" name="name" required class="form-control" placeholder="Subject name">
+    </div>
+    <div class="col">
+    <label for="class">Class</label>
+      <select type="text" name="class" id="class" class="form-control">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+</select>
+    </div>
+
+  </div>
+  <div class="card-footer">
+  <button type="button" onclick="saveDaata();" class="btn btn-success my-1 float-right">Save <i class="fa-solid fa-file-export"></i></button>
+  </div>
+</form>
+      </div>
+    </div>
+</div>
+</div>             
                 </div>
                 <!-- /.container-fluid -->
 
@@ -308,8 +300,25 @@ $row=mysqli_fetch_array($n_res);
         <i class="fas fa-angle-up"></i>
     </a>
 
- 
-
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="logout.php">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Bootstrap core JavaScript-->
     <script src="../vendor/jquery/jquery.min.js"></script>
@@ -321,12 +330,37 @@ $row=mysqli_fetch_array($n_res);
     <!-- Custom scripts for all pages-->
     <script src="../js/sb-admin-2.min.js"></script>
     <script>
-        function updateText(e){
-            document.getElementById("te").innerHTML='<i class="fa-solid fa-file-pdf"></i> '+e.files.item(0).name;
-            
+        function saveDaata(){
+            var name=document.getElementById("name").value.trimStart();
+            var clss=document.getElementById("class").value;
+            if(name=='' || name==" "){
+                document.getElementById("name").focus();
+                document.getElementById("name").style.border="red 1px solid";
+            }else{
+                var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange=function(){
+                if(xhr.readyState==4 && xhr.status==200){
+                    var table = document.getElementById("myTable");
+                    var lastRowIndex = table.rows.length-1;
+                    var n=parseInt(table.rows[lastRowIndex].cells[0].innerHTML);
+                    n=n+1;
+                    var row = table.insertRow(lastRowIndex+1);
+                    var cell1 = row.insertCell(0);
+                    var cell2 = row.insertCell(1);
+                    var cell3 = row.insertCell(2);
+                    row.classList.add("table-primary");
+                    cell1.innerHTML = n;
+                    cell2.innerHTML = name;
+                    cell3.innerHTML = clss;
+                    document.getElementById("name").value="";
+                }
+            }
+            xhr.open("POST","addSub.php",true);
+            xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+            xhr.send("name="+name+"&class="+clss);
+            }
         }
     </script>
-
 </body>
 
 </html>

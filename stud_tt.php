@@ -86,7 +86,7 @@
                     <span>Timetable</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="change_pass.php">
                     <i class="fa-solid fa-lock"></i>
                     <span>Change Password</span></a>
             </li>
@@ -160,7 +160,7 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Request For Changes</h1>
+                    <h1 class="h3 mb-4 text-gray-800">Timetable</h1>
                     
                     <div class="card shadow mb-4">
                        
@@ -169,22 +169,21 @@
                                 <img src="img/content/timetable.png" alt="">
                             </div>
                             <div class="table-responsive">
+                            <form method="POST" action="timetable.php">
                                 <table class="table table-bordered text-center">
                                     <thead>
                                         <tr class="bg-light-gray">
-                                            <th class="text-uppercase">Time
+                                            <th class="text-uppercase">Day
                                             </th>
-                                            <th class="text-uppercase">Monday</th>
-                                            <th class="text-uppercase">Tuesday</th>
-                                            <th class="text-uppercase">Wednesday</th>
-                                            <th class="text-uppercase">Thursday</th>
-                                            <th class="text-uppercase">Friday</th>
-                                            <th class="text-uppercase">Saturday</th>
+                                            <th class="text-uppercase">09:00-10:00</th>
+                                            <th class="text-uppercase">10:00-11:00</th>
+                                            <th class="text-uppercase">11:00-12:00</th>
+                                            <th class="text-uppercase">01:00-02:00</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td class="align-middle">09:00-10:00</td>
+                                            <td class="align-middle">Monday</td>
                                             <td>
                                                 
                                                 <div class="margin-10px-top font-size14">English</div>
@@ -203,19 +202,11 @@
                                             <td>
                                                 <div class="margin-10px-top font-size14">Physical Science</div>
                                                 <div class="font-size13 text-light-gray">Ivana Wong</div>
-                                            </td>
-                                            <td>
-                                                <div class="margin-10px-top font-size14">Math</div>
-                                                <div class="font-size13 text-light-gray">Ivana Wong</div>
-                                            </td>
-                                            <td>
-                                                <div class="margin-10px-top font-size14">Biology</div>
-                                                <div class="font-size13 text-light-gray">James Smith</div>
                                             </td>
                                         </tr>
             
                                         <tr>
-                                            <td class="align-middle">10:00-11:00</td>
+                                            <td class="align-middle">Tuesdat</td>
                                             <td>
                                                 
                                                 <div class="margin-10px-top font-size14">English</div>
@@ -234,19 +225,11 @@
                                             <td>
                                                 <div class="margin-10px-top font-size14">Physical Science</div>
                                                 <div class="font-size13 text-light-gray">Ivana Wong</div>
-                                            </td>
-                                            <td>
-                                                <div class="margin-10px-top font-size14">Math</div>
-                                                <div class="font-size13 text-light-gray">Ivana Wong</div>
-                                            </td>
-                                            <td>
-                                                <div class="margin-10px-top font-size14">Biology</div>
-                                                <div class="font-size13 text-light-gray">James Smith</div>
                                             </td>
                                         </tr>
             
                                         <tr>
-                                            <td class="align-middle">11:00-12:00</td>
+                                            <td class="align-middle">Wednesday</td>
                                             <td>
                                                 
                                                 <div class="margin-10px-top font-size14">English</div>
@@ -265,18 +248,10 @@
                                             <td>
                                                 <div class="margin-10px-top font-size14">Physical Science</div>
                                                 <div class="font-size13 text-light-gray">Ivana Wong</div>
-                                            </td>
-                                            <td>
-                                                <div class="margin-10px-top font-size14">Math</div>
-                                                <div class="font-size13 text-light-gray">Ivana Wong</div>
-                                            </td>
-                                            <td>
-                                                <div class="margin-10px-top font-size14">Biology</div>
-                                                <div class="font-size13 text-light-gray">James Smith</div>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td class="align-middle">12:00-01:00</td>
+                                            <td class="align-middle">Thursday</td>
                                             <td>
                                                 
                                                 <div class="margin-10px-top font-size14">English</div>
@@ -295,18 +270,10 @@
                                             <td>
                                                 <div class="margin-10px-top font-size14">Physical Science</div>
                                                 <div class="font-size13 text-light-gray">Ivana Wong</div>
-                                            </td>
-                                            <td>
-                                                <div class="margin-10px-top font-size14">Math</div>
-                                                <div class="font-size13 text-light-gray">Ivana Wong</div>
-                                            </td>
-                                            <td>
-                                                <div class="margin-10px-top font-size14">Biology</div>
-                                                <div class="font-size13 text-light-gray">James Smith</div>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td class="align-middle">01:00-02:00</td>
+                                            <td class="align-middle">Friday</td>
                                             <td>
                                                 
                                                 <div class="margin-10px-top font-size14">English</div>
@@ -326,17 +293,28 @@
                                                 <div class="margin-10px-top font-size14">Physical Science</div>
                                                 <div class="font-size13 text-light-gray">Ivana Wong</div>
                                             </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="align-middle">Saturday</td>
                                             <td>
-                                                <div class="margin-10px-top font-size14">Math</div>
-                                                <div class="font-size13 text-light-gray">Ivana Wong</div>
+                                                
+                                                <div class="margin-10px-top font-size14">English</div>
+                                                <div class="font-size13 text-light-gray">Some teacher</div>
                                             </td>
                                             <td>
-                                                <div class="margin-10px-top font-size14">Biology</div>
-                                                <div class="font-size13 text-light-gray">James Smith</div>
+                                                
+                                                <div class="margin-10px-top font-size14">Math</div>
+                                                <div class="font-size13 text-light-gray">Some teacher</div>
+                                            </td>
+            
+                                            <td>
+                                                <div class="margin-10px-top font-size14">Science</div>
+                                                <div class="font-size13 text-light-gray">Some Teacher</div>
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
+                                </form>
                             </div>
                         </div>
                     </div>

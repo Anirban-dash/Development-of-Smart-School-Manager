@@ -21,5 +21,20 @@ if (isset($_FILES['pdf_file']['name']))
 }else{
     echo "Not Submitted";
 }
-header("location:stud_rfc.php");
 ?>
+<html>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Done!',
+                            text: 'Your Request is submitted!',
+                            showConfirmButton: false,
+                            timer: 1500
+                            }).then((value) => {
+    location.href ="./stud_rfc.php";
+});
+</script>
+</body>
+</html>

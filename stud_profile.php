@@ -25,6 +25,7 @@ $row=mysqli_fetch_array($info_res);
     <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
+    <link href="id.css" rel="stylesheet">
     <meta name="author" content="">
     <style>
         .bottomright {
@@ -104,7 +105,7 @@ $row=mysqli_fetch_array($info_res);
                   <span>Timetable</span></a>
           </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="change_pass.php">
                     <i class="fa-solid fa-lock"></i>
                     <span>Change Password</span></a>
             </li>
@@ -192,6 +193,7 @@ $row=mysqli_fetch_array($info_res);
                                   <h5 class="my-3"><?php echo $row['name']; ?></h5>
                                   <p class="text-muted mb-1"><i class="fa-solid fa-graduation-cap"></i> Student</p>
                                   <p class="text-muted mb-4"><i class="fa-solid fa-location-dot"></i> <?php echo $row['address']; ?></p>
+                                  <div id="qrcode"></div>
                                 </div>
                               </div>
                               
@@ -270,6 +272,15 @@ $row=mysqli_fetch_array($info_res);
                                       <p class="text-muted mb-0"><?php echo $row['aadhar']; ?></p>
                                     </div>
                                   </div>
+                                  <hr>
+                                  <div class="row">
+                                    <div class="col-sm-3">
+                                      <p class="mb-0">Download ID Card <i class="fa-solid fa-id-card-clip"></i></p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                      <p class="text-muted mb-0"><i class="fa-regular fa-circle-down" style="cursor:pointer" onclick="dnld()"></i></p>
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -277,6 +288,30 @@ $row=mysqli_fetch_array($info_res);
                         </div>
                       </section>
                     
+
+                </div>
+                <div style="display:none" >
+
+	<div class="id-card-holder" id="icard">
+		<div class="id-card" >
+			<div class="header">
+				<img src="logo.png" >
+
+			</div>
+			<div class="photo">
+				<img src="img/<?php echo $row['photo']; ?>">
+        
+			</div>
+			<h2><?php echo $row['name']; ?></h2>
+			<div class="qr-code" id="qr-code">
+				
+			</div>
+	
+			<hr>
+			<p><?php echo $row['address']; ?></p>
+			<p>Ph: <?php echo $row['mobile']; ?> | E-ail:<?php echo $row['email']; ?></p>
+</div>
+		</div>
 
                 </div>
                 <!-- /.container-fluid -->
@@ -301,6 +336,43 @@ $row=mysqli_fetch_array($info_res);
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="js/sb-admin-2.min.js"></script>
+    <script src=
+"https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js">
+	</script>
+    <script>
+        function dnld(){
+        var divToPrint=document.getElementById("icard");  
+   newWin= window.open("");
+   newWin.document.write('<html>');
+   newWin.document.write('<head>');
+   newWin.document.write('<link href="id.css" rel="stylesheet">');
+   newWin.document.write('</head><body>');
+   newWin.document.write(divToPrint.innerHTML);
+   newWin.document.write('</body></html>');
+   
+   newWin.print();
+   newWin.close();
+      }
+		var qrcode = new QRCode("qrcode",
+		{
+        text: "<?php echo $row['id']; ?>",
+        width: 200,
+        height: 200,
+        colorDark: "#1FBBD4",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H,
+      });
+      var qrcode = new QRCode("qr-code",
+		{
+        text: "<?php echo $row['id']; ?>",
+        width: 200,
+        height: 200,
+        colorDark: "#1FBBD4",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H,
+      });
+    
+	</script>
 
 </body>
 

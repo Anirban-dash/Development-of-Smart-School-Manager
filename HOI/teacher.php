@@ -109,6 +109,16 @@ $q=mysqli_query($con,"SELECT * from teacher") or die(mysqli_error($con));
                     <i class="fa-solid fa-table-list"></i>
                     <span> SetTimetable</span></a>
             </li>
+           <li class="nav-item">
+                <a class="nav-link" href="subject.php">
+                <i class="fa-solid fa-book-open"></i>
+                    <span> Subjects</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="qrScanner.php">
+                <i class="fa-solid fa-qrcode"></i>
+                    <span> QR Scanner</span></a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link" href="./../logout.php">
                     <i class="fa-solid fa-right-from-bracket"></i>

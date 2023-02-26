@@ -99,7 +99,7 @@ $row=mysqli_fetch_array($info_res);
                     <span>Timetable</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="change_pass.php">
                     <i class="fa-solid fa-lock"></i>
                     <span>Change Password</span></a>
             </li>
@@ -200,9 +200,38 @@ $row=mysqli_fetch_array($info_res);
                         </div>
                     </form>
                     </div>
-
-                   
-
+                    <div class="table-responsive">
+                    <table class="table">
+    <h2>Request History <i class="fa-solid fa-arrows-rotate"></i></h2>
+  <thead>
+    <tr class="bg-primary text-white">
+      <th scope="col">SL No</th>
+      <th scope="col">Update Type</th>
+      <th scope="col">Value</th>
+      <th scope="col">Document</th>
+      <th scope="col">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <?php
+    $i=1;
+    $rfc_query=mysqli_query($con,"SELECT * from rfc where p_id='$id'") or die(mysqli_error($con));
+    while($rfc=mysqli_fetch_array($rfc_query)){
+        if($rfc['status']=='pending'){
+            $str="table-warning";
+        }else if($rfc['status']=='reject'){
+            $str="table-danger";
+        }else{
+            $str="table-success";
+        }
+        echo '<tr class="'.$str.'">';
+        echo '<td>'.$i.'</td><td>'.$rfc['attr'].'</td><td>'.$rfc['value'].'</td><td><a target="_blank" class="text-info" href="./../HOI/rfc/'.$rfc['file'].'"><i class="fa-solid fa-file-pdf"></i></a></td><th>'.$rfc['status'].'</th></tr>';
+        $i++;
+    }
+    ?>
+  </tbody>
+</table>
+</div>
                 </div>
                 <!-- /.container-fluid -->
 

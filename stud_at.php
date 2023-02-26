@@ -101,7 +101,7 @@ $ex=mysqli_query($con,"SELECT * from studentat where st_id='$id'") or die(mysqli
                     <span>Timetable</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="change_pass.php">
                     <i class="fa-solid fa-lock"></i>
                     <span>Change Password</span></a>
             </li>
@@ -235,7 +235,7 @@ $ex=mysqli_query($con,"SELECT * from studentat where st_id='$id'") or die(mysqli
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-
+ 
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
@@ -243,9 +243,13 @@ $ex=mysqli_query($con,"SELECT * from studentat where st_id='$id'") or die(mysqli
     <script>
         function printat(){
             var divToPrint=document.getElementById("dataTable");
-   newWin= window.open("");
+   newWin= window.open("",'height=500,width=500');
+   newWin.document.write('<html>');
+   newWin.document.write('<head>');
    newWin.document.write('<link href="css/sb-admin-2.min.css" rel="stylesheet">');
+   newWin.document.write('</head><body>');
    newWin.document.write(divToPrint.outerHTML);
+   newWin.document.write('</body></html>');
    newWin.print();
    newWin.close();
         }

@@ -110,7 +110,7 @@ input[type="file"] {
                     <span>Timetable</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="change_pass.php">
                     <i class="fa-solid fa-lock"></i>
                     <span>Change Password</span></a>
             </li>

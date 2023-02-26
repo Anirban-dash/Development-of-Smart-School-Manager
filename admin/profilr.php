@@ -236,6 +236,7 @@ $row=mysqli_fetch_array($n_res);
                                   <h5 class="my-3"><?php echo $row['name']; ?></h5>
                                   <p class="text-muted mb-1"><i class="fa-solid fa-person-chalkboard"></i> Teacher</p>
                                   <p class="text-muted mb-4"><i class="fa-solid fa-location-dot"></i> <?php echo $row['address']; ?></p>
+                                  <div id="qrcode"></div>
                                 </div>
                               </div>
                               
@@ -333,6 +334,20 @@ $row=mysqli_fetch_array($n_res);
 
     <!-- Custom scripts for all pages-->
     <script src="../js/sb-admin-2.min.js"></script>
+    <script src=
+"https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js">
+	</script>
+    <script>
+		var qrcode = new QRCode("qrcode",
+		{
+        text: "<?php echo $row['id']; ?>",
+        width: 200,
+        height: 200,
+        colorDark: "#21C73D",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H,
+      });
+	</script>
 
 </body>
 
