@@ -7,6 +7,9 @@ if(!isset($_SESSION['id']) and $_SESSION['status']!="teacher"){
 $n_id=$_SESSION['id'];
 $n_res=mysqli_query($con,"SELECT * from teacher where id='$n_id'") or die(mysqli_error($con));
 $n_row=mysqli_fetch_array($n_res);
+$curr_day= date("l");
+$f_query="SELECT * FROM time_table WHERE t_name='$n_id' and day='$curr_day' ORDER BY period";
+$f_result= mysqli_query($con, $f_query) or die(mysqli_error($con));
 ?>
 
 <!DOCTYPE html>
@@ -222,31 +225,31 @@ $n_row=mysqli_fetch_array($n_res);
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Classes</h1>
-                    <div class="col-lg-10 mb-4 shadow">
-                        <div class="card bg-info text-white shadow">
+                    <h2 class="mb-4 text-gray-800">Classes</h2>
+                    <h3 class="h3 mb-4 text-black font-weight-bold text-success"><i class="fa-regular fa-sun"></i> <?php echo $curr_day ?></h3>
+                    <?php
+                    if(mysqli_num_rows($f_result)==0){
+                        echo '<div class="col-lg-10 mb-4 shadow">
+                        <div class="card bg-success text-white shadow">
                             <div class="card-body">
-                                Science
-                                <div class="text-white-50 small">Class-1</div>
+                                No Class for today
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-10 mb-4 shadow">
-                        <div class="card bg-info text-white shadow">
-                            <div class="card-body">
-                                Biology
-                                <div class="text-white-50 small">Class-2</div>
-                            </div>
+                    </div>';
+                    }
+                    while($f_row= mysqli_fetch_array($f_result)){
+                    echo '<div class="col-lg-10 mb-4 shadow">
+                    <div class="card bg-info text-white shadow">
+                        <div class="card-body">'.
+                            $f_row['sub_name'].
+                            '<div class="text-white-50 small"> Class '.$f_row['class_id'].'</div>
+                            <div class="text-white-50 small"> Period '.$f_row['period'].'
                         </div>
                     </div>
-                    <div class="col-lg-10 mb-4 shadow">
-                        <div class="card bg-info text-white shadow">
-                            <div class="card-body">
-                                English
-                                <div class="text-white-50 small">Class-1</div>
-                            </div>
-                        </div>
-                    </div>
+                </div>';    
+                    }
+                    ?>
+                  </div>  
 
                 </div>
                 <!-- /.container-fluid -->

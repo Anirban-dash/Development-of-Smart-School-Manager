@@ -124,7 +124,7 @@ $n_row=mysqli_fetch_array($n_res);
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="attendance.php">
+                <a class="nav-link" href="analytics.php">
                     <i class="fa-solid fa-clipboard-user"></i>
                     <span>Exam Analytics</span></a>
             </li>
@@ -144,6 +144,11 @@ $n_row=mysqli_fetch_array($n_res);
                 <a class="nav-link" href="subject.php">
                 <i class="fa-solid fa-book-open"></i>
                     <span> Subjects</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="course.php">
+                <i class="fa-solid fa-book-open-reader"></i>
+                    <span> Course</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="qrScanner.php">

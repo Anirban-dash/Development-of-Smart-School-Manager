@@ -55,7 +55,7 @@ $row=mysqli_fetch_array($info_res);
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
                 <div class="sidebar-brand-icon rotate-n-15">
-                    <img src="logo.png" height="40%" width="40%">
+                    <img id="ssm" src="logo.png" height="40%" width="40%">
                 </div>
                 <div class="sidebar-brand-text mx-3">SSM</div>
             </a>
@@ -290,30 +290,8 @@ $row=mysqli_fetch_array($info_res);
                     
 
                 </div>
-                <div style="display:none" >
 
-	<div class="id-card-holder" id="icard">
-		<div class="id-card" >
-			<div class="header">
-				<img src="logo.png" >
-
-			</div>
-			<div class="photo">
-				<img src="img/<?php echo $row['photo']; ?>">
-        
-			</div>
-			<h2><?php echo $row['name']; ?></h2>
-			<div class="qr-code" id="qr-code">
-				
-			</div>
-	
-			<hr>
-			<p><?php echo $row['address']; ?></p>
-			<p>Ph: <?php echo $row['mobile']; ?> | E-ail:<?php echo $row['email']; ?></p>
-</div>
-		</div>
-
-                </div>
+<div id="qr_code" hidden></div>
                 <!-- /.container-fluid -->
 
             </div>
@@ -336,22 +314,44 @@ $row=mysqli_fetch_array($info_res);
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="js/sb-admin-2.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script src=
 "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js">
 	</script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.debug.js"></script>
     <script>
-        function dnld(){
-        var divToPrint=document.getElementById("icard");  
-   newWin= window.open("");
-   newWin.document.write('<html>');
-   newWin.document.write('<head>');
-   newWin.document.write('<link href="id.css" rel="stylesheet">');
-   newWin.document.write('</head><body>');
-   newWin.document.write(divToPrint.innerHTML);
-   newWin.document.write('</body></html>');
-   
-   newWin.print();
-   newWin.close();
+      function dnld(){
+        var pdf = new jsPDF({
+    orientation: "landscape",
+    unit: "mm",
+    format: [150, 70]
+});
+pdf.setFillColor(181, 204,213);
+pdf.rect(0, 21, 150, 49, "F");
+pdf.line(1,21,149,21);
+pdf.line(1,69,149,69);
+pdf.setFontSize(12);
+pdf.text('Name: <?php echo $row['name']; ?>', 50, 30);
+
+pdf.setFontSize(10);
+pdf.text('Class: <?php echo $row['class']; ?>', 50, 35);
+pdf.text('Roll: <?php echo $row['roll']; ?>', 50, 40);
+pdf.text('Address: <?php echo $row['address']; ?>', 50, 45);
+pdf.line(48,50,105,50,'F');
+let base64Image = $('#qr_code img').attr('src');
+pdf.addImage(base64Image, 'png', 5, 25, 40, 40);
+var img = new Image()
+img.src = "img/<?php echo $row['photo']; ?>"
+pdf.addImage(img, 'png', 105, 25, 40, 40);
+var img = new Image()
+img.src = "logo.png";
+pdf.setFillColor(34, 165,220);
+pdf.rect(0, 0, 150, 21, "F");
+pdf.addImage(img, 'png', 10, 3, 15, 15);
+var img = new Image()
+img.src = "text.png";
+pdf.addImage(img, 'png', 45, 3, 65, 15);
+pdf.save();
       }
 		var qrcode = new QRCode("qrcode",
 		{
@@ -362,7 +362,7 @@ $row=mysqli_fetch_array($info_res);
         colorLight: "#ffffff",
         correctLevel: QRCode.CorrectLevel.H,
       });
-      var qrcode = new QRCode("qr-code",
+      var qrcode = new QRCode("qr_code",
 		{
         text: "<?php echo $row['id']; ?>",
         width: 200,

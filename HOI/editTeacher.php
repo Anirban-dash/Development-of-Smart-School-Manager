@@ -7,8 +7,9 @@ if(!isset($_SESSION['id']) and $_SESSION['status']!="hoi"){
 $n_id=$_SESSION['id'];
 $n_res=mysqli_query($con,"SELECT * from hoi where id='$n_id'") or die(mysqli_error($con));
 $n_row=mysqli_fetch_array($n_res);
-$q=mysqli_query($con,"SELECT * from student ORDER BY class") or die(mysqli_error($con));
-
+$id=$_GET['id'];
+$res=mysqli_query($con,"SELECT * from teacher where id='$id'") or die(mysqli_error($con));
+$row=mysqli_fetch_array($res);
 ?>
 
 <!DOCTYPE html>
@@ -34,7 +35,39 @@ $q=mysqli_query($con,"SELECT * from student ORDER BY class") or die(mysqli_error
 
     <!-- Custom styles for this template-->
     <link href="../css/sb-admin-2.min.css" rel="stylesheet">
+    <style>
+        .image-preview-container {
+    width: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 3rem;
+    border-radius: 20px;
+}
 
+.image-preview-container img {
+    display: block;
+    text-align: center;
+}
+.image-preview-container input {
+    display: none;
+}
+
+.image-preview-container label {
+    display: block;
+    width: 45%;
+    height: 45px;
+    text-align: center;
+    background: #8338ec;
+    color: #fff;
+    font-size: 15px;
+    text-transform: Uppercase;
+    font-weight: 400;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+    </style>
 </head>
 
 <body id="page-top">
@@ -67,7 +100,7 @@ $q=mysqli_query($con,"SELECT * from student ORDER BY class") or die(mysqli_error
                     <i class="fa-solid fa-envelope"></i>
                     <span>Notice</span></a>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTw"
                     aria-expanded="true" aria-controls="collapseTw">
                     <i class="fa-solid fa-microscope"></i>
@@ -80,7 +113,7 @@ $q=mysqli_query($con,"SELECT * from student ORDER BY class") or die(mysqli_error
                     </div>
                 </div>
             </li>
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fa-solid fa-microscope"></i>
@@ -218,48 +251,69 @@ $q=mysqli_query($con,"SELECT * from student ORDER BY class") or die(mysqli_error
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
+                <h1 class="h3 mb-4 text-gray-800">Student Edit</h1>
+                <form action="editSubmitte.php" method="post" enctype="multipart/form-data">
+                <input type="number" id="check" name="check" class="form-control" hidden value="0" />
+                    <div class="row mb-4">
+                        <div class="col">
+                        <div class="form-outline">
+                            <input type="number" id="form6Example1" class="form-control" disabled value="<?php echo $row['id']; ?>" />
+                            <input type="number"  name="id" class="form-control" hidden value="<?php echo $row['id']; ?>" />
+                            <label class="form-label" for="form6Example1">ID <i class="fa-solid fa-circle-info"></i></label>
+                        </div>
+                        </div>
+                        <div class="col">
+                        <div class="form-outline">
+                            <input type="text" id="form6Example2" name="name" class="form-control" value="<?php echo $row['name']; ?>"/>
+                            <label class="form-label" for="form6Example2">Name <i class="fa-solid fa-file-signature"></i></label>
+                        </div>
+                        </div>
+                    </div>
 
-                    <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Student View/Edit</h1>
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Student List</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>SL. No</th>
-                                            <th>Student ID</th>
-                                            <th>Student Name</th>
-                                            <th>Roll</th>
-                                            <th>Image</th>
-                                            <th>Class</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php
-                                        
-                                        $i=1;
-                                        while($row=mysqli_fetch_array($q)){
-                                            echo '<tr>';
-                                            echo '<td>'.$i.'</td><td>'.$row['id'].'</td><td>'.$row['name'].'</td><td>'.$row['roll'].'</td><td><img src="./../img/'.$row['photo'].'"
-                                            height="40" width="40"></td><td>'.$row['class'].'</td><td><div class="d-flex justify-content-between"><a href="editStudent.php?id='.$row['id'].'"><i class="fa-regular fa-pen-to-square text-warning"></i></a><i onclick="dele(this,'.$row['id'].')" class="fa-regular fa-trash-can text-danger" style="cursor:pointer"></i></div>';
-                                            
-                                            $i++;
-                                            echo '</tr>';
-                                        }
-                                    ?>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                    <!-- Text input -->
+                    
+
+                    <!-- Text input -->
+                    <div class="form-outline mb-4">
+                        <input type="text" id="form6Example4" name="addr" class="form-control" value="<?php echo $row['address']; ?>"/>
+                        <label class="form-label" for="form6Example4">Address <i class="fa-solid fa-house"></i></label>
+                    </div>
+
+                    <!-- Email input -->
+                    <div class="form-outline mb-4">
+                        <input type="email" id="form6Example5" name="mail" class="form-control" value="<?php echo $row['email']; ?>"/>
+                        <label class="form-label" for="form6Example5">Email <i class="fa-solid fa-square-envelope"></i></label>
+                    </div>
+
+                    <!-- Number input -->
+                    <div class="form-outline mb-4">
+                        <input type="number" id="form6Example6" name="mobile" class="form-control" value="<?php echo $row['mobile']; ?>"/>
+                        <label class="form-label" for="form6Example6">Mobile <i class="fa-solid fa-phone-volume"></i></label>
+                    </div>
+                    
+                    <div class="form-outline mb-4">
+                        <input type="number" id="form6Example8" name="aadhar" class="form-control" value="<?php echo $row['aadhar']; ?>"/>
+                        <label class="form-label" for="form6Example8">Aadhar <i class="fa-solid fa-id-card"></i></label>
+                    </div>
+                    <label class="form-label" for="file-upload">Photo <i class="fa-regular fa-image"></i></label>
+                    <p class="text-danger font-weight-bold">*Maximum 5MB</p>
+                    <div class="image-preview-container">
+                    <div class="form-outline mb-4">
+                        <input type="file" id="file-upload" name="image" accept="image/*" onchange="previewImage(event);" class="form-control" />
+                        <label class="form-label" for="file-upload">Change &nbsp <i class="fa-solid fa-rotate"></i></label>
+                    </div>
+                    <div class="preview">
+                        <img id="preview-selected-image" height="200" width="200" src="../img/<?php echo $row['photo']; ?>" />
+                    </div>
+                    </div>
+                    <!-- Submit button -->
+                    <br><br>
+                    <button type="submit" class="btn btn-success btn-block mb-4">Save Changes <i class="fa-regular fa-circle-check"></i></button>
+                </form>
                     
                 </div>
                 <!-- /.container-fluid -->
-                                    </div>
+
             </div>
             <!-- End of Main Content -->
 
@@ -305,20 +359,6 @@ $q=mysqli_query($con,"SELECT * from student ORDER BY class") or die(mysqli_error
     </div>
 
     <!-- Bootstrap core JavaScript-->
-    <script>
-        function dele(e,id){
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange=function(){
-                if(xhr.readyState==4 && xhr.status==200){
-                    e.parentElement.parentElement.parentElement.remove();
-                }
-            }
-            xhr.open("POST","delstudent.php",true);
-            xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-            xhr.send("id="+id);
-            
-        }
-    </script>
     <script src="../vendor/jquery/jquery.min.js"></script>
     <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
@@ -327,7 +367,21 @@ $q=mysqli_query($con,"SELECT * from student ORDER BY class") or die(mysqli_error
 
     <!-- Custom scripts for all pages-->
     <script src="../js/sb-admin-2.min.js"></script>
+    <script>
+        const previewImage = (event) => {
+            document.getElementById("check").value=1;
+    const imageFiles = event.target.files;
+    const imageFilesLength = imageFiles.length;
+    if (imageFilesLength > 0) {
+        const imageSrc = URL.createObjectURL(imageFiles[0]);
+        const imagePreviewElement = document.querySelector("#preview-selected-image");
+        imagePreviewElement.src = imageSrc;
+        
+    }
+};
+    
 
+    </script>
 </body>
 
 </html>

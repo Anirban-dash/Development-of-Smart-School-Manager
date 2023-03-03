@@ -116,6 +116,11 @@ $ex=mysqli_query($con,"SELECT * from exam where status='finished' or status='pub
                     <span> Subjects</span></a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="course.php">
+                <i class="fa-solid fa-book-open-reader"></i>
+                    <span> Course</span></a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="qrScanner.php">
                 <i class="fa-solid fa-qrcode"></i>
                     <span> QR Scanner</span></a>

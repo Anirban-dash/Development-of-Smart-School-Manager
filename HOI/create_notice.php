@@ -73,8 +73,8 @@ $n_row=mysqli_fetch_array($n_res);
                 </a>
                 <div id="collapseTw" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="test_publish.php">View/Edit</a>
-                        <a class="collapse-item" href="test_rsponse.php">Add Student</a>
+                    <a class="collapse-item" href="student_view.php">View/Edit</a>
+                        <a class="collapse-item" href="student_add.php">Add Student</a>
                     </div>
                 </div>
             </li>
@@ -86,13 +86,13 @@ $n_row=mysqli_fetch_array($n_res);
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="test_publish.php">View/Edit</a>
-                        <a class="collapse-item" href="test_rsponse.php">Add Teacher</a>
+                    <a class="collapse-item" href="teacher.php">View/Edit</a>
+                        <a class="collapse-item" href="teacher_add.php">Add Teacher</a>
                     </div>
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="attendance.php">
+                <a class="nav-link" href="analytics.php">
                     <i class="fa-solid fa-clipboard-user"></i>
                     <span>Exam Analytics</span></a>
             </li>
@@ -112,6 +112,11 @@ $n_row=mysqli_fetch_array($n_res);
                 <a class="nav-link" href="subject.php">
                 <i class="fa-solid fa-book-open"></i>
                     <span> Subjects</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="course.php">
+                <i class="fa-solid fa-book-open-reader"></i>
+                    <span> Course</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="qrScanner.php">

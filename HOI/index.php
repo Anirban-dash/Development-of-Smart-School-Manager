@@ -7,6 +7,56 @@ if(!isset($_SESSION['id']) and $_SESSION['status']!="hoi"){
 $n_id=$_SESSION['id'];
 $n_res=mysqli_query($con,"SELECT * from hoi where id='$n_id'") or die(mysqli_error($con));
 $n_row=mysqli_fetch_array($n_res);
+$classRES=mysqli_query($con,"SELECT * from student")  or die(mysqli_error($con));
+$total_student=mysqli_num_rows($classRES);
+$classRES=mysqli_query($con,"SELECT * from teacher")  or die(mysqli_error($con));
+$total_teacher=mysqli_num_rows($classRES);
+$todate=date("d/m/Y");
+$curr_day=date("l");
+$rfesql=mysqli_query($con,"SELECT * from rfc where status='pending'")  or die(mysqli_error($con));
+$rfc=mysqli_num_rows($rfesql);
+$cl1=mysqli_query($con,"SELECT * from attendance where date='$todate' and class='1'") or die(mysqli_error($con));
+if(mysqli_num_rows($cl1)==0){
+    $str1='<p class="text-danger">Attendance Not Taken Yet for class 1 <i class="fa-solid fa-triangle-exclamation"></i></p>';
+    $per1=0;
+    $bg1='danger';
+}else{
+$res=mysqli_fetch_array($cl1);
+$per1=round(($res['present']/($res['present']+$res['absent']))*100);
+$str1='';
+$bg='info';
+}
+$cl2=mysqli_query($con,"SELECT * from attendance where date='$todate' and class='2'") or die(mysqli_error($con));
+if(mysqli_num_rows($cl2)==0){
+    $str2='<p class="text-danger">Attendance Not Taken Yet for class 2 <i class="fa-solid fa-triangle-exclamation"></i></p>';
+    $per2=0;
+    $bg2='danger';
+}else{
+$res=mysqli_fetch_array($cl2);
+$per2=round(($res['present']/($res['present']+$res['absent']))*100);
+$str2='';
+$bg2='info';
+}
+$cl3=mysqli_query($con,"SELECT * from attendance where date='$todate' and class='3'") or die(mysqli_error($con));
+if(mysqli_num_rows($cl3)==0){
+    $str3='<p class="text-danger">Attendance Not Taken Yet for class 3 <i class="fa-solid fa-triangle-exclamation"></i></p>';
+    $per3=0;
+   
+}else{
+$res=mysqli_fetch_array($cl3);
+$per3=round(($res['present']/($res['present']+$res['absent']))*100);
+$str3='';
+}
+$cl4=mysqli_query($con,"SELECT * from attendance where date='$todate' and class='4'") or die(mysqli_error($con));
+if(mysqli_num_rows($cl3)==0){
+    $str4='<p class="text-danger">Attendance Not Taken Yet for class 4 <i class="fa-solid fa-triangle-exclamation"></i></p>';
+    $per4=0;
+    
+}else{
+$res=mysqli_fetch_array($cl4);
+$per4=round(($res['present']/($res['present']+$res['absent']))*100);
+$str3='';
+}
 ?>
 
 <!DOCTYPE html>
@@ -96,7 +146,7 @@ $n_row=mysqli_fetch_array($n_res);
                     <i class="fa-solid fa-clipboard-user"></i>
                     <span>Exam Analytics</span></a>
             </li>
-           
+            
             
             <li class="nav-item">
                 <a class="nav-link" href="rfc.php">
@@ -112,6 +162,11 @@ $n_row=mysqli_fetch_array($n_res);
                 <a class="nav-link" href="subject.php">
                 <i class="fa-solid fa-book-open"></i>
                     <span> Subjects</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="course.php">
+                <i class="fa-solid fa-book-open-reader"></i>
+                    <span> Course</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="qrScanner.php">
@@ -211,12 +266,116 @@ $n_row=mysqli_fetch_array($n_res);
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
+<h2>Dashboard</h2>
+                <div class="row">
 
-                    <!-- Page Heading -->
+<!-- Earnings (Monthly) Card Example -->
+<div class="col-xl-3 col-md-6 mb-4">
+    <div class="card border-left-primary shadow h-100 py-2">
+        <div class="card-body">
+            <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                        Day</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $curr_day ?></div>
+                </div>
+                <div class="col-auto">
+                    <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Earnings (Monthly) Card Example -->
+<div class="col-xl-3 col-md-6 mb-4">
+    <div class="card border-left-success shadow h-100 py-2">
+        <div class="card-body">
+            <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                        Total Student</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $total_student ?></div>
+                </div>
+                <div class="col-auto">
+                    <i class="fa-solid fa-graduation-cap fa-2x text-gray-300"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Earnings (Monthly) Card Example -->
+<div class="col-xl-3 col-md-6 mb-4">
+    <div class="card border-left-success shadow h-100 py-2">
+        <div class="card-body">
+            <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                        Total Teacher</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $total_teacher ?></div>
+                </div>
+                <div class="col-auto">
+                    <i class="fa-solid fa-person-chalkboard fa-2x text-gray-300"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Pending Requests Card Example -->
+<div class="col-xl-3 col-md-6 mb-4">
+    <div class="card border-left-warning shadow h-100 py-2">
+        <div class="card-body">
+            <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                        Pending rfc's</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $rfc ?></div>
+                </div>
+                <div class="col-auto">
+                    <i class="fas fa-comments fa-2x text-gray-300"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Attendance</h6>
+                                </div>
+                                <div class="card-body">
+                                    
+                                    <h4 class="small font-weight-bold">Class 1 <?php echo $str1 ?><span
+                                            class="float-right"><?php echo $per1 ?>%</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-info" role="progressbar" style="width: <?php echo $per1 ?>%"
+                                            aria-valuenow="<?php echo $per1 ?>" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <h4 class="small font-weight-bold">Class 2 <?php echo $str2 ?><span
+                                            class="float-right"><?php echo $per2 ?>%</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-info" role="progressbar" style="width: <?php echo $per2 ?>%"
+                                            aria-valuenow="<?php echo $per2 ?>" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <h4 class="small font-weight-bold">Class 3 <?php echo $str3 ?><span
+                                            class="float-right"><?php echo $per3 ?>%</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-info" role="progressbar" style="width: <?php echo $per3 ?>%"
+                                            aria-valuenow="<?php echo $per3 ?>" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <h4 class="small font-weight-bold">Class 4 <?php echo $str4 ?><span
+                                            class="float-right"><?php echo $per4 ?>%</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-info" role="progressbar" style="width: <?php echo $per4 ?>%"
+                                            aria-valuenow="<?php echo $per4 ?>" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
                     
                 </div>
                 <!-- /.container-fluid -->
-
+</div>
             </div>
             <!-- End of Main Content -->
 

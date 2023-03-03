@@ -177,7 +177,7 @@ $row=mysqli_fetch_array($info_res);
                     
                     <div class="card shadow mb-4">
                         <form action="stud_rfc_submit.php" method="post" enctype="multipart/form-data">
-                        <div class="card-body">
+                        <div class="card-body"> 
                             
                                 <label for="chaeck" class="form-inline">What do yoy want to update</label>
                                 <select id="chaeck" name="update" class="form-control">

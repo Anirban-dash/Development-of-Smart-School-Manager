@@ -93,7 +93,7 @@ $q=mysqli_query($con,"SELECT * from teacher") or die(mysqli_error($con));
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="attendance.php">
+                <a class="nav-link" href="analytics.php">
                     <i class="fa-solid fa-clipboard-user"></i>
                     <span>Exam Analytics</span></a>
             </li>
@@ -113,6 +113,11 @@ $q=mysqli_query($con,"SELECT * from teacher") or die(mysqli_error($con));
                 <a class="nav-link" href="subject.php">
                 <i class="fa-solid fa-book-open"></i>
                     <span> Subjects</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="course.php">
+                <i class="fa-solid fa-book-open-reader"></i>
+                    <span> Course</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="qrScanner.php">
@@ -238,7 +243,7 @@ $q=mysqli_query($con,"SELECT * from teacher") or die(mysqli_error($con));
                                         while($row=mysqli_fetch_array($q)){
                                             echo '<tr>';
                                             echo '<td>'.$i.'</td><td>'.$row['id'].'</td><td>'.$row['name'].'</td><td>'.$row['mobile'].'</td><td><img src="./../img/'.$row['photo'].'"
-                                            height="40" width="40"></td><td><div class="d-flex justify-content-between"><a href="editStudent.php?id='.$row['id'].'"><i class="fa-regular fa-pen-to-square text-warning"></i></a><i onclick="dele(this,'.$row['id'].')" class="fa-regular fa-trash-can text-danger" style="cursor:pointer"></i></div>';
+                                            height="40" width="40"></td><td><div class="d-flex justify-content-between"><a href="editTeacher.php?id='.$row['id'].'"><i class="fa-regular fa-pen-to-square text-warning"></i></a><i onclick="dele(this,'.$row['id'].')" class="fa-regular fa-trash-can text-danger" style="cursor:pointer"></i></div>';
                                             
                                             $i++;
                                             echo '</tr>';

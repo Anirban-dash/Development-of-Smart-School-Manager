@@ -1,3 +1,15 @@
+<?php
+require("./../conn.php");
+session_start();
+if(!isset($_SESSION['id']) and $_SESSION['status']!="teacher"){
+    header("location:./../index.php");
+}
+$n_id=$_SESSION['id'];
+$n_res=mysqli_query($con,"SELECT * from teacher where id='$n_id'") or die(mysqli_error($con));
+$n_row=mysqli_fetch_array($n_res);
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -193,11 +205,11 @@
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Anirban Dash</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $n_row['name'] ?></span>
                                 <img class="img-profile rounded-circle"
-                                    src="../img/undraw_profile.svg">
+                                    src="../img/<?php echo $n_row['photo'] ?>">
                             </a>
                            
                         </li>
@@ -212,12 +224,95 @@
 
                     <!-- Page Heading -->
                     <h1 class="h3 mb-4 text-gray-800">Course</h1>
-                    <div class="card">
-                        <div class="card-body shadow">
-                            <h2 class="text-danger"><i>WEBPAGE UNDER MAINTANANCE <i class="fa-regular fa-face-frown"></i></h2>
+                    <div id="accordion">
+                    <div class="card shadow ">
+                        <div class="card-header bg-gradient-light" id="headingOne">
+                        <h5 class="mb-0">
+                            <button class="btn btn-block " data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            Class 1 <i class="fa-solid fa-angles-down"></i>
+                            </button>
+                        </h5>
+                        </div>
+
+                        <div id="collapseOne" class="collapse collapsed" aria-labelledby="headingOne" data-parent="#accordion">
+                        <div class="card-body">
+                        <?php
+                        $cc=mysqli_query($con,"SELECT * from course where class='1'") or die(mysqli_error($con));
+                        $course=mysqli_fetch_array($cc);
+                        ?>
+                        <embed src="../HOI/course/<?php echo $course['file']; ?>" width="100%" height="500px" /><br>
+                        <a download href="../HOI/course/<?php echo $course['file']; ?>" class="btn btn-circle btn-info"><i class="fa-solid fa-download"></i></a> 
+                      
+                        </div>
                         </div>
                     </div>
-
+                    <div class="card shadow">
+                        <div class="card-header bg-gradient-light" id="headingTwo">
+                        <h5 class="mb-0">
+                            <button class="btn btn-block" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseTwo">
+                            Class 2 <i class="fa-solid fa-angles-down"></i>
+                            </button>
+                        </h5>
+                        </div>
+                        <div id="collapseFour" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                        <div class="card-body">
+                        <?php
+                        $cc=mysqli_query($con,"SELECT * from course where class='2'") or die(mysqli_error($con));
+                        $course=mysqli_fetch_array($cc);
+                        ?>
+                        <embed src="../HOI/course/<?php echo $course['file']; ?>" width="100%" height="500px" /><br>
+                        <a download href="../HOI/course/<?php echo $course['file']; ?>" class="btn btn-circle btn-info"><i class="fa-solid fa-download"></i></a> 
+                       
+                        
+                            
+                        </div>
+                        </div>
+                    </div>
+                    <div class="card shadow">
+                        <div class="card-header bg-gradient-light" id="headingThree">
+                        <h5 class="mb-0">
+                            <button class="btn btn-block" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            Class 3 <i class="fa-solid fa-angles-down"></i>
+                            </button>
+                        </h5>
+                        </div>
+                        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                        <div class="card-body">
+                        <?php
+                        $cc=mysqli_query($con,"SELECT * from course where class='3'") or die(mysqli_error($con));
+                        $course=mysqli_fetch_array($cc);
+                        ?>
+                        <embed src="../HOI/course/<?php echo $course['file']; ?>" width="100%" height="500px" /><br>
+                        <a download href="../HOI/course/<?php echo $course['file']; ?>" class="btn btn-circle btn-info"><i class="fa-solid fa-download"></i></a> 
+                       
+                       
+                            
+                        </div>
+                        </div>
+                    </div>
+                    <div class="card shadow">
+                        <div class="card-header bg-gradient-light" id="headingThree">
+                        <h5 class="mb-0">
+                            <button class="btn btn-block " data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseThree">
+                            Class 4 <i class="fa-solid fa-angles-down"></i>
+                            </button>
+                        </h5>
+                        </div>
+                        <div id="collapseFive" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                        <div class="card-body">
+                        <?php
+                        $cc=mysqli_query($con,"SELECT * from course where class='4'") or die(mysqli_error($con));
+                        $course=mysqli_fetch_array($cc);
+                        ?>
+                        <embed src="../HOI/course/<?php echo $course['file']; ?>" width="100%" height="500px" /><br>
+                        <a download href="../HOI/course/<?php echo $course['file']; ?>" class="btn btn-circle btn-info"><i class="fa-solid fa-download"></i></a> 
+                  
+                    
+                            
+                        </div>
+                        </div>
+                    </div>
+</div>
                 </div>
                 <!-- /.container-fluid -->
 

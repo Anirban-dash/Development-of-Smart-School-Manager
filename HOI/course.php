@@ -7,8 +7,6 @@ if(!isset($_SESSION['id']) and $_SESSION['status']!="hoi"){
 $n_id=$_SESSION['id'];
 $n_res=mysqli_query($con,"SELECT * from hoi where id='$n_id'") or die(mysqli_error($con));
 $n_row=mysqli_fetch_array($n_res);
-$q=mysqli_query($con,"SELECT * from student ORDER BY class") or die(mysqli_error($con));
-
 ?>
 
 <!DOCTYPE html>
@@ -22,7 +20,11 @@ $q=mysqli_query($con,"SELECT * from student ORDER BY class") or die(mysqli_error
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
+    <style>
+        input[type="file"] {
+    display: none;
+}
+    </style>
     <title>SSM - Solution for many</title>
 
     <!-- Custom fonts for this template-->
@@ -56,7 +58,7 @@ $q=mysqli_query($con,"SELECT * from student ORDER BY class") or die(mysqli_error
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item ">
+            <li class="nav-item">
                 <a class="nav-link" href="index.php">
                     <i class="fa-solid fa-landmark"></i>
                     <span>Dashboard</span></a>
@@ -67,7 +69,7 @@ $q=mysqli_query($con,"SELECT * from student ORDER BY class") or die(mysqli_error
                     <i class="fa-solid fa-envelope"></i>
                     <span>Notice</span></a>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTw"
                     aria-expanded="true" aria-controls="collapseTw">
                     <i class="fa-solid fa-microscope"></i>
@@ -88,7 +90,7 @@ $q=mysqli_query($con,"SELECT * from student ORDER BY class") or die(mysqli_error
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                    <a class="collapse-item" href="teacher.php">View/Edit</a>
+                        <a class="collapse-item" href="teacher.php">View/Edit</a>
                         <a class="collapse-item" href="teacher_add.php">Add Teacher</a>
                     </div>
                 </div>
@@ -110,12 +112,12 @@ $q=mysqli_query($con,"SELECT * from student ORDER BY class") or die(mysqli_error
                     <i class="fa-solid fa-table-list"></i>
                     <span> SetTimetable</span></a>
             </li>
-           <li class="nav-item">
+            <li class="nav-item">
                 <a class="nav-link" href="subject.php">
                 <i class="fa-solid fa-book-open"></i>
                     <span> Subjects</span></a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="course.php">
                 <i class="fa-solid fa-book-open-reader"></i>
                     <span> Course</span></a>
@@ -218,48 +220,136 @@ $q=mysqli_query($con,"SELECT * from student ORDER BY class") or die(mysqli_error
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
+                <h1 class="h3 mb-4 text-gray-800">Courses</h1>
+                <div id="accordion">
+                    <div class="card shadow">
+                        <div class="card-header" id="headingOne">
+                        <h5 class="mb-0">
+                            <button class="btn btn-block btn-success" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            Class 1 <i class="fa-solid fa-angles-down"></i>
+                            </button>
+                        </h5>
+                        </div>
 
-                    <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Student View/Edit</h1>
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Student List</h6>
-                        </div>
+                        <div id="collapseOne" class="collapse collapsed" aria-labelledby="headingOne" data-parent="#accordion">
                         <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>SL. No</th>
-                                            <th>Student ID</th>
-                                            <th>Student Name</th>
-                                            <th>Roll</th>
-                                            <th>Image</th>
-                                            <th>Class</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php
-                                        
-                                        $i=1;
-                                        while($row=mysqli_fetch_array($q)){
-                                            echo '<tr>';
-                                            echo '<td>'.$i.'</td><td>'.$row['id'].'</td><td>'.$row['name'].'</td><td>'.$row['roll'].'</td><td><img src="./../img/'.$row['photo'].'"
-                                            height="40" width="40"></td><td>'.$row['class'].'</td><td><div class="d-flex justify-content-between"><a href="editStudent.php?id='.$row['id'].'"><i class="fa-regular fa-pen-to-square text-warning"></i></a><i onclick="dele(this,'.$row['id'].')" class="fa-regular fa-trash-can text-danger" style="cursor:pointer"></i></div>';
-                                            
-                                            $i++;
-                                            echo '</tr>';
-                                        }
-                                    ?>
-                                    </tbody>
-                                </table>
-                            </div>
+                        <?php
+                        $cc=mysqli_query($con,"SELECT * from course where class='1'") or die(mysqli_error($con));
+                        $course=mysqli_fetch_array($cc);
+                        ?>
+                        <embed src="course/<?php echo $course['file']; ?>" width="100%" height="500px" /><br>
+                        <a download href="course/<?php echo $course['file']; ?>" class="btn btn-circle btn-info"><i class="fa-solid fa-download"></i></a> 
+                        <br><br>
+                        
                         </div>
+                        </div>
+                    </div>
+                    <div class="card shadow">
+                        <div class="card-header" id="headingTwo">
+                        <h5 class="mb-0">
+                            <button class="btn btn-block btn-success" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseTwo">
+                            Class 2 <i class="fa-solid fa-angles-down"></i>
+                            </button>
+                        </h5>
+                        </div>
+                        <div id="collapseFour" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                        <div class="card-body">
+                        <?php
+                        $cc=mysqli_query($con,"SELECT * from course where class='2'") or die(mysqli_error($con));
+                        $course=mysqli_fetch_array($cc);
+                        ?>
+                        <embed src="course/<?php echo $course['file']; ?>" width="100%" height="500px" /><br>
+                        <a download href="course/<?php echo $course['file']; ?>" class="btn btn-circle btn-info"><i class="fa-solid fa-download"></i></a> 
+                        <br><br>
+                        
+                            
+                        </div>
+                        </div>
+                    </div>
+                    <div class="card shadow">
+                        <div class="card-header" id="headingThree">
+                        <h5 class="mb-0">
+                            <button class="btn btn-block btn-success" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            Class 3 <i class="fa-solid fa-angles-down"></i>
+                            </button>
+                        </h5>
+                        </div>
+                        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                        <div class="card-body">
+                        <?php
+                        $cc=mysqli_query($con,"SELECT * from course where class='3'") or die(mysqli_error($con));
+                        $course=mysqli_fetch_array($cc);
+                        ?>
+                        <embed src="course/<?php echo $course['file']; ?>" width="100%" height="500px" /><br>
+                        <a download href="course/<?php echo $course['file']; ?>" class="btn btn-circle btn-info"><i class="fa-solid fa-download"></i></a> 
+                        <br><br>
+                       
+                            
+                        </div>
+                        </div>
+                    </div>
+                    <div class="card shadow">
+                        <div class="card-header" id="headingThree">
+                        <h5 class="mb-0">
+                            <button class="btn btn-block btn-success" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseThree">
+                            Class 4 <i class="fa-solid fa-angles-down"></i>
+                            </button>
+                        </h5>
+                        </div>
+                        <div id="collapseFive" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                        <div class="card-body">
+                        <?php
+                        $cc=mysqli_query($con,"SELECT * from course where class='4'") or die(mysqli_error($con));
+                        $course=mysqli_fetch_array($cc);
+                        ?>
+                        <embed src="course/<?php echo $course['file']; ?>" width="100%" height="500px" /><br>
+                        <a download href="course/<?php echo $course['file']; ?>" class="btn btn-circle btn-info"><i class="fa-solid fa-download"></i></a> 
+                        <br><br>
                     
+                            
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="card">
+                    <div class="card-header bg-gradient-light" id="headingOne">
+      <h5 class="mb-0 s ">
+        <button class="btn text-succes font-weight-bold" data-toggle="collapse" data-target="#collapse1" aria-expanded="false" aria-controls="collapseOne">
+         Update Course &nbsp;<i class="fa-regular fa-pen-to-square"></i>
+        </button>
+        
+      </h5>
+    </div>
+                    <div id="collapse1" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+      <div class="card-body">
+                    <form action="course_submit.php" method="post" enctype="multipart/form-data">
+  <div class="row">
+    <div class="col">
+    <label class="btn btn-outline-info" for="name"><i class="fa-solid fa-file-arrow-up"></i></label>
+    <input type="file"  name="pdf_file" id="name" accept="application/pdf" onchange="updateText(this);" required>  
+    <p id="te"></p>
+    </div>
+    <div class="col">
+    <label for="class">Class</label>
+      <select type="text" name="class" id="class" class="form-control">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+</select>
+    </div>
+    </div>
+
+  </div>
+  <div class="card-footer">
+  <button type="submit"  class="btn btn-success my-1 float-right">Save <i class="fa-solid fa-file-export"></i></button>
+  </div>
+</form>
+</div>
+</div>
                 </div>
                 <!-- /.container-fluid -->
-                                    </div>
+
             </div>
             <!-- End of Main Content -->
 
@@ -305,20 +395,6 @@ $q=mysqli_query($con,"SELECT * from student ORDER BY class") or die(mysqli_error
     </div>
 
     <!-- Bootstrap core JavaScript-->
-    <script>
-        function dele(e,id){
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange=function(){
-                if(xhr.readyState==4 && xhr.status==200){
-                    e.parentElement.parentElement.parentElement.remove();
-                }
-            }
-            xhr.open("POST","delstudent.php",true);
-            xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-            xhr.send("id="+id);
-            
-        }
-    </script>
     <script src="../vendor/jquery/jquery.min.js"></script>
     <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
@@ -327,7 +403,12 @@ $q=mysqli_query($con,"SELECT * from student ORDER BY class") or die(mysqli_error
 
     <!-- Custom scripts for all pages-->
     <script src="../js/sb-admin-2.min.js"></script>
-
+    <script>
+        function updateText(e){
+            document.getElementById("te").innerHTML='<i class="fa-solid fa-file-pdf"></i> '+e.files.item(0).name;
+            
+        }
+    </script>
 </body>
 
 </html>

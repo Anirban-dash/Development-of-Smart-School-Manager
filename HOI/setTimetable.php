@@ -10,6 +10,7 @@ $n_row=mysqli_fetch_array($n_res);
 $cls= $_GET['class'];
 $subject_query="SELECT * from subject where class='$cls'";
 $teacher_query="SELECT * from teacher";
+$ch=mysqli_query($con,"SELECT * from time_table where class_id='$cls'") or die(mysqli_error($con));
 ?>
 
 <!DOCTYPE html>
@@ -117,6 +118,11 @@ $teacher_query="SELECT * from teacher";
                     <span> Subjects</span></a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="course.php">
+                <i class="fa-solid fa-book-open-reader"></i>
+                    <span> Course</span></a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="qrScanner.php">
                 <i class="fa-solid fa-qrcode"></i>
                     <span> QR Scanner</span></a>
@@ -214,7 +220,133 @@ $teacher_query="SELECT * from teacher";
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-                <h1 class="h3 mb-4 text-gray-800">Timetable</h1>
+                <h1 class="h3 mb-4 text-gray-800">Timetable</h1> 
+                <?php
+                if(mysqli_num_rows($ch)>0){
+                    $clas=$cls;
+                    $mon="SELECT * FROM time_table WHERE day='Monday' and class_id='$clas' ORDER BY period";
+                    $tue="SELECT * FROM time_table WHERE day='Tuesday' and class_id='$clas' ORDER BY period";
+                    $wed="SELECT * FROM time_table WHERE day='Wednesday' and class_id='$clas' ORDER BY period";
+                    $thu="SELECT * FROM time_table WHERE day='Thursday' and class_id='$clas' ORDER BY period";
+                    $fri="SELECT * FROM time_table WHERE day='Friday' and class_id='$clas' ORDER BY period";
+                    $sat="SELECT * FROM time_table WHERE day='Saturday' and class_id='$clas' ORDER BY period";
+                    $curr_day=date("l");
+                    $mon_result=mysqli_query($con, $mon) or die(mysqli_error($con));
+                    $tue_result=mysqli_query($con, $tue) or die(mysqli_error($con));
+                    $wed_result=mysqli_query($con, $wed) or die(mysqli_error($con));
+                    $thu_result=mysqli_query($con, $thu) or die(mysqli_error($con));
+                    $fri_result=mysqli_query($con, $fri) or die(mysqli_error($con));
+                    $sat_result=mysqli_query($con, $sat) or die(mysqli_error($con));
+                    ?>
+  <div class="card shadow mb-4">
+                       
+                       <div class="container">
+                           <div class="timetable-img text-center">
+                               <img src="img/content/timetable.png" alt="">
+                           </div>
+                           <div class="table-responsive">
+                               <table class="table table-bordered text-center">
+                                   <thead>
+                                       <tr class="bg-light-gray">
+                                           <th class="text-uppercase">Day
+                                           </th>
+                                           <th class="text-uppercase">09:00-10:00</th>
+                                           <th class="text-uppercase">10:00-11:00</th>
+                                           <th class="text-uppercase">11:00-12:00</th>
+                                           <th class="text-uppercase">01:00-02:00</th>
+                                       </tr>
+                                    </thead>
+                                   <tbody>
+                                   <?php if(strcmp($curr_day,"Monday")==0){
+                echo "<tr class='table-success'>";
+               } else {
+                   echo "<tr>";
+               }?>   
+                   <td class="align-middle">Monday</td>
+                   <?php while($mon_row= mysqli_fetch_array($mon_result)){
+                       $t_id=$mon_row['t_name'];
+                       $ress=mysqli_query($con,"SELECT name from teacher where id='$t_id'") or die(mysqli_error($con));
+                       $ans=mysqli_fetch_array($ress);
+                           echo '<td><strong>'.$mon_row['sub_name'].'</strong><br>'.$ans['name'].'</td>';
+                   } ?>
+               </tr>
+               <?php if(strcmp($curr_day,"Tuesday")==0){
+                echo "<tr class='table-success'>";
+               } else {
+                   echo "<tr>";
+               }?>   
+                   <td class="align-middle">Tuesday</td>
+                   <?php while($tue_row= mysqli_fetch_array($tue_result)){
+                            $t_id=$tue_row['t_name'];
+                            $ress=mysqli_query($con,"SELECT name from teacher where id='$t_id'") or die(mysqli_error($con));
+                            $ans=mysqli_fetch_array($ress);
+                                echo '<td><strong>'.$tue_row['sub_name'].'</strong><br>'.$ans['name'].'</td>';
+                   } ?>
+               </tr>
+               <?php if(strcmp($curr_day,"Wednesday")==0){
+                echo "<tr class='table-success'>";
+               } else {
+                   echo "<tr>";
+               }?>   
+                   <td class="align-middle">Wednesday</td>
+                   <?php while($wed_row= mysqli_fetch_array($wed_result)){
+                            $t_id=$wed_row['t_name'];
+                            $ress=mysqli_query($con,"SELECT name from teacher where id='$t_id'") or die(mysqli_error($con));
+                            $ans=mysqli_fetch_array($ress);
+                                echo '<td><strong>'.$wed_row['sub_name'].'</strong><br>'.$ans['name'].'</td>';
+                   } ?>
+               </tr>
+               <?php if(strcmp($curr_day,"Thursday")==0){
+                echo "<tr class='table-success'>";
+               } else {
+                   echo "<tr>";
+               }?>   
+                   <td class="align-middle">Thursday</td>
+                   <?php while($thu_row= mysqli_fetch_array($thu_result)){
+                           $t_id=$thu_row['t_name'];
+                           $ress=mysqli_query($con,"SELECT name from teacher where id='$t_id'") or die(mysqli_error($con));
+                           $ans=mysqli_fetch_array($ress);
+                               echo '<td><strong>'.$thu_row['sub_name'].'</strong><br>'.$ans['name'].'</td>';
+                   } ?>
+               </tr>
+               <?php if(strcmp($curr_day,"Friday")==0){
+                echo "<tr class='table-success'>";
+               } else {
+                   echo "<tr>";
+               }?>   
+                   <td class="align-middle">Friday</td>
+                   <?php while($fri_row= mysqli_fetch_array($fri_result)){
+                           $t_id=$fri_row['t_name'];
+                           $ress=mysqli_query($con,"SELECT name from teacher where id='$t_id'") or die(mysqli_error($con));
+                           $ans=mysqli_fetch_array($ress);
+                               echo '<td><strong>'.$fri_row['sub_name'].'</strong><br>'.$ans['name'].'</td>';
+                   } ?>
+               </tr>
+               <?php if(strcmp($curr_day,"Saturday")==0){
+                echo "<tr class='table-success'>";
+               } else {
+                   echo "<tr>";
+               }?>   
+                   <td class="align-middle">Saturday</td>
+                   <?php while($sat_row= mysqli_fetch_array($sat_result)){
+                            $t_id=$sat_row['t_name'];
+                            $ress=mysqli_query($con,"SELECT name from teacher where id='$t_id'") or die(mysqli_error($con));
+                            $ans=mysqli_fetch_array($ress);
+                                echo '<td><strong>'.$sat_row['sub_name'].'</strong><br>'.$ans['name'].'</td>';
+                   } ?>
+                                       
+                                   </tbody>
+                               </table>
+                               <div class="text-center bg" style="padding-bottom: 20px;">
+         <button type="submit" class="btn btn-default btn-warning btn-block" onclick="ttres(<?php echo $cls; ?>);">Reset <i class="fa-solid fa-repeat"></i> </button>
+         </div>
+                           </div>
+                       </div>
+                   </div>
+                    <?php
+
+                }else{
+                ?>
                     
                     <div class="card shadow mb-4">
                        
@@ -716,7 +848,7 @@ $teacher_query="SELECT * from teacher";
                             </div>
                         </div>
                     </div>
-                    
+                    <?php } ?>
                 </div>
                 <!-- /.container-fluid -->
 
@@ -773,7 +905,19 @@ $teacher_query="SELECT * from teacher";
 
     <!-- Custom scripts for all pages-->
     <script src="../js/sb-admin-2.min.js"></script>
-
+    <script>
+        function ttres(clas){
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange=function(){
+                if(xhr.readyState==4 && xhr.status==200){
+                    location.reload();
+                }
+            }
+            xhr.open("POST","deltt.php",true);
+            xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+            xhr.send("class="+clas);
+        }
+    </script>                                    
 </body>
 
 </html>

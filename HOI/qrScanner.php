@@ -115,6 +115,11 @@ $n_row=mysqli_fetch_array($n_res);
                     <span> Subjects</span></a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="course.php">
+                <i class="fa-solid fa-book-open-reader"></i>
+                    <span> Course</span></a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="qrScanner.php">
                 <i class="fa-solid fa-qrcode"></i>
                     <span> QR Scanner</span></a>
