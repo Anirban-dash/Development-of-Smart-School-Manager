@@ -1,11 +1,9 @@
 <?php
 require("conn.php");
 session_start();
-if(!isset($_SESSION['id'])){
-    header("location:index.php");
-   
+if(!isset($_SESSION['id']) or $_SESSION['status']!='student'){
+    header("location:error.html");
 }
-
 $id=$_SESSION['id'];
 $info="select * from student where id='$id'";
 $info_res=mysqli_query($con,$info) or die(mysqli_error($con));
@@ -115,7 +113,7 @@ $teacher=mysqli_fetch_array($te_res);
                     <span>Change Password</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="logout.php">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <span>Logout</span></a>
             </li>
@@ -276,6 +274,13 @@ $teacher=mysqli_fetch_array($te_res);
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="js/sb-admin-2.min.js"></script>
 
+<script>
+    if (window.matchMedia("(max-width: 767px)").matches){
+        $( document ).ready(function() {
+   $( "#sidebarToggleTop" ).trigger( "click" );
+});
+        }
+    </script>
 </body>
 
 </html>

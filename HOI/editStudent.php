@@ -1,9 +1,10 @@
 <?php
 require("./../conn.php");
 session_start();
-if(!isset($_SESSION['id']) and $_SESSION['status']!="hoi"){
-    header("location:./../index.php");
+if (!isset($_SESSION['id']) or $_SESSION['status'] != "hoi") {
+    header("location:error.html");
 }
+
 $n_id=$_SESSION['id'];
 $n_res=mysqli_query($con,"SELECT * from hoi where id='$n_id'") or die(mysqli_error($con));
 $n_row=mysqli_fetch_array($n_res);
@@ -387,6 +388,13 @@ $row=mysqli_fetch_array($res);
 };
     
 
+    </script>
+<script>
+    if (window.matchMedia("(max-width: 767px)").matches){
+        $( document ).ready(function() {
+   $( "#sidebarToggleTop" ).trigger( "click" );
+});
+        }
     </script>
 </body>
 

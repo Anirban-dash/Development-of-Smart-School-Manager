@@ -1,9 +1,10 @@
 <?php
 require("./../conn.php");
 session_start();
-if(!isset($_SESSION['id']) and $_SESSION['status']!="hoi"){
-    header("location:./../index.php");
+if (!isset($_SESSION['id']) or $_SESSION['status'] != "hoi") {
+    header("location:error.html");
 }
+
 $n_id=$_SESSION['id'];
 $n_res=mysqli_query($con,"SELECT * from hoi where id='$n_id'") or die(mysqli_error($con));
 $n_row=mysqli_fetch_array($n_res);
@@ -119,7 +120,7 @@ $n_row=mysqli_fetch_array($n_res);
                 <i class="fa-solid fa-book-open-reader"></i>
                     <span> Course</span></a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="qrScanner.php">
                 <i class="fa-solid fa-qrcode"></i>
                     <span> QR Scanner</span></a>
@@ -302,6 +303,13 @@ $n_row=mysqli_fetch_array($n_res);
         html5QrcodeScanner.render(onScanSuccess, onScanError);
         </script>
 
+<script>
+    if (window.matchMedia("(max-width: 767px)").matches){
+        $( document ).ready(function() {
+   $( "#sidebarToggleTop" ).trigger( "click" );
+});
+        }
+    </script>
 </body>
 
 </html>

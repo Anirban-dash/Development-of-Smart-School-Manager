@@ -1,8 +1,8 @@
 <?php
 require("./../conn.php");
 session_start();
-if(!isset($_SESSION['id']) and $_SESSION['status']!="teacher"){
-    header("location:./../index.php");
+if(!isset($_SESSION['id']) or $_SESSION['status']!="teacher"){
+    header("location:error.html");
 }
 $n_id=$_SESSION['id'];
 $n_res=mysqli_query($con,"SELECT * from teacher where id='$n_id'") or die(mysqli_error($con));
@@ -245,6 +245,9 @@ $ex=mysqli_query($con,"SELECT * from exam where status='finished' or status='pub
                                         <?php
                                         
                                         $i=1;
+                                        if(mysqli_num_rows($ex)==0){
+                                            echo '<p class="text-warning font-weight-bolder"> No content to show here! <i class="fa-regular fa-comments"></i> </p> ';
+                                        }
                                         while($row=mysqli_fetch_array($ex)){
                                             echo '<tr>';
                                             echo '<td>'.$i.'</td><td>'.$row['name'].'</td><td>'.ucfirst($row['status']).'</td><td>'.$row['class'].'</td>.
@@ -262,7 +265,7 @@ $ex=mysqli_query($con,"SELECT * from exam where status='finished' or status='pub
 
                 </div>
                 <!-- /.container-fluid -->
-
+                                    </div>
             </div>
             <!-- End of Main Content -->
 
@@ -300,6 +303,13 @@ $ex=mysqli_query($con,"SELECT * from exam where status='finished' or status='pub
     <!-- Custom scripts for all pages-->
     <script src="../js/sb-admin-2.min.js"></script>
 
+<script>
+    if (window.matchMedia("(max-width: 767px)").matches){
+        $( document ).ready(function() {
+   $( "#sidebarToggleTop" ).trigger( "click" );
+});
+        }
+    </script>
 </body>
 
 </html>

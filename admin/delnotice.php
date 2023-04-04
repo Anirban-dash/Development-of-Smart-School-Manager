@@ -1,7 +1,7 @@
 <?php
 require("./../conn.php");
 session_start();
-if(!isset($_SESSION['id']) and $_SESSION['status']!="teacher"){
+if(!isset($_SESSION['id']) or $_SESSION['status']!="teacher"){
     header("location:./../index.php");
 }
 $id=$_GET['id'];

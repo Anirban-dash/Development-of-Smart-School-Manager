@@ -7,6 +7,10 @@ if(mysqli_num_rows($n_res)==0){
     $n_res=mysqli_query($con,"SELECT * from student where id='$n_id'") or die(mysqli_error($con));
     $str='<i class="fa-solid fa-graduation-cap"></i> Student';
 }
+if(mysqli_num_rows($n_res)==0){
+  echo '<p class="text-danger">Invalid QR</p>';
+  die();
+}
 $row=mysqli_fetch_array($n_res);
 ?>
 <div class="row">

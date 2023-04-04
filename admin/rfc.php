@@ -1,7 +1,7 @@
 <?php
 require("./../conn.php");
 session_start();
-if(!isset($_SESSION['id']) and $_SESSION['status']!="teacher"){
+if(!isset($_SESSION['id']) or $_SESSION['status']!="teacher"){
     header("location:./../index.php");
 }
 $n_id=$_SESSION['id'];
@@ -327,6 +327,13 @@ $row=mysqli_fetch_array($n_res);
         }
     </script>
 
+<script>
+    if (window.matchMedia("(max-width: 767px)").matches){
+        $( document ).ready(function() {
+   $( "#sidebarToggleTop" ).trigger( "click" );
+});
+        }
+    </script>
 </body>
 
 </html>

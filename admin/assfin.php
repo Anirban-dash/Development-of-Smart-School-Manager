@@ -1,10 +1,9 @@
 <?php
 require("./../conn.php");
 session_start();
-if(!isset($_SESSION['id'])){
-    header("location:./../index.php");
+if (!isset($_SESSION['id']) or $_SESSION['status'] != "teacher") {
+    header("location:error.html");
 }
-
 $id=$_GET['a_id'];
 $res=mysqli_query($con,"UPDATE `assignment` SET `status` = 'finished' WHERE `assignment`.`id` = '$id'") or die(mysqli_error($con));
 

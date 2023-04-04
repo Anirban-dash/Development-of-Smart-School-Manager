@@ -1,17 +1,15 @@
 <?php
 require("conn.php");
 session_start();
-if(!isset($_SESSION['id'])){
-    header("location:index.php");
-   
+if(!isset($_SESSION['id']) or $_SESSION['status']!='student'){
+    header("location:error.html");
 }
-
 $id=$_SESSION['id'];
 $info="select * from student where id='$id'";
 $info_res=mysqli_query($con,$info) or die(mysqli_error($con));
 $row=mysqli_fetch_array($info_res);
 $cls=$row['class'];
-$res=mysqli_query($con,"SELECT * From exam where status='published' or status='finished' and class='$cls'") or die(mysqli_error($con));
+$res=mysqli_query($con,"SELECT * From exam where (status='published' or status='finished') and class='$cls'") or die(mysqli_error($con));
 
 
 ?>
@@ -110,7 +108,7 @@ $res=mysqli_query($con,"SELECT * From exam where status='published' or status='f
                     <span>Change Password</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="logout.php">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <span>Logout</span></a>
             </li>
@@ -181,6 +179,9 @@ $res=mysqli_query($con,"SELECT * From exam where status='published' or status='f
                     <!-- Page Heading -->
                     <h1 class="h3 mb-4 text-gray-800">Test</h1>
                     <?php
+                    if(mysqli_num_rows($res)==0){
+                        echo '<p class="text-warning font-weight-bolder"> No content to show here! <i class="fa-regular fa-comments"></i> </p> ';
+                    }
                     while($test=mysqli_fetch_array($res)){
                         if($test['status']=='published'){
                             $str="success";
@@ -239,6 +240,13 @@ $res=mysqli_query($con,"SELECT * From exam where status='published' or status='f
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="js/sb-admin-2.min.js"></script>
 
+<script>
+    if (window.matchMedia("(max-width: 767px)").matches){
+        $( document ).ready(function() {
+   $( "#sidebarToggleTop" ).trigger( "click" );
+});
+        }
+    </script>
 </body>
 
 </html>

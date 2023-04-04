@@ -225,7 +225,11 @@ $res=mysqli_query($con,"Select * from notice") or die(mysqli_error($con));
 
                     <!-- Page Heading -->
                     <h1 class="h3 mb-4 text-gray-800">Notice Board</h1>
-                    <?php while($notice=mysqli_fetch_array($res)){
+                    <?php
+                    if(mysqli_num_rows($res)==0){
+                        echo '<p class="text-warning font-weight-bolder"> No content to show here! <i class="fa-regular fa-comments"></i> </p> ';
+                    }
+                    while($notice=mysqli_fetch_array($res)){
                         $t_id=$notice['sender'];
                         $n_sql="Select name from teacher where id='$t_id'";
                         $t_res=mysqli_query($con,$n_sql) or die(mysqli_error($con));
@@ -384,6 +388,13 @@ $res=mysqli_query($con,"Select * from notice") or die(mysqli_error($con));
     <!-- Custom scripts for all pages-->
     <script src="../js/sb-admin-2.min.js"></script>
 
+<script> 
+    if (window.matchMedia("(max-width: 767px)").matches){
+        $( document ).ready(function() {
+   $( "#sidebarToggleTop" ).trigger( "click" );
+});
+        }
+    </script>
 </body>
 
 </html>

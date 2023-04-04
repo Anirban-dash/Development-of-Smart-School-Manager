@@ -1,9 +1,10 @@
 <?php
 require "./../conn.php";
 session_start();
-if (!isset($_SESSION['id']) and $_SESSION['status'] != "hoi") {
-    header("location:./../index.php");
+if (!isset($_SESSION['id']) or $_SESSION['status'] != "hoi") {
+  header("location:error.html");
 }
+
 $id = $_POST['id'];
 $check=intval($_POST['check']);
 $name = mysqli_real_escape_string($con, $_POST['name']);

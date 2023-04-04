@@ -1,8 +1,8 @@
 <?php
 require("./../conn.php");
 session_start();
-if(!isset($_SESSION['id']) and $_SESSION['status']!="teacher"){
-    header("location:./../index.php");
+if(!isset($_SESSION['id']) or $_SESSION['status']!="teacher"){
+    header("location:error.html");
 }
 $n_id=$_SESSION['id'];
 $n_res=mysqli_query($con,"SELECT * from teacher where id='$n_id'") or die(mysqli_error($con));
@@ -299,6 +299,13 @@ $ex=mysqli_query($con,"SELECT * from student_test where e_id='$e_id'") or die(my
     <!-- Custom scripts for all pages-->
     <script src="../js/sb-admin-2.min.js"></script>
 
+<script>
+    if (window.matchMedia("(max-width: 767px)").matches){
+        $( document ).ready(function() {
+   $( "#sidebarToggleTop" ).trigger( "click" );
+});
+        }
+    </script>
 </body>
 
 </html>

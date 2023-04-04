@@ -1,8 +1,8 @@
 <?php
 require("./../conn.php");
 session_start();
-if(!isset($_SESSION['id']) and $_SESSION['status']!="teacher"){
-    header("location:./../index.php");
+if (!isset($_SESSION['id']) or $_SESSION['status'] != "teacher") {
+    header("location:error.html");
 }
 $id=$_SESSION['id'];
 $name=mysqli_escape_string($con,$_POST['title']);

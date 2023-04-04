@@ -2,8 +2,8 @@
 <?php
 require("./../conn.php");
 session_start();
-if(!isset($_SESSION['id'])){
-    header("location:./../index.php");
+if (!isset($_SESSION['id']) or $_SESSION['status'] != "teacher") {
+    header("location:error.html");
 }
 $t_id=$_SESSION['id'];
 $allowedExts = array("pdf");

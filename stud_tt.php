@@ -1,9 +1,8 @@
 <?php
 require("conn.php");
 session_start();
-if(!isset($_SESSION['id'])){
-    header("location:index.php");
-   
+if(!isset($_SESSION['id']) or $_SESSION['status']!='student'){
+    header("location:error.html");
 }
 
 $id=$_SESSION['id'];
@@ -118,7 +117,7 @@ $sat_result=mysqli_query($con, $sat) or die(mysqli_error($con));
                     <span>Change Password</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="logout.php">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <span>Logout</span></a>
             </li>
@@ -325,6 +324,13 @@ $sat_result=mysqli_query($con, $sat) or die(mysqli_error($con));
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="js/sb-admin-2.min.js"></script>
 
+<script>
+    if (window.matchMedia("(max-width: 767px)").matches){
+        $( document ).ready(function() {
+   $( "#sidebarToggleTop" ).trigger( "click" );
+});
+        }
+    </script>
 </body>
 
 </html>

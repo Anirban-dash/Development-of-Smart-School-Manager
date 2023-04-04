@@ -1,9 +1,8 @@
 <?php
 require("conn.php");
 session_start();
-if(!isset($_SESSION['id'])){
-    header("location:index.php");
-   
+if(!isset($_SESSION['id']) or $_SESSION['status']!='student'){
+    header("location:error.html");
 }
 $id=$_SESSION['id'];
 $info="select * from student where id='$id'";
@@ -284,6 +283,13 @@ $row=mysqli_fetch_array($info_res);
         }
     </script>
 
+<script>
+    if (window.matchMedia("(max-width: 767px)").matches){
+        $( document ).ready(function() {
+   $( "#sidebarToggleTop" ).trigger( "click" );
+});
+        }
+    </script>
 </body>
 
 </html>

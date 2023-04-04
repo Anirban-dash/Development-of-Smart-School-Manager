@@ -1,9 +1,8 @@
 <?php
 require("conn.php");
 session_start();
-if(!isset($_SESSION['id'])){
-    header("location:index.php");
-   
+if(!isset($_SESSION['id']) or $_SESSION['status']!='student'){
+    header("location:error.html");
 }
 $id=$_SESSION['id'];
 $info="select * from student where id='$id'";
@@ -104,7 +103,7 @@ $row=mysqli_fetch_array($info_res);
                     <span>Change Password</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="logout.php">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <span>Logout</span></a>
             </li>
@@ -216,6 +215,9 @@ $row=mysqli_fetch_array($info_res);
     <?php
     $i=1;
     $rfc_query=mysqli_query($con,"SELECT * from rfc where p_id='$id'") or die(mysqli_error($con));
+    if(mysqli_num_rows($rfc_query)==0){
+        echo '<p class="text-warning font-weight-bolder"> No content to show here! <i class="fa-regular fa-comments"></i> </p> ';
+    }
     while($rfc=mysqli_fetch_array($rfc_query)){
         if($rfc['status']=='pending'){
             $str="table-warning";
@@ -259,6 +261,13 @@ $row=mysqli_fetch_array($info_res);
         function updateText(e){
             document.getElementById("te").innerHTML='<i class="fa-solid fa-file-pdf"></i> '+e.files.item(0).name;
             
+        }
+    </script>
+<script>
+    if (window.matchMedia("(max-width: 767px)").matches){
+        $( document ).ready(function() {
+   $( "#sidebarToggleTop" ).trigger( "click" );
+});
         }
     </script>
 </body>

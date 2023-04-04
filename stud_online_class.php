@@ -1,9 +1,8 @@
 <?php
 require("conn.php");
 session_start();
-if(!isset($_SESSION['id'])){
-    header("location:index.php");
-   
+if(!isset($_SESSION['id']) or $_SESSION['status']!='student'){
+    header("location:error.html");
 }
 
 
@@ -109,7 +108,7 @@ $clas=mysqli_query($con,"SELECT * from onlineclass where class='$cls' and status
                     <span>Change Password</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="logout.php">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <span>Logout</span></a>
             </li>
@@ -180,6 +179,9 @@ $clas=mysqli_query($con,"SELECT * from onlineclass where class='$cls' and status
                     <!-- Page Heading -->
                     <h1 class="h3 mb-4 text-gray-800">Online Classes</h1>
                     <?php 
+                    if(mysqli_num_rows($clas)==0){
+                        echo '<p class="text-warning font-weight-bolder"> No content to show here! <i class="fa-regular fa-comments"></i> </p> ';
+                    }
                         while($class=mysqli_fetch_array($clas)){
                             $t_id=$class['t_id'];
                             $tech=mysqli_query($con,"SELECT name from teacher where id='$t_id'") or die(mysqli_error($con));
@@ -228,6 +230,13 @@ $clas=mysqli_query($con,"SELECT * from onlineclass where class='$cls' and status
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="js/sb-admin-2.min.js"></script>
 
+<script>
+    if (window.matchMedia("(max-width: 767px)").matches){
+        $( document ).ready(function() {
+   $( "#sidebarToggleTop" ).trigger( "click" );
+});
+        }
+    </script>
 </body>
 
 </html>

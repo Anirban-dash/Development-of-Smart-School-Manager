@@ -1,7 +1,7 @@
 <?php
 require("./../conn.php");
 session_start();
-if(!isset($_SESSION['id']) and $_SESSION['status']!="teacher"){
+if(!isset($_SESSION['id']) or $_SESSION['status']!="teacher"){
     header("location:./../index.php");
 }
 $n_id=$_SESSION['id'];
@@ -308,6 +308,13 @@ $f_result= mysqli_query($con, $f_query) or die(mysqli_error($con));
     <!-- Custom scripts for all pages-->
     <script src="../js/sb-admin-2.min.js"></script>
 
+<script>
+    if (window.matchMedia("(max-width: 767px)").matches){
+        $( document ).ready(function() {
+   $( "#sidebarToggleTop" ).trigger( "click" );
+});
+        }
+    </script>
 </body>
 
 </html>

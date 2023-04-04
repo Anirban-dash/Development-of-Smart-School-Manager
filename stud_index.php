@@ -1,11 +1,9 @@
 <?php
 require("conn.php");
 session_start();
-if(!isset($_SESSION['id'])){
-    header("location:index.php");
-   
+if(!isset($_SESSION['id']) or $_SESSION['status']!='student'){
+    header("location:error.html");
 }
-
 
 
 $sql="Select * from notice";
@@ -180,7 +178,12 @@ $row=mysqli_fetch_array($info_res);
 
                     <!-- Page Heading -->
                     <h1 class="h3 mb-4 text-gray-800">Notice Board</h1>
-                    <?php while($notice=mysqli_fetch_array($res)){
+                    
+                    <?php
+                    if(mysqli_num_rows($res)==0){
+                        echo '<p class="text-warning font-weight-bolder"> No content to show here! <i class="fa-regular fa-comments"></i> </p> ';
+                    }
+                    while($notice=mysqli_fetch_array($res)){
                         $t_id=$notice['sender'];
                         $n_sql="Select name from teacher where id='$t_id'";
                         $t_res=mysqli_query($con,$n_sql) or die(mysqli_error($con));

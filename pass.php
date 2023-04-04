@@ -1,6 +1,9 @@
 <?php
 require("conn.php");
 session_start();
+if(!isset($_SESSION['id']) or $_SESSION['status']!='student'){
+    header("location:error.html");
+}
 $n_id=$_SESSION['id'];
 $cp=$_POST['curr'];
 $np=$_POST['new'];

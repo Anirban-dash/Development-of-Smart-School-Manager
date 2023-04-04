@@ -1,8 +1,8 @@
 <?php
 require("./../conn.php");
 session_start();
-if(!isset($_SESSION['id'])){
-    header("location:./../index.php");
+if (!isset($_SESSION['id']) or $_SESSION['status'] != "teacher") {
+    header("location:error.html");
 }
 
 $t_id=$_SESSION['id'];
@@ -227,6 +227,9 @@ $n_row=mysqli_fetch_array($n_res);
                     <!-- Page Heading -->
                     <h1 class="h3 mb-4 text-gray-800">Assignment List</h1>
                     <?php  
+                    if(mysqli_num_rows($res)==0){
+                        echo '<p class="text-warning font-weight-bolder"> No content to show here! <i class="fa-regular fa-comments"></i> </p> ';
+                    }
                     while($row=mysqli_fetch_array($res)){
                         if($row['status']=="published"){
                             $str="success";
@@ -300,6 +303,13 @@ $n_row=mysqli_fetch_array($n_res);
     <!-- Custom scripts for all pages-->
     <script src="../js/sb-admin-2.min.js"></script>
 
+<script>
+    if (window.matchMedia("(max-width: 767px)").matches){
+        $( document ).ready(function() {
+   $( "#sidebarToggleTop" ).trigger( "click" );
+});
+        }
+    </script>
 </body>
 
 </html>

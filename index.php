@@ -11,79 +11,53 @@ if(isset($_SESSION['id'])){
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-    <meta charset="utf-8">
-    <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-   <style>
-.divider:after,
-.divider:before {
-content: "";
-flex: 1;
-height: 1px;
-background: #eee;
-}
-.h-custom {
-height: calc(100% - 73px);
-}
-@media (max-width: 450px) {
-.h-custom {
-height: 100%;
-}
-}
-    </style>
-    <title>SSM</title>
-
-    <!-- Custom fonts for this template-->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
-    <link href="css/sb-admin-2.min.css" rel="stylesheet">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>SSM</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+  <link href="https://fonts.googleapis.com/css?family=Karla:400,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.materialdesignicons.com/4.8.95/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assetsss/css/login.css">
 </head>
 <body>
-<section class="vh-100">
-  <div class="container-fluid h-custom">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-md-9 col-lg-6 col-xl-5">
-        <img src="logo.png"
-          class="img-fluid" alt="Sample image">
-      </div>
-      <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-        <form action="login_submit.php" method="post">
-
-         
-          <div class="form-outline mb-4">
-            <input type="text" id="form3Example3" class="form-control form-control-lg"
-              placeholder="Enter a valid ID" name="userName" required/>
-            <label class="form-label" for="form3Example3">Id</label>
+  <main>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-6 login-section-wrapper">
+          <div class="brand-wrapper">
+            <img src="assetsss/images/logo.png" alt="logo" class="logo">
           </div>
-
-          
-          <div class="form-outline mb-3">
-            <input type="password" id="form3Example4" class="form-control form-control-lg"
-              placeholder="Enter password" name="password" required/>
-            <label class="form-label" for="form3Example4">Password</label>
+          <div class="login-wrapper my-auto">
+            <h1 class="login-title">Log in</h1>
+            <form action="login_submit.php" method="post">
+              <div class="form-group">
+                <label for="email">ID</label>
+                <input type="text" name="userName" id="email" class="form-control" placeholder="Enter a valid ID" required>
+              </div>
+              <div class="form-group mb-4">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" class="form-control" placeholder="enter your passsword" required>
+              </div>
+              <?php if(isset($_GET['err'])){ ?>
+                <p class="text-danger m-2">*invalid id or password</p>
+                <?php } ?> 
+              <input name="login" id="login" class="btn btn-block login-btn" type="submit" value="Login">
+            </form>
+            <a href="#!" class="forgot-password-link">Forgot password?</a>
+            
           </div>
-          <?php if(isset($_GET['err'])){ ?>
-          <p class="text-danger m-2">*invalid id or password</p>
-          <?php } ?> 
-          <div class="text-center text-lg-start">
-            <input type="submit" class="btn btn-primary btn-block btn-lg" value="Login"><br>
-           
-          </div>
-
-        </form>
+        </div>
+        <div class="col-sm-6 px-0 d-none d-sm-block">
+          <img src="assetsss/images/back.jpeg" alt="login image" class="login-img">
+        </div>
       </div>
     </div>
-  </div>
-</section>
-<br>
+  </main>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 </body>
 </html>

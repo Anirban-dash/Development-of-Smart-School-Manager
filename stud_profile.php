@@ -1,11 +1,9 @@
 <?php
 require("conn.php");
 session_start();
-if(!isset($_SESSION['id'])){
-    header("location:index.php");
-   
+if(!isset($_SESSION['id']) or $_SESSION['status']!='student'){
+  header("location:error.html");
 }
-
 
 $id=$_SESSION['id'];
 $info="select * from student where id='$id'";
@@ -110,7 +108,7 @@ $row=mysqli_fetch_array($info_res);
                     <span>Change Password</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="logout.php">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <span>Logout</span></a>
             </li>
@@ -320,7 +318,7 @@ $row=mysqli_fetch_array($info_res);
 	</script>
  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.debug.js"></script>
     <script>
-      function dnld(){
+function dnld(){
         var pdf = new jsPDF({
     orientation: "landscape",
     unit: "mm",
@@ -336,30 +334,38 @@ pdf.text('Name: <?php echo $row['name']; ?>', 50, 30);
 pdf.setFontSize(10);
 pdf.text('Class: <?php echo $row['class']; ?>', 50, 35);
 pdf.text('Roll: <?php echo $row['roll']; ?>', 50, 40);
-pdf.text('Address: <?php echo $row['address']; ?>', 50, 45);
 pdf.line(48,50,105,50,'F');
 let base64Image = $('#qr_code img').attr('src');
 pdf.addImage(base64Image, 'png', 5, 25, 40, 40);
+
+
 var img = new Image()
-img.src = "img/<?php echo $row['photo']; ?>"
-pdf.addImage(img, 'png', 105, 25, 40, 40);
-var img = new Image()
-img.src = "logo.png";
+
+img.src = "img/<?php echo $row['photo']; ?>";
+img.onload=()=>{
+  pdf.addImage(img, 'png', 105, 25, 40, 40);
+}
+
+var img1 = new Image()
+img1.src = "logo.png";
 pdf.setFillColor(34, 165,220);
 pdf.rect(0, 0, 150, 21, "F");
-pdf.addImage(img, 'png', 10, 3, 15, 15);
-var img = new Image()
-img.src = "text.png";
-pdf.addImage(img, 'png', 45, 3, 65, 15);
+img1.onload=()=>{
+pdf.addImage(img1, 'png', 10, 3, 15, 15);
+}
+var img2 = new Image()
+img2.src = "text.png";
+img2.onload=()=>{
+pdf.addImage(img2, 'png', 45, 3, 65, 15);
 pdf.save();
-      }
+}
+
+}
 		var qrcode = new QRCode("qrcode",
 		{
         text: "<?php echo $row['id']; ?>",
         width: 200,
         height: 200,
-        colorDark: "#1FBBD4",
-        colorLight: "#ffffff",
         correctLevel: QRCode.CorrectLevel.H,
       });
       var qrcode = new QRCode("qr_code",
@@ -367,13 +373,17 @@ pdf.save();
         text: "<?php echo $row['id']; ?>",
         width: 200,
         height: 200,
-        colorDark: "#1FBBD4",
-        colorLight: "#ffffff",
         correctLevel: QRCode.CorrectLevel.H,
       });
     
 	</script>
-
+<script>
+    if (window.matchMedia("(max-width: 767px)").matches){
+        $( document ).ready(function() {
+   $( "#sidebarToggleTop" ).trigger( "click" );
+});
+        }
+    </script>
 </body>
 
 </html>
